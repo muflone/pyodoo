@@ -29,6 +29,7 @@ class Contact(Api):
                    fields: tuple[str] = None) -> dict:
         """
         Get a contact from its ID
+
         :param ids: contact id to query
         :param fields: fields to include in the response
         :return: dictionary with the requested fields
@@ -42,6 +43,7 @@ class Contact(Api):
                    fields: tuple[str] = None) -> list[dict]:
         """
         Get a contacts list from ID
+
         :param ids: contacts id to query
         :param fields: fields to include in the response
         :return: List of dictionary with the requested fields

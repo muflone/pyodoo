@@ -44,6 +44,7 @@ class Api(object):
     def authenticate(self) -> int:
         """
         Authenticate the session using database, username and password
+
         :return: user id for the authenticated user
         """
         proxy = self.get_proxy(method='xmlrpc/2/common')
@@ -57,6 +58,7 @@ class Api(object):
                        method: str) -> str:
         """
         Build the remote endpoint URL
+
         :param method: method to execute
         :return: full endpoint URL
         """
@@ -67,6 +69,7 @@ class Api(object):
                   method: str) -> ServerProxy:
         """
         Get the proxy for the remote endpoint URL
+
         :param method: method to execute
         :return: Proxy object
         """
@@ -75,6 +78,7 @@ class Api(object):
     def get_proxy_object(self) -> ServerProxy:
         """
         Get the proxy for the standard object method
+
         :return: Proxy object
         """
         return ServerProxy(self.build_endpoint(method='xmlrpc/2/object'))
@@ -83,6 +87,7 @@ class Api(object):
                              options: dict) -> str:
         """
         Apply the default language context to the options
+
         :param options: dictionary with any existing options
         :return: the default language code used
         """
@@ -97,7 +102,17 @@ class Api(object):
     def search_read(self,
                     model: str,
                     filter: list[list],
-                    options: dict[str]):
+                    options: dict[str]) -> list[dict]:
+        """
+        Search some records in the requested model applying a filter and some
+        options (like fields or context)
+
+        :param model: model name to query
+        :param filter: list of filter to apply to the selection
+        :param options: options to use
+        :return: a list of dictionaries where each item is a record with the
+                 requested fields
+        """
         proxy = self.get_proxy_object()
         results = proxy.execute_kw(self.database,
                                    self.uid,
