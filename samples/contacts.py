@@ -85,3 +85,21 @@ print('create', results)
 # Delete a record
 api.delete(entity_id=results)
 print('delete')
+
+# Find customers from France with different languages
+filters.append(Filter(field='lang',
+                      compare_type=CompareType.NOT_EQUAL,
+                      value='fr_FR'))
+filters.append(Filter(field='country_id',
+                      compare_type=CompareType.EQUAL,
+                      value='France'))
+results = api.search(filters=filters)
+print('search', len(results), results)
+
+# Update those customers to French language
+for entity_id in results:
+    api.update(entity_id=entity_id,
+               values={'lang': 'fr_FR'})
+    print('updating ID', entity_id)
+results = api.search(filters=filters)
+print('search', len(results), results)
