@@ -32,7 +32,7 @@ api = Contact(endpoint=os.environ['ODOO_ENDPOINT'],
               username=os.environ['ODOO_USERNAME'],
               password=os.environ['ODOO_PASSWORD'],
               language='en_GB')
-# Search some records by name
+# Filters by name and excluding an explicit ID
 filters = [BooleanOperator.AND,
            Filter(field='name',
                   compare_type=CompareType.CONTAINS,
@@ -46,6 +46,7 @@ filters = [BooleanOperator.AND,
                   compare_type=CompareType.NOT_EQUAL,
                   value=173806)
            ]
+# Search some records by name
 results = api.search(filters=filters)
 print('search', len(results), results)
 
