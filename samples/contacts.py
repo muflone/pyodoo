@@ -31,23 +31,27 @@ api = Contact(endpoint=os.environ['ODOO_ENDPOINT'],
               database=os.environ['ODOO_DATABASE'],
               username=os.environ['ODOO_USERNAME'],
               password=os.environ['ODOO_PASSWORD'],
-              language='it_IT')
-
+              language='en_GB')
 # Search some records by name
-results = api.search(
-    filters=[
-        BooleanOperator.AND,
-        Filter('name', CompareType.CONTAINS, 'Mike'),
-        BooleanOperator.AND,
-        BooleanOperator.NOT,
-        Filter('name', CompareType.CONTAINS, 'Ross'),
-        Filter('id', CompareType.NOT_EQUAL, 173806),
-    ])
+filters = [BooleanOperator.AND,
+           Filter(field='name',
+                  compare_type=CompareType.CONTAINS,
+                  value='Castelli fabio'),
+           BooleanOperator.AND,
+           BooleanOperator.NOT,
+           Filter(field='name',
+                  compare_type=CompareType.CONTAINS,
+                  value='Ross'),
+           Filter(field='id',
+                  compare_type=CompareType.NOT_EQUAL,
+                  value=173806)
+           ]
+results = api.search(filters=filters)
 print('search', len(results), results)
 
 # Find some records by ID
-results = api.find(entity_ids=[24551, 24552],
-                   fields=('id', 'name'))
+results = api.find(entity_ids=results,
+                   fields=('id', 'name', 'country_id'))
 print('find many', results)
 
 # Find a record by ID
