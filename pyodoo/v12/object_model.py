@@ -79,6 +79,20 @@ class ObjectModel(object):
                              entity_ids=entity_ids,
                              fields=fields)
 
+    def filter(self,
+               filters: list[Union[BooleanOperator, Filter]],
+               fields: tuple[str, ...] = None) -> list[dict]:
+        """
+        Find some objects using a list of filters
+
+        :param filters: List of filters to used for searching the data
+        :param fields: Fields to include in the response
+        :return: List of dictionary with the requested fields
+        """
+        return self.api.filter(model=self.MODEL_NAME,
+                               filters=filters,
+                               fields=fields)
+
     def search(self,
                filters: list[Union[BooleanOperator, Filter]]) -> list[int]:
         """

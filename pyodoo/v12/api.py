@@ -165,6 +165,30 @@ class Api(object):
                                       options=options)
         return results
 
+    def filter(self,
+               model: str,
+               filters: list[Union[BooleanOperator, Filter]],
+               fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
+        """
+        Find some rows from a model using some filters
+
+        :param model: Name of the model to query
+        :param filters: List of filters used for searching the data
+        :param fields: Tuple with the fields to include in the response
+        :return: List of dictionaries with the requested fields
+        """
+        options = {}
+        # Limit results only to selected fields
+        if fields:
+            options['fields'] = fields
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Request data and get results
+        results = self.do_search_read(model=model,
+                                      filters=filters,
+                                      options=options)
+        return results
+
     def search(self,
                model: str,
                filters: list[Union[BooleanOperator, Filter]]) -> list[int]:

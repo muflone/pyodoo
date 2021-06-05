@@ -59,6 +59,11 @@ results = api.find(entity_ids=[24551],
                    fields=('id', 'name'))
 print('find', results)
 
+# Find some records by filters
+results = api.filter(filters=filters,
+                     fields=('id', 'name', 'country_id'))
+print('filter', results)
+
 # Get a record by ID
 results = api.get(entity_id=24551,
                   fields=('id', 'name'))
