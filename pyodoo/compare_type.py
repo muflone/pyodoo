@@ -18,5 +18,17 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .boolean_operator import BooleanOperator                      # noqa: F401
-from .compare_type import CompareType                              # noqa: F401
+class CompareType(object):
+    """
+    Comparison types used in Odoo filters
+    """
+    EQUAL = '='
+    NOT_EQUAL = '!='
+    GREATER = '>'
+    GREATER_EQ = '>='
+    LOWER = '<'
+    LOWER_EQ = '<='
+    IN = 'in'
+    NOT_IN = 'not in'
+    CONTAINS = 'ilike'
+    CONTAINS_NOT = 'not ilike'
