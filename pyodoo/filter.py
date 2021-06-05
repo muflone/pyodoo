@@ -18,6 +18,27 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .boolean_operator import BooleanOperator                      # noqa: F401
-from .compare_type import CompareType                              # noqa: F401
-from .filter import Filter                                         # noqa: F401
+from pyodoo.compare_type import CompareType
+
+
+class Filter(object):
+    """
+    A filter object used by Odoo
+    """
+    def __init__(self,
+                 field: str,
+                 compare_type: CompareType,
+                 value: object):
+        self.field = field
+        self.compare_type = compare_type
+        self.value = value
+
+    def explode(self) -> list[str, str, object]:
+        """
+        Extract the list from the filter, in the format used in Odoo filters
+
+        :return: list with three values (field name, compare type and value)
+        """
+        return [self.field,
+                self.compare_type,
+                self.value]
