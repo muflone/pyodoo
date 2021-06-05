@@ -20,6 +20,9 @@
 
 import os
 
+from pyodoo.boolean_operator import BooleanOperator
+from pyodoo.compare_type import CompareType
+from pyodoo.filter import Filter
 from pyodoo.v12 import Contact
 
 
@@ -31,11 +34,46 @@ api = Contact(endpoint=os.environ['ODOO_ENDPOINT'],
               language='it_IT')
 # Authenticate
 api.authenticate()
-# List some records by ID
-results = api.list_items(ids=(24551, 24552),
-                         fields=('id', 'name'))
-print(results)
+
+# Search some records by name
+results = api.search(
+    filters=[
+        BooleanOperator.AND,
+        Filter('name', CompareType.CONTAINS, 'Mike'),
+        BooleanOperator.AND,
+        BooleanOperator.NOT,
+        Filter('name', CompareType.CONTAINS, 'Ross'),
+        Filter('id', CompareType.NOT_EQUAL, 173806),
+    ])
+print('search', len(results), results)
+
+# Find some records by ID
+results = api.find(entity_ids=[24551, 24552],
+                   fields=('id', 'name'))
+print('find many', results)
+
 # Find a record by ID
-results = api.find_by_id(entity_id=24551,
-                         fields=('id', 'name'))
-print(results)
+results = api.find(entity_ids=[24551],
+                   fields=('id', 'name'))
+print('find', results)
+
+# Get a record by ID
+results = api.get(entity_id=24551,
+                  fields=('id', 'name'))
+print('get', results)
+
+# Update a record by ID
+api.update(entity_id=24551,
+           values={'pinned_notes': 'TEST TEST TEST'})
+results = api.get(entity_id=24551,
+                  fields=('id', 'pinned_notes'))
+print('update', results)
+
+# Create a new record
+results = api.create(values={'firstname': 'TEST TEST TEST',
+                             'lastname': '123 456'})
+print('create', results)
+
+# Delete a record
+api.delete(entity_id=results)
+print('delete')

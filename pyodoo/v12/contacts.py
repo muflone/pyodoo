@@ -19,47 +19,91 @@
 ##
 
 import datetime
+from typing import Any, Union
 
 from .api import Api
+from pyodoo import BooleanOperator, Filter
 
 
 class Contact(Api):
-    def find_by_id(self,
-                   entity_id: int,
-                   fields: tuple[str] = None) -> dict:
-        """
-        Get a contact from its ID
+    MODEL_NAME = 'res.partner'
 
-        :param ids: contact id to query
+    def get(self,
+            entity_id: int,
+            fields: tuple[str, ...] = None) -> dict:
+        """
+        Get a object from its ID
+
+        :param entity_id: object ID to get
         :param fields: fields to include in the response
         :return: dictionary with the requested fields
         """
-        results = self.list_items(ids=[entity_id],
-                                  fields=fields)
-        return results[0] if results else None
+        return Api.get(self,
+                       model=self.MODEL_NAME,
+                       entity_id=entity_id,
+                       fields=fields)
 
-    def list_items(self,
-                   ids: tuple[int],
-                   fields: tuple[str] = None) -> list[dict]:
+    def find(self,
+             entity_ids: list[int],
+             fields: tuple[str, ...] = None) -> list[dict]:
         """
-        Get a contacts list from ID
+        Find all the objects list with some ID
 
-        :param ids: contacts id to query
+        :param entity_ids: objects ID to query
         :param fields: fields to include in the response
         :return: List of dictionary with the requested fields
         """
-        filter = [[]]
-        # Add filtered IDs
-        if ids:
-            filter[0].append(['id', 'in', ids])
-        options = {}
-        # Limit results only to selected fields
-        if fields:
-            options['fields'] = fields
-        # Set language for translated fields
-        self.set_options_language(options=options)
-        # Request data and get results
-        results = self.search_read(model='res.partner',
-                                   filter=filter,
-                                   options=options)
-        return results if results else None
+        return Api.find(self,
+                        model=self.MODEL_NAME,
+                        entity_ids=entity_ids,
+                        fields=fields)
+
+    def search(self,
+               filters: list[Union[BooleanOperator, Filter]]) -> list[int]:
+        """
+        Find some objects using a list of filters
+
+        :param filters: list of filters to used for searching the data
+        :return: List of ID for the objects found
+        """
+        return Api.search(self,
+                          model=self.MODEL_NAME,
+                          filters=filters)
+
+    def create(self,
+               values: dict[str, Any]) -> int:
+        """
+        Create a new object
+
+        :param values: dictionary with fields and values to update
+        :return: The ID of the newly created object
+        """
+        return Api.create(self,
+                          model=self.MODEL_NAME,
+                          values=values)
+
+    def update(self,
+               entity_id: int,
+               values: dict[str, Any]) -> None:
+        """
+        Update a object from its ID
+
+        :param entity_id: object ID to update
+        :param values: dictionary with fields and values to update
+        :return: dictionary with the requested fields
+        """
+        Api.update(self,
+                   model=self.MODEL_NAME,
+                   entity_id=entity_id,
+                   values=values)
+
+    def delete(self,
+               entity_id: int) -> None:
+        """
+        Delete a object from its ID
+
+        :param entity_id: object ID to update
+        """
+        Api.delete(self,
+                   model=self.MODEL_NAME,
+                   entity_id=entity_id)
