@@ -18,4 +18,10 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .boolean_operator import BooleanOperator                      # noqa: F401
+class BooleanOperator(object):
+    """
+    Boolean operator used in Odoo filters
+    """
+    NOT = '!'
+    AND = '&'
+    OR = '|'
