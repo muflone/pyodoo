@@ -32,8 +32,6 @@ api = Contact(endpoint=os.environ['ODOO_ENDPOINT'],
               username=os.environ['ODOO_USERNAME'],
               password=os.environ['ODOO_PASSWORD'],
               language='it_IT')
-# Authenticate
-api.authenticate()
 
 # Search some records by name
 results = api.search(
