@@ -102,8 +102,8 @@ class Api(object):
                 options['context'] = {'lang': self.language}
         return self.language
 
-    def explode_filter(self,
-                       filters: list[Union[BooleanOperator, Filter, str]]
+    @staticmethod
+    def explode_filter(filters: list[Union[BooleanOperator, Filter, str]]
                        ) -> list[list[str, str, Any]]:
         """
         Convert a list of BooleanOperators/Filters to a list of lists
