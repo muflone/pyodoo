@@ -29,11 +29,13 @@ class Api(object):
     Odoo v12 XML-RPC API
     """
     def __init__(self,
+                 model_name: str,
                  endpoint: str,
                  database: str,
                  username: str,
                  password: str,
                  language: str = None):
+        self.model_name = model_name
         self.endpoint = endpoint
         self.database = database
         self.username = username
@@ -116,13 +118,11 @@ class Api(object):
                  for item in filters]]
 
     def get(self,
-            model_name: str,
             entity_id: int,
             fields: tuple[str, ...] = None) -> dict[str, Any]:
         """
         Get a row from a model using its ID
 
-        :param model_name: Name of the model to query
         :param entity_id: Object ID to query
         :param fields: Tuple with the fields to include in the response
         :return: Dictionary with the requested fields
@@ -134,19 +134,16 @@ class Api(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Request data and get results
-        results = self.do_read(model_name=model_name,
-                               entity_id=entity_id,
+        results = self.do_read(entity_id=entity_id,
                                options=options)
         return results
 
     def find(self,
-             model_name: str,
              entity_ids: list[int],
              fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using their ID
 
-        :param model_name: Name of the model to query
         :param entity_ids: Objects ID to query
         :param fields: Tuple with the fields to include in the response
         :return: List of dictionaries with the requested fields
@@ -160,19 +157,16 @@ class Api(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Request data and get results
-        results = self.do_search_read(model_name=model_name,
-                                      filters=filters,
+        results = self.do_search_read(filters=filters,
                                       options=options)
         return results
 
     def filter(self,
-               model_name: str,
                filters: list[Union[BooleanOperator, Filter]],
                fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using some filters
 
-        :param model_name: Name of the model to query
         :param filters: List of filters used for searching the data
         :param fields: Tuple with the fields to include in the response
         :return: List of dictionaries with the requested fields
@@ -184,18 +178,15 @@ class Api(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Request data and get results
-        results = self.do_search_read(model_name=model_name,
-                                      filters=filters,
+        results = self.do_search_read(filters=filters,
                                       options=options)
         return results
 
     def search(self,
-               model_name: str,
                filters: list[Union[BooleanOperator, Filter]]) -> list[int]:
         """
         Find rows list from a list of filters
 
-        :param model_name: Name of the model to query
         :param filters: List of filters used for searching the data
         :return: List of ID for the objects found
         """
@@ -203,18 +194,15 @@ class Api(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Request data and get results
-        results = self.do_search(model_name=model_name,
-                                 filters=filters,
+        results = self.do_search(filters=filters,
                                  options=options)
         return results
 
     def create(self,
-               model_name: str,
                values: dict[str, Any]) -> int:
         """
         Create a new record in the requested model and returns its ID
 
-        :param model_name: Name of the model to query
         :param values: Dictionary with the fields to update and their values
         :return: The ID of the newly created object
         """
@@ -222,19 +210,16 @@ class Api(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Create data and get results
-        results = self.do_create(model_name=model_name,
-                                 values=values,
+        results = self.do_create(values=values,
                                  options=options)
         return results
 
     def update(self,
-               model_name: str,
                entity_id: int,
                values: dict[str, Any]) -> None:
         """
         Get a row from a model using its ID
 
-        :param model_name: Name of the model to query
         :param entity_id: The object ID to update
         :param values: Dictionary with the fields to update and their values
         """
@@ -242,33 +227,27 @@ class Api(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Update data and get results
-        self.do_update(model_name=model_name,
-                       entity_id=entity_id,
+        self.do_update(entity_id=entity_id,
                        values=values,
                        options=options)
 
     def delete(self,
-               model_name: str,
                entity_id: int) -> None:
         """
         Delete a row from a model using its ID
 
-        :param model_name: Name of the model to query
         :param entity_id: The object ID to delete
         """
         # Request data and get results
-        self.do_delete(model_name=model_name,
-                       entity_id=entity_id)
+        self.do_delete(entity_id=entity_id)
 
     def do_read(self,
-                model_name: str,
                 entity_id: int,
                 options: dict[str, Any]) -> dict[str, Any]:
         """
         Get some records in the requested model applying a filter and some
         options (like fields or context)
 
-        :param model_name: Name of the model to query
         :param entity_id: Object ID to get
         :param options: Dictionary with options to use
         :return: Dictionary with the requested fields
@@ -277,21 +256,19 @@ class Api(object):
         results = proxy.execute_kw(self.database,
                                    self.uid,
                                    self.password,
-                                   model_name,
+                                   self.model_name,
                                    'read',
                                    [entity_id],
                                    options)
         return results
 
     def do_search(self,
-                  model_name: str,
                   filters: list[Union[BooleanOperator, Filter]],
                   options: dict[str, Any]) -> list[int]:
         """
         Search some records in the requested model applying a filter and some
         options (like fields or context)
 
-        :param model_name: Name of the model to query
         :param filters: List of filters used for searching the data
         :param options: Dictionary with options to use
         :return: List of objects ID found
@@ -300,21 +277,19 @@ class Api(object):
         results = proxy.execute_kw(self.database,
                                    self.uid,
                                    self.password,
-                                   model_name,
+                                   self.model_name,
                                    'search',
                                    self.explode_filter(filters),
                                    options)
         return results
 
     def do_search_read(self,
-                       model_name: str,
                        filters: list[Union[BooleanOperator, Filter]],
                        options: dict[str, Any]) -> list[dict[str, Any]]:
         """
         Search some records in the requested model applying a filter and some
         options (like fields or context) and returns the found data
 
-        :param model_name: Name of the model to query
         :param filters: List of filters used for searching the data
         :param options: Dictionary with options to use
         :return: List of dictionaries where each item is a record with the
@@ -324,20 +299,18 @@ class Api(object):
         results = proxy.execute_kw(self.database,
                                    self.uid,
                                    self.password,
-                                   model_name,
+                                   self.model_name,
                                    'search_read',
                                    self.explode_filter(filters),
                                    options)
         return results
 
     def do_create(self,
-                  model_name: str,
                   values: dict[str, Any],
                   options: dict[str, Any]) -> int:
         """
         Create a new record in the requested model and returns its ID
 
-        :param model_name: Name of the model to query
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
         :return: The ID of the newly created object
@@ -346,21 +319,19 @@ class Api(object):
         result = proxy.execute_kw(self.database,
                                   self.uid,
                                   self.password,
-                                  model_name,
+                                  self.model_name,
                                   'create',
                                   [values],
                                   options)
         return result
 
     def do_update(self,
-                  model_name: str,
                   entity_id: int,
                   values: dict[str, Any],
                   options: dict[str, Any]) -> None:
         """
         Update a record in the requested model
 
-        :param model_name: Name of the model to query
         :param entity_id: object ID to update
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
@@ -369,24 +340,22 @@ class Api(object):
         proxy.execute_kw(self.database,
                          self.uid,
                          self.password,
-                         model_name,
+                         self.model_name,
                          'write',
                          [[entity_id], values],
                          options)
 
     def do_delete(self,
-                  model_name: str,
                   entity_id: int) -> None:
         """
         Delete a record in the requested model
 
-        :param model_name: Name of the model to query
         :param entity_id: Object ID to get
         """
         proxy = self.get_proxy_object()
         proxy.execute_kw(self.database,
                          self.uid,
                          self.password,
-                         model_name,
+                         self.model_name,
                          'unlink',
                          [entity_id])

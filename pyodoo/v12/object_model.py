@@ -26,25 +26,22 @@ from pyodoo import BooleanOperator, Filter
 
 class ObjectModel(object):
     """
-    Generic object model to interact with Odoo data models.
-    This class offers many generic methods and could be inherited to offer
-    standard methods for accessing the data models.
-
-    It's mandatory to set the `MODEL_NAME` when the class is inherited.
+    Generic data model to interact with Odoo data models.
     """
-    MODEL_NAME = None
-
     def __init__(self,
+                 model_name: str,
                  endpoint: str,
                  database: str,
                  username: str,
                  password: str,
                  language: str = None):
-        # Check if MODEL_NAME was set
-        if self.MODEL_NAME is None:
-            raise NotImplementedError('MODEL_NAME member was not set')
+        # Associate model
+        if not model_name:
+            raise NotImplementedError('model name was not set properly')
+        self.model_name = model_name
         # API object
-        self.api = Api(endpoint=endpoint,
+        self.api = Api(model_name=model_name,
+                       endpoint=endpoint,
                        database=database,
                        username=username,
                        password=password,
@@ -61,8 +58,7 @@ class ObjectModel(object):
         :param fields: Fields to include in the response
         :return: Dictionary with the requested fields
         """
-        return self.api.get(model_name=self.model_name,
-                            entity_id=entity_id,
+        return self.api.get(entity_id=entity_id,
                             fields=fields)
 
     def find(self,
@@ -75,8 +71,7 @@ class ObjectModel(object):
         :param fields: Fields to include in the response
         :return: List of dictionary with the requested fields
         """
-        return self.api.find(model_name=self.model_name,
-                             entity_ids=entity_ids,
+        return self.api.find(entity_ids=entity_ids,
                              fields=fields)
 
     def filter(self,
@@ -89,8 +84,7 @@ class ObjectModel(object):
         :param fields: Fields to include in the response
         :return: List of dictionary with the requested fields
         """
-        return self.api.filter(model_name=self.model_name,
-                               filters=filters,
+        return self.api.filter(filters=filters,
                                fields=fields)
 
     def search(self,
@@ -101,8 +95,7 @@ class ObjectModel(object):
         :param filters: List of filters to used for searching the data
         :return: List of ID for the objects found
         """
-        return self.api.search(model_name=self.model_name,
-                               filters=filters)
+        return self.api.search(filters=filters)
 
     def create(self,
                values: dict[str, Any]) -> int:
@@ -112,8 +105,7 @@ class ObjectModel(object):
         :param values: Dictionary with fields and values to update
         :return: The ID of the newly created object
         """
-        return self.api.create(model_name=self.model_name,
-                               values=values)
+        return self.api.create(values=values)
 
     def update(self,
                entity_id: int,
@@ -125,8 +117,7 @@ class ObjectModel(object):
         :param values: Dictionary with fields and values to update
         :return: Dictionary with the requested fields
         """
-        self.api.update(model_name=self.model_name,
-                        entity_id=entity_id,
+        self.api.update(entity_id=entity_id,
                         values=values)
 
     def delete(self,
@@ -136,5 +127,4 @@ class ObjectModel(object):
 
         :param entity_id: Object ID to update
         """
-        self.api.delete(model_name=self.model_name,
-                        entity_id=entity_id)
+        self.api.delete(entity_id=entity_id)
