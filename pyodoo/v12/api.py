@@ -21,7 +21,10 @@
 from typing import Any, Union
 from xmlrpc.client import ServerProxy
 
-from pyodoo import BooleanOperator, CompareType, Filter
+from pyodoo import (ActiveStatusChoice,
+                    BooleanOperator,
+                    CompareType,
+                    Filter)
 
 
 class Api(object):
@@ -140,16 +143,24 @@ class Api(object):
 
     def find(self,
              entity_ids: list[int],
-             fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
+             fields: tuple[str, ...] = None,
+             is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET
+             ) -> list[dict[str, Any]]:
         """
         Find some rows from a model using their ID
 
         :param entity_ids: Objects ID to query
         :param fields: Tuple with the fields to include in the response
+        :param is_active: Additional filter for active field
         :return: List of dictionaries with the requested fields
         """
         # Add filtered IDs
         filters = [['id', CompareType.IN, entity_ids]]
+        # Check for active records (Only active, only inactive or both)
+        if is_active == ActiveStatusChoice.BOTH:
+            filters.append(['active', CompareType.IN, is_active])
+        elif is_active != ActiveStatusChoice.NOT_SET:
+            filters.append(['active', CompareType.EQUAL, is_active])
         options = {}
         # Limit results only to selected fields
         if fields:

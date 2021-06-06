@@ -21,7 +21,9 @@
 from typing import Any, Union
 
 from .api import Api
-from pyodoo import BooleanOperator, Filter
+from pyodoo import (ActiveStatusChoice,
+                    BooleanOperator,
+                    Filter)
 
 
 class Model(object):
@@ -70,16 +72,20 @@ class Model(object):
 
     def find(self,
              entity_ids: list[int],
-             fields: tuple[str, ...] = None) -> list[dict]:
+             fields: tuple[str, ...] = None,
+             is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET
+             ) -> list[dict]:
         """
         Find all the objects list with some ID
 
         :param entity_ids: Objects ID to query
         :param fields: Fields to include in the response
+        :param is_active: Additional filter for active field
         :return: List of dictionary with the requested fields
         """
         return self.api.find(entity_ids=entity_ids,
-                             fields=fields)
+                             fields=fields,
+                             is_active=is_active)
 
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],

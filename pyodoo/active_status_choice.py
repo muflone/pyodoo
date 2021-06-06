@@ -18,7 +18,11 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .active_status_choice import ActiveStatusChoice               # noqa: F401
-from .boolean_operator import BooleanOperator                      # noqa: F401
-from .compare_type import CompareType                              # noqa: F401
-from .filter import Filter                                         # noqa: F401
+class ActiveStatusChoice(object):
+    """
+    Allowed values for active status choices
+    """
+    NOT_SET = None
+    ACTIVE = True
+    INACTIVE = False
+    BOTH = [True, False]
