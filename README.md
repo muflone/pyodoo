@@ -4,7 +4,6 @@
 [![CircleCI Build Status](https://img.shields.io/circleci/project/github/muflone/pyodoo/master.svg)](https://circleci.com/gh/muflone/pyodoo)
 [![PyPI - Version](https://img.shields.io/pypi/v/PyOdoo.svg)](https://pypi.org/project/PyOdoo/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/PyOdoo.svg)](https://pypi.org/project/PyOdoo/)
-[![Coveralls Status](https://img.shields.io/coveralls/github/muflone/pyodoo/master.svg)](https://coveralls.io/github/muflone/pyodoo?branch=master)
 
 **Description:** API for Odoo
 

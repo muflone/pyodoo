@@ -2,4 +2,3 @@
 
 flake8==3.9.2
 pycodestyle==2.7.0
-coveralls==3.1.0
