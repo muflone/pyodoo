@@ -61,7 +61,7 @@ class ObjectModel(object):
         :param fields: Fields to include in the response
         :return: Dictionary with the requested fields
         """
-        return self.api.get(model=self.MODEL_NAME,
+        return self.api.get(model_name=self.model_name,
                             entity_id=entity_id,
                             fields=fields)
 
@@ -75,7 +75,7 @@ class ObjectModel(object):
         :param fields: Fields to include in the response
         :return: List of dictionary with the requested fields
         """
-        return self.api.find(model=self.MODEL_NAME,
+        return self.api.find(model_name=self.model_name,
                              entity_ids=entity_ids,
                              fields=fields)
 
@@ -89,7 +89,7 @@ class ObjectModel(object):
         :param fields: Fields to include in the response
         :return: List of dictionary with the requested fields
         """
-        return self.api.filter(model=self.MODEL_NAME,
+        return self.api.filter(model_name=self.model_name,
                                filters=filters,
                                fields=fields)
 
@@ -101,7 +101,7 @@ class ObjectModel(object):
         :param filters: List of filters to used for searching the data
         :return: List of ID for the objects found
         """
-        return self.api.search(model=self.MODEL_NAME,
+        return self.api.search(model_name=self.model_name,
                                filters=filters)
 
     def create(self,
@@ -112,7 +112,7 @@ class ObjectModel(object):
         :param values: Dictionary with fields and values to update
         :return: The ID of the newly created object
         """
-        return self.api.create(model=self.MODEL_NAME,
+        return self.api.create(model_name=self.model_name,
                                values=values)
 
     def update(self,
@@ -125,7 +125,7 @@ class ObjectModel(object):
         :param values: Dictionary with fields and values to update
         :return: Dictionary with the requested fields
         """
-        self.api.update(model=self.MODEL_NAME,
+        self.api.update(model_name=self.model_name,
                         entity_id=entity_id,
                         values=values)
 
@@ -136,5 +136,5 @@ class ObjectModel(object):
 
         :param entity_id: Object ID to update
         """
-        self.api.delete(model=self.MODEL_NAME,
+        self.api.delete(model_name=self.model_name,
                         entity_id=entity_id)
