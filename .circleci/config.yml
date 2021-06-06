@@ -10,8 +10,8 @@ jobs:
       - checkout
 
       - python/install-packages:
-        pkg-manager: pip
-        pip-dependency-file: requirements_travis.txt
+          pkg-manager: pip
+          pip-dependency-file: requirements_travis.txt
 
       - run:
           name: install dependencies
