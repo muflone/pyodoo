@@ -16,9 +16,6 @@ jobs:
 
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          pip-dependency-file: requirements_travis.txt
       - run:
           name: install dependencies
           command: |
@@ -26,6 +23,10 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements_travis.txt
+      - run:
+          name: check code
+          command: |
+            . venv/bin/activate
             python -m compileall .
             pycodestyle .
             python -m flake8 .
