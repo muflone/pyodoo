@@ -5,7 +5,7 @@ install:
   - pip install -r requirements_travis.txt
 script:
   - python -m compileall .
-  - pep8 . || true
+  - pycodestyle .
   - python -m flake8 .
   - python setup.py install --optimize=1 --root=build
   - ls -laR build
