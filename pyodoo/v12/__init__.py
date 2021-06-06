@@ -19,4 +19,4 @@
 ##
 
 from .api import Api                                               # noqa: F401
-from .object_model import ObjectModel                              # noqa: F401
+from .model import Model                                           # noqa: F401

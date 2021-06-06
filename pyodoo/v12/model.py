@@ -24,7 +24,7 @@ from .api import Api
 from pyodoo import BooleanOperator, Filter
 
 
-class ObjectModel(object):
+class Model(object):
     """
     Generic data model to interact with Odoo data models.
     """

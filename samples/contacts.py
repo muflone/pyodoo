@@ -23,16 +23,16 @@ import os
 from pyodoo import (BooleanOperator,
                     CompareType,
                     Filter)
-from pyodoo.v12 import ObjectModel
+from pyodoo.v12 import Model
 
 
 # Instance model object
-model = ObjectModel(model_name='res.partner',
-                    endpoint=os.environ['ODOO_ENDPOINT'],
-                    database=os.environ['ODOO_DATABASE'],
-                    username=os.environ['ODOO_USERNAME'],
-                    password=os.environ['ODOO_PASSWORD'],
-                    language='en_GB')
+model = Model(model_name='res.partner',
+              endpoint=os.environ['ODOO_ENDPOINT'],
+              database=os.environ['ODOO_DATABASE'],
+              username=os.environ['ODOO_USERNAME'],
+              password=os.environ['ODOO_PASSWORD'],
+              language='en_GB')
 # Filters by name and excluding an explicit ID
 filters = [BooleanOperator.AND,
            Filter(field='name',
