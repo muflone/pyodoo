@@ -73,20 +73,20 @@ results = model.get(entity_id=24551,
                     fields=('id', 'name'))
 print('get', results)
 
+# Create a new record
+entity_id = model.create(values={'firstname': 'TEST TEST TEST',
+                                 'lastname': '123 456'})
+print('create', entity_id)
+
 # Update a record by ID
-model.update(entity_id=24551,
-             values={'pinned_notes': 'TEST TEST TEST'})
-results = model.get(entity_id=24551,
-                    fields=('id', 'pinned_notes'))
+model.update(entity_id=entity_id,
+             values={'street': 'TEST TEST TEST'})
+results = model.get(entity_id=entity_id,
+                    fields=('id', 'street'))
 print('update', results)
 
-# Create a new record
-results = model.create(values={'firstname': 'TEST TEST TEST',
-                               'lastname': '123 456'})
-print('create', results)
-
 # Delete a record
-model.delete(entity_id=results)
+model.delete(entity_id=entity_id)
 print('delete')
 
 # Find customers from France with different languages
