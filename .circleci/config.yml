@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.9.5
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - python/install-packages:
+        pkg-manager: pip
+        pip-dependency-file: requirements_travis.txt
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements_travis.txt
+
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            python -m compileall .
+            pycodestyle .
+            python -m flake8 .
+            python setup.py install --optimize=1 --root=build
+            ls -laR build
