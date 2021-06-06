@@ -18,7 +18,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from typing import Any, Union
+from typing import Any, Optional, Union
 from xmlrpc.client import ServerProxy
 
 from pyodoo import (ActiveStatusChoice,
@@ -92,7 +92,7 @@ class Api(object):
         return ServerProxy(self.build_endpoint(method='xmlrpc/2/object'))
 
     def set_options_language(self,
-                             options: dict) -> str:
+                             options: dict) -> Optional[str]:
         """
         Apply the default language context to the options
 
@@ -109,7 +109,7 @@ class Api(object):
 
     @staticmethod
     def explode_filter(filters: list[Union[BooleanOperator, Filter, str]]
-                       ) -> list[list[str, str, Any]]:
+                       ) -> list[list[Union[str, Any]]]:
         """
         Convert a list of BooleanOperators/Filters to a list of lists
 
@@ -274,7 +274,7 @@ class Api(object):
         return results
 
     def do_search(self,
-                  filters: list[Union[BooleanOperator, Filter]],
+                  filters: list[Union[BooleanOperator, Filter, str]],
                   options: dict[str, Any]) -> list[int]:
         """
         Search some records in the requested model applying a filter and some

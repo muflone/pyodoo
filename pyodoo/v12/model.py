@@ -18,7 +18,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 from .api import Api
 from pyodoo import (ActiveStatusChoice,
@@ -59,7 +59,7 @@ class Model(object):
 
     def get(self,
             entity_id: int,
-            fields: tuple[str, ...] = None) -> dict:
+            fields: tuple[str, ...] = None) -> Optional[dict[str, Any]]:
         """
         Get a object from its ID
 
@@ -74,7 +74,7 @@ class Model(object):
              entity_ids: list[int],
              fields: tuple[str, ...] = None,
              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET
-             ) -> list[dict]:
+             ) -> list[dict[str, Any]]:
         """
         Find all the objects list with some ID
 
@@ -89,7 +89,7 @@ class Model(object):
 
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],
-               fields: tuple[str, ...] = None) -> list[dict]:
+               fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
         """
         Find some objects using a list of filters
 

@@ -18,6 +18,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+from typing import Union
+
 from pyodoo import CompareType
 
 
@@ -33,7 +35,7 @@ class Filter(object):
         self.compare_type = compare_type
         self.value = value
 
-    def explode(self) -> list[str, str, object]:
+    def explode(self) -> list[Union[str, object]]:
         """
         Extract the list from the filter, in the format used in Odoo filters
 
