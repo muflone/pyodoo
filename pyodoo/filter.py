@@ -18,7 +18,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from pyodoo.compare_type import CompareType
+from pyodoo import CompareType
 
 
 class Filter(object):

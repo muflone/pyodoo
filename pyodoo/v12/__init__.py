@@ -18,4 +18,5 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .contacts import Contact                                      # noqa: F401
+from .api import Api
+from .object_model import ObjectModel

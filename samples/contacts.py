@@ -20,9 +20,9 @@
 
 import os
 
-from pyodoo.boolean_operator import BooleanOperator
-from pyodoo.compare_type import CompareType
-from pyodoo.filter import Filter
+from pyodoo import (BooleanOperator,
+                    CompareType,
+                    Filter)
 from pyodoo.v12 import Contact
 
 
