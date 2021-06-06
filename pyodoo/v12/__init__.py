@@ -18,5 +18,5 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .api import Api
-from .object_model import ObjectModel
+from .api import Api                                               # noqa: F401
+from .object_model import ObjectModel                              # noqa: F401
