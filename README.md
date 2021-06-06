@@ -1,6 +1,6 @@
 # PyOdoo
 
-[![Travis CI Build Status](https://img.shields.io/travis/muflone/pyodoo/master.svg)](https://travis-ci.org/muflone/pyodoo)
+[![Travis CI Build Status](https://img.shields.io/travis/muflone/pyodoo/master.svg)](https://www.travis-ci.com/github/muflone/pyodoo)
 [![CircleCI Build Status](https://img.shields.io/circleci/project/github/muflone/pyodoo/master.svg)](https://circleci.com/gh/muflone/pyodoo)
 [![PyPI - Version](https://img.shields.io/pypi/v/PyOdoo.svg)](https://pypi.org/project/PyOdoo/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/PyOdoo.svg)](https://pypi.org/project/PyOdoo/)
