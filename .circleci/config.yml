@@ -26,7 +26,6 @@ jobs:
           name: check code
           command: |
             . venv/bin/activate
-            ls -laR .
             python -m compileall pyodoo samples
             pycodestyle pyodoo samples
             python -m flake8 pyodoo samples
