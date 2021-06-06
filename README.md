@@ -24,3 +24,7 @@ its XML RPC API.
 # System Requirements
 
 * Python 3.x
+
+# Usage
+
+Please see the **samples** folder for some usage examples.
