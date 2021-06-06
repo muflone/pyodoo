@@ -18,10 +18,10 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .object_model import ObjectModel
+from pyodoo.v12 import ObjectModel
 
 
-class Contact(ObjectModel):
+class ResPartner(ObjectModel):
     """
     Model for `res.partner` model to interact with employees, customers,
     suppliers and other contacts.
