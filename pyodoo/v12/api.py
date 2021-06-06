@@ -122,7 +122,7 @@ class Api(object):
 
     def get(self,
             entity_id: int,
-            fields: tuple[str, ...] = None) -> dict[str, Any]:
+            fields: tuple[str, ...] = None) -> Optional[dict[str, Any]]:
         """
         Get a row from a model using its ID
 
@@ -254,9 +254,9 @@ class Api(object):
 
     def do_read(self,
                 entity_id: int,
-                options: dict[str, Any]) -> dict[str, Any]:
+                options: dict[str, Any]) -> Optional[dict[str, Any]]:
         """
-        Get some records in the requested model applying a filter and some
+        Get a record in the requested model applying a filter and some
         options (like fields or context)
 
         :param entity_id: Object ID to get
@@ -271,7 +271,7 @@ class Api(object):
                                    'read',
                                    [entity_id],
                                    options)
-        return results
+        return results[0] if results else None
 
     def do_search(self,
                   filters: list[Union[BooleanOperator, Filter, str]],
