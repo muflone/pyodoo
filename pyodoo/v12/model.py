@@ -46,7 +46,14 @@ class Model(object):
                        username=username,
                        password=password,
                        language=language)
-        self.api.authenticate()
+
+    def authenticate(self) -> int:
+        """
+        Authenticate the session using database, username and password
+
+        :return: The user ID for the authenticated user
+        """
+        return self.api.authenticate()
 
     def get(self,
             entity_id: int,

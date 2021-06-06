@@ -33,6 +33,8 @@ model = Model(model_name='res.partner',
               username=os.environ['ODOO_USERNAME'],
               password=os.environ['ODOO_PASSWORD'],
               language='en_GB')
+# Authenticate user
+model.authenticate()
 # Filters by name and excluding an explicit ID
 filters = [BooleanOperator.AND,
            Filter(field='name',
