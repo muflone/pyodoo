@@ -70,6 +70,17 @@ class Model(object):
         return self.api.get(entity_id=entity_id,
                             fields=fields)
 
+    def all(self,
+            fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
+        """
+        Get all the objects
+
+        :param fields: Fields to include in the response
+        :return: List of dictionaries with the requested fields
+        """
+        return self.api.filter(filters=[],
+                               fields=fields)
+
     def find(self,
              entity_ids: list[int],
              fields: tuple[str, ...] = None,

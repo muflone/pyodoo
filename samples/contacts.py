@@ -68,6 +68,10 @@ results = model.filter(filters=filters,
                        fields=('id', 'name', 'country_id'))
 print('filter', results)
 
+# Get all the record
+results = model.all(fields=('id', 'name'))
+print('all', len(results))
+
 # Get a record by ID
 results = model.get(entity_id=24551,
                     fields=('id', 'name'))
