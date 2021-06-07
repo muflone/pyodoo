@@ -32,9 +32,11 @@ model = Model(model_name='res.partner',
               database=os.environ['ODOO_DATABASE'],
               username=os.environ['ODOO_USERNAME'],
               password=os.environ['ODOO_PASSWORD'],
-              language='en_GB')
+              language=None)
 # Authenticate user
 model.authenticate()
+# Change default language
+model.language = 'en_GB'
 # Filters by name and excluding an explicit ID
 filters = [BooleanOperator.AND,
            Filter(field='name',

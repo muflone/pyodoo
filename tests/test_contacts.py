@@ -296,3 +296,20 @@ class TestCaseContacts(unittest.TestCase):
                 else:
                     # We catched a different error, re-raise it
                     raise error
+
+    def test_15_language(self) -> None:
+        """
+        Get the current default language, change and restore it
+        """
+        original_language = self.model.language
+        # Check the current default language
+        self.assertEqual(original_language, 'en_US')
+        # Change the current default language
+        self.model.language = 'it_IT'
+        results = self.model.language
+        # Check the current default language
+        self.assertEqual(results, 'it_IT')
+        # Restore the current default language
+        self.model.language = original_language
+        results = self.model.language
+        self.assertEqual(results, original_language)

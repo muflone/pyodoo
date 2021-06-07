@@ -152,3 +152,22 @@ class Model(object):
         :param entity_id: Object ID to update
         """
         self.api.delete(entity_id=entity_id)
+
+    @property
+    def language(self):
+        """
+        Get the current default language
+
+        :return: Language code
+        """
+        return self.api.language
+
+    @language.setter
+    def language(self,
+                 language: str):
+        """
+        Set the current default language
+
+        :param language: Language code to set
+        """
+        self.api.language = language
