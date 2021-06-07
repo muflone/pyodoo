@@ -21,4 +21,5 @@
 from .active_status_choice import ActiveStatusChoice               # noqa: F401
 from .boolean_operator import BooleanOperator                      # noqa: F401
 from .compare_type import CompareType                              # noqa: F401
+from .constants import APP_VERSION as __version__                  # noqa: F401
 from .filter import Filter                                         # noqa: F401
