@@ -138,6 +138,20 @@ class Model(object):
                                           options=options)
         return results
 
+    def count(self,
+              filters: list[Union[BooleanOperator, Filter]]) -> int:
+        """
+        Get the rows count from a model using some filters
+
+        :param filters: List of filters used for searching the data
+        :return: Rows count
+        """
+        options = {}
+        # Request data and get results
+        results = self.api.do_search_count(filters=filters,
+                                           options=options)
+        return results
+
     def search(self,
                filters: list[Union[BooleanOperator, Filter]]) -> list[int]:
         """

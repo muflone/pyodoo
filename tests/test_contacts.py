@@ -266,7 +266,19 @@ class TestCaseContacts(unittest.TestCase):
             # Check the field street
             self.assertEqual(results_updated['street'], 'TEST TEST TEST')
 
-    def test_14_delete(self) -> None:
+    def test_14_count(self) -> None:
+        """
+        Count the newly created rows.
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.count(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(results, 0)
+
+    def test_15_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -297,7 +309,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_15_language(self) -> None:
+    def test_16_language(self) -> None:
         """
         Get the current default language, change and restore it
         """

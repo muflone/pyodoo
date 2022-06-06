@@ -146,6 +146,25 @@ class Api(object):
                                    options)
         return results
 
+    def do_search_count(self,
+                        filters: list[Union[BooleanOperator, Filter, str]],
+                        options: dict[str, Any]) -> int:
+        """
+        Get the records count in the requested model applying a filter
+
+        :param filters: List of filters used for searching the data
+        :return: Records count found
+        """
+        proxy = self.get_proxy_object()
+        results = proxy.execute_kw(self.database,
+                                   self.uid,
+                                   self.password,
+                                   self.model_name,
+                                   'search_count',
+                                   self.explode_filter(filters),
+                                   options)
+        return results
+
     def do_search_read(self,
                        filters: list[Union[BooleanOperator, Filter]],
                        options: dict[str, Any]) -> list[dict[str, Any]]:
