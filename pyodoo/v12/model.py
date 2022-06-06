@@ -56,15 +56,18 @@ class Model(object):
 
     def get(self,
             entity_id: int,
-            fields: tuple[str, ...] = None) -> Optional[dict[str, Any]]:
+            fields: tuple[str, ...] = None,
+            options: dict[str, Any] = None) -> Optional[dict[str, Any]]:
         """
         Get a row from a model using its ID
 
         :param entity_id: Object ID to query
         :param fields: Tuple with the fields to include in the response
+        :param options: Dictionary with options to use
         :return: Dictionary with the requested fields
         """
-        options = {}
+        if options is None:
+            options = {}
         # Limit results only to selected fields
         if fields:
             options['fields'] = fields
@@ -76,27 +79,31 @@ class Model(object):
         return results
 
     def all(self,
-            fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
+            fields: tuple[str, ...] = None,
+            options: dict[str, Any] = None) -> list[dict[str, Any]]:
         """
         Get all the objects
 
         :param fields: Fields to include in the response
+        :param options: Dictionary with options to use
         :return: List of dictionaries with the requested fields
         """
         return self.filter(filters=[],
-                           fields=fields)
+                           fields=fields,
+                           options=options)
 
     def find(self,
              entity_ids: list[int],
              fields: tuple[str, ...] = None,
-             is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET
-             ) -> list[dict[str, Any]]:
+             is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
+             options: dict[str, Any] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using their ID
 
         :param entity_ids: Objects ID to query
         :param fields: Tuple with the fields to include in the response
         :param is_active: Additional filter for active field
+        :param options: Dictionary with options to use
         :return: List of dictionaries with the requested fields
         """
         # Add filtered IDs
@@ -106,7 +113,8 @@ class Model(object):
             filters.append(['active', CompareType.IN, is_active])
         elif is_active != ActiveStatusChoice.NOT_SET:
             filters.append(['active', CompareType.EQUAL, is_active])
-        options = {}
+        if options is None:
+            options = {}
         # Limit results only to selected fields
         if fields:
             options['fields'] = fields
@@ -119,15 +127,18 @@ class Model(object):
 
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],
-               fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
+               fields: tuple[str, ...] = None,
+               options: dict[str, Any] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using some filters
 
         :param filters: List of filters used for searching the data
         :param fields: Tuple with the fields to include in the response
+        :param options: Dictionary with options to use
         :return: List of dictionaries with the requested fields
         """
-        options = {}
+        if options is None:
+            options = {}
         # Limit results only to selected fields
         if fields:
             options['fields'] = fields
@@ -139,28 +150,34 @@ class Model(object):
         return results
 
     def count(self,
-              filters: list[Union[BooleanOperator, Filter]]) -> int:
+              filters: list[Union[BooleanOperator, Filter]],
+              options: dict[str, Any] = None) -> int:
         """
         Get the rows count from a model using some filters
 
         :param filters: List of filters used for searching the data
+        :param options: Dictionary with options to use
         :return: Rows count
         """
-        options = {}
+        if options is None:
+            options = {}
         # Request data and get results
         results = self.api.do_search_count(filters=filters,
                                            options=options)
         return results
 
     def search(self,
-               filters: list[Union[BooleanOperator, Filter]]) -> list[int]:
+               filters: list[Union[BooleanOperator, Filter]],
+               options: dict[str, Any] = None) -> list[int]:
         """
         Find rows list from a list of filters
 
         :param filters: List of filters used for searching the data
+        :param options: Dictionary with options to use
         :return: List of ID for the objects found
         """
-        options = {}
+        if options is None:
+            options = {}
         # Set language for translated fields
         self.set_options_language(options=options)
         # Request data and get results
@@ -169,14 +186,17 @@ class Model(object):
         return results
 
     def create(self,
-               values: dict[str, Any]) -> int:
+               values: dict[str, Any],
+               options: dict[str, Any] = None) -> int:
         """
         Create a new record in the requested model and returns its ID
 
         :param values: Dictionary with the fields to update and their values
+        :param options: Dictionary with options to use
         :return: The ID of the newly created object
         """
-        options = {}
+        if options is None:
+            options = {}
         # Set language for translated fields
         self.set_options_language(options=options)
         # Create data and get results
@@ -186,14 +206,17 @@ class Model(object):
 
     def update(self,
                entity_id: int,
-               values: dict[str, Any]) -> None:
+               values: dict[str, Any],
+               options: dict[str, Any] = None) -> None:
         """
         Get a row from a model using its ID
 
         :param entity_id: The object ID to update
         :param values: Dictionary with the fields to update and their values
+        :param options: Dictionary with options to use
         """
-        options = {}
+        if options is None:
+            options = {}
         # Set language for translated fields
         self.set_options_language(options=options)
         # Update data and get results
@@ -202,13 +225,16 @@ class Model(object):
                            options=options)
 
     def delete(self,
-               entity_id: int) -> None:
+               entity_id: int,
+               options: dict[str, Any] = None) -> None:
         """
         Delete a row from a model using its ID
 
         :param entity_id: The object ID to delete
+        :param options: Dictionary with options to use
         """
-        options = {}
+        if options is None:
+            options = {}
         # Request data and get results
         self.api.do_delete(entity_id=entity_id,
                            options=options)
