@@ -7,7 +7,7 @@
 
 **Description:** API for Odoo
 
-**Copyright:** 2021 Fabio Castelli (Muflone) <muflone@muflone.com>
+**Copyright:** 2021-2022 Fabio Castelli (Muflone) <muflone@muflone.com>
 
 **License:** GPL-3+
 
