@@ -87,7 +87,21 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results list is not greater than 30
         self.assertLessEqual(len(results), 30)
 
-    def test_05_search_with_filters(self) -> None:
+    def test_05_search_all_with_pagination(self) -> None:
+        """
+        Search all the rows in the model using pagination
+        """
+        results = self.model.search(filters=[],
+                                    limit=30,
+                                    offset=0)
+        # Check if the results are not None
+        self.assertIsNotNone(results)
+        # Check if the results list is not empty
+        self.assertGreater(len(results), 0)
+        # Check if the results list is not greater than 30
+        self.assertLessEqual(len(results), 30)
+
+    def test_06_search_with_filters(self) -> None:
         """
         Search some rows using filters
         """
@@ -109,7 +123,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results list does not contain the OdooBot user ID (2)
         self.assertNotIn(2, results)
 
-    def test_06_find_by_id_single(self) -> None:
+    def test_07_find_by_id_single(self) -> None:
         """
         Find a single row using its ID
         """
@@ -127,7 +141,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 
-    def test_07_find_by_id_active(self) -> None:
+    def test_08_find_by_id_active(self) -> None:
         """
         Find a single active row using its ID
         """
@@ -146,7 +160,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 
-    def test_08_find_by_id_inactive(self) -> None:
+    def test_09_find_by_id_inactive(self) -> None:
         """
         Find a single inactive row using its ID
         """
@@ -165,7 +179,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 
-    def test_09_find_by_id_both_active(self) -> None:
+    def test_10_find_by_id_both_active(self) -> None:
         """
         Find two rows using their IDs, both active and inactive
         """
@@ -184,7 +198,7 @@ class TestCaseContacts(unittest.TestCase):
             self.assertEqual(item['type'], 'contact')
             self.assertGreater(len(item['street']), 0)
 
-    def test_10_find_by_id_multiple(self) -> None:
+    def test_11_find_by_id_multiple(self) -> None:
         """
         Find multiple row using their IDs
         """
@@ -201,7 +215,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check some data
         self.assertIn(results[0]['id'], (3, 15))
 
-    def test_11_filter(self) -> None:
+    def test_12_filter(self) -> None:
         """
         Find multiple rows using some filters
         """
@@ -222,7 +236,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results list is not empty
         self.assertGreater(len(results), 0)
 
-    def test_12_get(self) -> None:
+    def test_13_get(self) -> None:
         """
         Get a single row using ID
         """
@@ -242,7 +256,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results['type'], 'contact')
         self.assertGreater(len(results['street']), 0)
 
-    def test_13_create(self) -> None:
+    def test_14_create(self) -> None:
         """
         Create a new row
         """
@@ -253,7 +267,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results is not empty
         self.assertGreater(results, 0)
 
-    def test_14_update(self) -> None:
+    def test_15_update(self) -> None:
         """
         Update the newly created rows
         """
@@ -279,7 +293,7 @@ class TestCaseContacts(unittest.TestCase):
             # Check the field street
             self.assertEqual(results_updated['street'], 'TEST TEST TEST')
 
-    def test_15_count(self) -> None:
+    def test_16_count(self) -> None:
         """
         Count the newly created rows.
         """
@@ -291,7 +305,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_16_delete(self) -> None:
+    def test_17_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -322,7 +336,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_17_language(self) -> None:
+    def test_18_language(self) -> None:
         """
         Get the current default language, change and restore it
         """

@@ -57,13 +57,17 @@ class Model(object):
     def get(self,
             entity_id: int,
             fields: tuple[str, ...] = None,
-            options: dict[str, Any] = None) -> Optional[dict[str, Any]]:
+            options: dict[str, Any] = None,
+            limit: Optional[int] = None,
+            offset: Optional[int] = None) -> Optional[dict[str, Any]]:
         """
         Get a row from a model using its ID
 
         :param entity_id: Object ID to query
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
         :return: Dictionary with the requested fields
         """
         if options is None:
@@ -73,6 +77,10 @@ class Model(object):
             options['fields'] = fields
         # Set language for translated fields
         self.set_options_language(options=options)
+        # Set pagination
+        self.set_pagination(options=options,
+                            limit=limit,
+                            offset=offset)
         # Request data and get results
         results = self.api.do_read(entity_id=entity_id,
                                    options=options)
@@ -80,23 +88,31 @@ class Model(object):
 
     def all(self,
             fields: tuple[str, ...] = None,
-            options: dict[str, Any] = None) -> list[dict[str, Any]]:
+            options: dict[str, Any] = None,
+            limit: Optional[int] = None,
+            offset: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Get all the objects
 
         :param fields: Fields to include in the response
         :param options: Dictionary with options to use
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
         :return: List of dictionaries with the requested fields
         """
         return self.filter(filters=[],
                            fields=fields,
-                           options=options)
+                           options=options,
+                           limit=limit,
+                           offset=offset)
 
     def find(self,
              entity_ids: list[int],
              fields: tuple[str, ...] = None,
              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
-             options: dict[str, Any] = None) -> list[dict[str, Any]]:
+             options: dict[str, Any] = None,
+             limit: Optional[int] = None,
+             offset: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using their ID
 
@@ -104,6 +120,8 @@ class Model(object):
         :param fields: Tuple with the fields to include in the response
         :param is_active: Additional filter for active field
         :param options: Dictionary with options to use
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
         :return: List of dictionaries with the requested fields
         """
         # Add filtered IDs
@@ -120,6 +138,10 @@ class Model(object):
             options['fields'] = fields
         # Set language for translated fields
         self.set_options_language(options=options)
+        # Set pagination
+        self.set_pagination(options=options,
+                            limit=limit,
+                            offset=offset)
         # Request data and get results
         results = self.api.do_search_read(filters=filters,
                                           options=options)
@@ -128,13 +150,17 @@ class Model(object):
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],
                fields: tuple[str, ...] = None,
-               options: dict[str, Any] = None) -> list[dict[str, Any]]:
+               options: dict[str, Any] = None,
+               limit: Optional[int] = None,
+               offset: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using some filters
 
         :param filters: List of filters used for searching the data
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
         :return: List of dictionaries with the requested fields
         """
         if options is None:
@@ -144,6 +170,10 @@ class Model(object):
             options['fields'] = fields
         # Set language for translated fields
         self.set_options_language(options=options)
+        # Set pagination
+        self.set_pagination(options=options,
+                            limit=limit,
+                            offset=offset)
         # Request data and get results
         results = self.api.do_search_read(filters=filters,
                                           options=options)
@@ -168,18 +198,26 @@ class Model(object):
 
     def search(self,
                filters: list[Union[BooleanOperator, Filter]],
-               options: dict[str, Any] = None) -> list[int]:
+               options: dict[str, Any] = None,
+               limit: Optional[int] = None,
+               offset: Optional[int] = None) -> list[int]:
         """
         Find rows list from a list of filters
 
         :param filters: List of filters used for searching the data
         :param options: Dictionary with options to use
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
         :return: List of ID for the objects found
         """
         if options is None:
             options = {}
         # Set language for translated fields
         self.set_options_language(options=options)
+        # Set pagination
+        self.set_pagination(options=options,
+                            limit=limit,
+                            offset=offset)
         # Request data and get results
         results = self.api.do_search(filters=filters,
                                      options=options)
@@ -254,6 +292,25 @@ class Model(object):
             else:
                 options['context'] = {'lang': self.api.language}
         return self.language
+
+    def set_pagination(self,
+                       options: dict,
+                       limit: Optional[int],
+                       offset: Optional[int]) -> dict:
+        """
+        Apply limit and offset for pagination to the options
+
+        :param options: Dictionary with any existing options
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
+        :return: The options dictionary
+        """
+        # Set limit and offset
+        if limit is not None and 'limit' not in options:
+            options['limit'] = limit
+        if offset is not None and 'offset' not in options:
+            options['offset'] = offset
+        return options
 
     @property
     def model_name(self):
