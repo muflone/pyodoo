@@ -20,10 +20,11 @@
 
 from typing import Any, Optional, Union
 
-from .api import Api
 from pyodoo import (ActiveStatusChoice,
                     BooleanOperator,
+                    CompareType,
                     Filter)
+from pyodoo.v12.api import Api
 
 
 class Model(object):
@@ -37,10 +38,6 @@ class Model(object):
                  username: str,
                  password: str,
                  language: str = None):
-        # Associate model
-        if not model_name:
-            raise NotImplementedError('model name was not set properly')
-        self.model_name = model_name
         # API object
         self.api = Api(model_name=model_name,
                        endpoint=endpoint,
@@ -51,7 +48,7 @@ class Model(object):
 
     def authenticate(self) -> int:
         """
-        Authenticate the session using database, username and password
+        Authenticate the session using database, username and password.
 
         :return: The user ID for the authenticated user
         """
@@ -61,14 +58,22 @@ class Model(object):
             entity_id: int,
             fields: tuple[str, ...] = None) -> Optional[dict[str, Any]]:
         """
-        Get a object from its ID
+        Get a row from a model using its ID
 
-        :param entity_id: Object ID to get
-        :param fields: Fields to include in the response
+        :param entity_id: Object ID to query
+        :param fields: Tuple with the fields to include in the response
         :return: Dictionary with the requested fields
         """
-        return self.api.get(entity_id=entity_id,
-                            fields=fields)
+        options = {}
+        # Limit results only to selected fields
+        if fields:
+            options['fields'] = fields
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Request data and get results
+        results = self.api.do_read(entity_id=entity_id,
+                                   options=options)
+        return results
 
     def all(self,
             fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
@@ -78,8 +83,8 @@ class Model(object):
         :param fields: Fields to include in the response
         :return: List of dictionaries with the requested fields
         """
-        return self.api.filter(filters=[],
-                               fields=fields)
+        return self.filter(filters=[],
+                           fields=fields)
 
     def find(self,
              entity_ids: list[int],
@@ -87,71 +92,135 @@ class Model(object):
              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET
              ) -> list[dict[str, Any]]:
         """
-        Find all the objects list with some ID
+        Find some rows from a model using their ID
 
         :param entity_ids: Objects ID to query
-        :param fields: Fields to include in the response
+        :param fields: Tuple with the fields to include in the response
         :param is_active: Additional filter for active field
-        :return: List of dictionary with the requested fields
+        :return: List of dictionaries with the requested fields
         """
-        return self.api.find(entity_ids=entity_ids,
-                             fields=fields,
-                             is_active=is_active)
+        # Add filtered IDs
+        filters = [['id', CompareType.IN, entity_ids]]
+        # Check for active records (Only active, only inactive or both)
+        if is_active == ActiveStatusChoice.BOTH:
+            filters.append(['active', CompareType.IN, is_active])
+        elif is_active != ActiveStatusChoice.NOT_SET:
+            filters.append(['active', CompareType.EQUAL, is_active])
+        options = {}
+        # Limit results only to selected fields
+        if fields:
+            options['fields'] = fields
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Request data and get results
+        results = self.api.do_search_read(filters=filters,
+                                          options=options)
+        return results
 
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],
                fields: tuple[str, ...] = None) -> list[dict[str, Any]]:
         """
-        Find some objects using a list of filters
+        Find some rows from a model using some filters
 
-        :param filters: List of filters to used for searching the data
-        :param fields: Fields to include in the response
-        :return: List of dictionary with the requested fields
+        :param filters: List of filters used for searching the data
+        :param fields: Tuple with the fields to include in the response
+        :return: List of dictionaries with the requested fields
         """
-        return self.api.filter(filters=filters,
-                               fields=fields)
+        options = {}
+        # Limit results only to selected fields
+        if fields:
+            options['fields'] = fields
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Request data and get results
+        results = self.api.do_search_read(filters=filters,
+                                          options=options)
+        return results
 
     def search(self,
                filters: list[Union[BooleanOperator, Filter]]) -> list[int]:
         """
-        Find some objects using a list of filters
+        Find rows list from a list of filters
 
-        :param filters: List of filters to used for searching the data
+        :param filters: List of filters used for searching the data
         :return: List of ID for the objects found
         """
-        return self.api.search(filters=filters)
+        options = {}
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Request data and get results
+        results = self.api.do_search(filters=filters,
+                                     options=options)
+        return results
 
     def create(self,
                values: dict[str, Any]) -> int:
         """
-        Create a new object
+        Create a new record in the requested model and returns its ID
 
-        :param values: Dictionary with fields and values to update
+        :param values: Dictionary with the fields to update and their values
         :return: The ID of the newly created object
         """
-        return self.api.create(values=values)
+        options = {}
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Create data and get results
+        results = self.api.do_create(values=values,
+                                     options=options)
+        return results
 
     def update(self,
                entity_id: int,
                values: dict[str, Any]) -> None:
         """
-        Update a object from its ID
+        Get a row from a model using its ID
 
-        :param entity_id: Object ID to update
-        :param values: Dictionary with fields and values to update
-        :return: Dictionary with the requested fields
+        :param entity_id: The object ID to update
+        :param values: Dictionary with the fields to update and their values
         """
-        self.api.update(entity_id=entity_id,
-                        values=values)
+        options = {}
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Update data and get results
+        self.api.do_update(entity_id=entity_id,
+                           values=values,
+                           options=options)
 
     def delete(self,
                entity_id: int) -> None:
         """
-        Delete a object from its ID
+        Delete a row from a model using its ID
 
-        :param entity_id: Object ID to update
+        :param entity_id: The object ID to delete
         """
-        self.api.delete(entity_id=entity_id)
+        # Request data and get results
+        self.api.do_delete(entity_id=entity_id)
+
+    def set_options_language(self,
+                             options: dict) -> Optional[str]:
+        """
+        Apply the default language context to the options
+
+        :param options: Dictionary with any existing options
+        :return: The current default language code
+        """
+        # Set language for translated fields
+        if self.api.language:
+            if 'context' in options:
+                options['context']['lang'] = self.api.language
+            else:
+                options['context'] = {'lang': self.api.language}
+        return self.language
+
+    @property
+    def model_name(self):
+        """
+        Get the current model name
+
+        :return: Model name
+        """
+        return self.api.model_name
 
     @property
     def language(self):
