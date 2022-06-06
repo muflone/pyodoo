@@ -13,7 +13,7 @@
 
 **Source code:** https://github.com/muflone/pyodoo
 
-**Documentation:** http://www.muflone.com/pyodoo/
+**Documentation:** https://www.muflone.com/pyodoo/
 
 # Description
 
