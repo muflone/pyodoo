@@ -208,8 +208,10 @@ class Model(object):
 
         :param entity_id: The object ID to delete
         """
+        options = {}
         # Request data and get results
-        self.api.do_delete(entity_id=entity_id)
+        self.api.do_delete(entity_id=entity_id,
+                           options=options)
 
     def set_options_language(self,
                              options: dict) -> Optional[str]:

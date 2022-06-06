@@ -228,7 +228,8 @@ class Api(object):
                          options)
 
     def do_delete(self,
-                  entity_id: int) -> None:
+                  entity_id: int,
+                  options: dict[str, Any]) -> None:
         """
         Delete a record in the requested model
 
@@ -240,4 +241,5 @@ class Api(object):
                          self.password,
                          self.model_name,
                          'unlink',
-                         [entity_id])
+                         [entity_id],
+                         options)
