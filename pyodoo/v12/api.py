@@ -173,6 +173,7 @@ class Api(object):
         Get the records count in the requested model applying a filter
 
         :param filters: List of filters used for searching the data
+        :param options: Dictionary with options to use
         :return: Records count found
         """
         proxy = self.get_proxy_object()
@@ -254,6 +255,7 @@ class Api(object):
         Delete a record in the requested model
 
         :param entity_id: Object ID to get
+        :param options: Dictionary with options to use
         """
         proxy = self.get_proxy_object()
         proxy.execute_kw(self.database,
