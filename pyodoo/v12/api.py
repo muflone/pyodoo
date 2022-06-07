@@ -125,6 +125,26 @@ class Api(object):
                                    options)
         return results[0] if results else None
 
+    def do_fields_get(self,
+                      fields: list[str],
+                      options: dict[str, Any]) -> dict[str, dict]:
+        """
+        Get the model fields
+
+        :param fields: Fields list to include
+        :param options: Dictionary with options to use
+        :return: Dictionary with the requested fields
+        """
+        proxy = self.get_proxy_object()
+        results = proxy.execute_kw(self.database,
+                                   self.uid,
+                                   self.password,
+                                   self.model_name,
+                                   'fields_get',
+                                   fields,
+                                   options)
+        return results
+
     def do_search(self,
                   filters: list[Union[BooleanOperator, Filter, str]],
                   options: dict[str, Any]) -> list[int]:

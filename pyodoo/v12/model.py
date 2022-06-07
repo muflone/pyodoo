@@ -312,6 +312,33 @@ class Model(object):
             options['offset'] = offset
         return options
 
+    def get_fields(self,
+                   fields: tuple[str, ...] = None,
+                   attributes: list[str, ...] = None,
+                   options: dict[str, Any] = None) -> Optional[dict[str, Any]]:
+        """
+        Get the model fields
+
+        :param fields: List with the fields to include in the response
+        :param attributes: List with the attributes to include in the response
+        :param options: Dictionary with options to use
+        :return: Dictionary with the requested fields
+        """
+        if options is None:
+            options = {}
+        # Limit results only to selected fields
+        if fields is None:
+            fields = []
+        # Limit results only to selected attributes
+        if attributes is not None:
+            options['attributes'] = attributes
+        # Set language for translated fields
+        self.set_options_language(options=options)
+        # Request data and get results
+        results = self.api.do_fields_get(fields=fields,
+                                         options=options)
+        return results
+
     @property
     def model_name(self):
         """

@@ -352,3 +352,25 @@ class TestCaseContacts(unittest.TestCase):
         self.model.language = original_language
         results = self.model.language
         self.assertEqual(results, original_language)
+
+    def test_19_get_fields(self) -> None:
+        """
+        Get the model fields
+        """
+        results = self.model.get_fields()
+        # Check if we have results
+        self.assertIsNotNone(results)
+
+    def test_20_get_fields_attributes(self) -> None:
+        """
+        Get the model fields
+        """
+        results = self.model.get_fields(attributes=['name', 'string', 'type'])
+        # Check if we have results
+        self.assertIsNotNone(results)
+        # Check if we have 3 fields
+        field_name = results['name']
+        self.assertEqual(len(field_name), 3)
+        self.assertIn('name', field_name)
+        self.assertIn('string', field_name)
+        self.assertIn('type', field_name)
