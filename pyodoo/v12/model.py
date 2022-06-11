@@ -445,3 +445,21 @@ class Model(object):
         return self.update(entity_id=entity_id,
                            values={field: [(2, related_id)]},
                            options=options)
+
+    def many_to_many_remove(self,
+                            entity_id: int,
+                            field: str,
+                            related_id: int,
+                            options: dict[str, Any] = None) -> bool:
+        """
+        Remove an existing related object from a Many to Many relationship
+
+        :param entity_id: The object ID from which remove the related object
+        :param field: The field name for the relationship to update
+        :param related_id: The object ID to remove
+        :param options: Dictionary with options to use
+        :return: True if the record was removed
+        """
+        return self.update(entity_id=entity_id,
+                           values={field: [(3, related_id)]},
+                           options=options)
