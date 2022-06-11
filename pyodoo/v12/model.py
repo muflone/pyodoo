@@ -46,6 +46,34 @@ class Model(object):
                        password=password,
                        language=language)
 
+    @property
+    def model_name(self):
+        """
+        Get the current model name
+
+        :return: Model name
+        """
+        return self.api.model_name
+
+    @property
+    def language(self):
+        """
+        Get the current default language
+
+        :return: Language code
+        """
+        return self.api.language
+
+    @language.setter
+    def language(self,
+                 language: str):
+        """
+        Set the current default language
+
+        :param language: Language code to set
+        """
+        self.api.language = language
+
     def authenticate(self) -> int:
         """
         Authenticate the session using database, username and password.
@@ -398,31 +426,3 @@ class Model(object):
         return self.update(entity_id=entity_id,
                            values={field: [(1, related_id, values)]},
                            options=options)
-
-    @property
-    def model_name(self):
-        """
-        Get the current model name
-
-        :return: Model name
-        """
-        return self.api.model_name
-
-    @property
-    def language(self):
-        """
-        Get the current default language
-
-        :return: Language code
-        """
-        return self.api.language
-
-    @language.setter
-    def language(self,
-                 language: str):
-        """
-        Set the current default language
-
-        :param language: Language code to set
-        """
-        self.api.language = language
