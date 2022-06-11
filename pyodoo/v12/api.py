@@ -231,37 +231,41 @@ class Api(object):
     def do_update(self,
                   entity_id: int,
                   values: dict[str, Any],
-                  options: dict[str, Any]) -> None:
+                  options: dict[str, Any]) -> bool:
         """
         Update a record in the requested model
 
         :param entity_id: object ID to update
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
+        :return: True if the record was updated
         """
         proxy = self.get_proxy_object()
-        proxy.execute_kw(self.database,
-                         self.uid,
-                         self.password,
-                         self.model_name,
-                         'write',
-                         [[entity_id], values],
-                         options)
+        results = proxy.execute_kw(self.database,
+                                   self.uid,
+                                   self.password,
+                                   self.model_name,
+                                   'write',
+                                   [[entity_id], values],
+                                   options)
+        return results
 
     def do_delete(self,
                   entity_id: int,
-                  options: dict[str, Any]) -> None:
+                  options: dict[str, Any]) -> bool:
         """
         Delete a record in the requested model
 
         :param entity_id: Object ID to get
         :param options: Dictionary with options to use
+        :return: True if the record was updated
         """
         proxy = self.get_proxy_object()
-        proxy.execute_kw(self.database,
-                         self.uid,
-                         self.password,
-                         self.model_name,
-                         'unlink',
-                         [entity_id],
-                         options)
+        results = proxy.execute_kw(self.database,
+                                   self.uid,
+                                   self.password,
+                                   self.model_name,
+                                   'unlink',
+                                   [entity_id],
+                                   options)
+        return results

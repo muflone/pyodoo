@@ -245,37 +245,41 @@ class Model(object):
     def update(self,
                entity_id: int,
                values: dict[str, Any],
-               options: dict[str, Any] = None) -> None:
+               options: dict[str, Any] = None) -> bool:
         """
         Get a row from a model using its ID
 
         :param entity_id: The object ID to update
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
+        :return: True if the record was updated
         """
         if options is None:
             options = {}
         # Set language for translated fields
         self.set_options_language(options=options)
         # Update data and get results
-        self.api.do_update(entity_id=entity_id,
-                           values=values,
-                           options=options)
+        results = self.api.do_update(entity_id=entity_id,
+                                     values=values,
+                                     options=options)
+        return results
 
     def delete(self,
                entity_id: int,
-               options: dict[str, Any] = None) -> None:
+               options: dict[str, Any] = None) -> bool:
         """
         Delete a row from a model using its ID
 
         :param entity_id: The object ID to delete
         :param options: Dictionary with options to use
+        :return: True if the record was deleted
         """
         if options is None:
             options = {}
         # Request data and get results
-        self.api.do_delete(entity_id=entity_id,
-                           options=options)
+        results = self.api.do_delete(entity_id=entity_id,
+                                     options=options)
+        return results
 
     def set_options_language(self,
                              options: dict) -> Optional[str]:
@@ -343,7 +347,7 @@ class Model(object):
                             entity_id: int,
                             field: str,
                             values: dict[str, Any],
-                            options: dict[str, Any] = None) -> None:
+                            options: dict[str, Any] = None) -> bool:
         """
         Create a new object and add it to a Many to Many relationship
 
@@ -351,6 +355,7 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param values: Dictionary with values for the new record to create
         :param options: Dictionary with options to use
+        :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
                            values={field: [(0, 0, values)]},
@@ -360,7 +365,7 @@ class Model(object):
                          entity_id: int,
                          field: str,
                          related_id: int,
-                         options: dict[str, Any] = None) -> None:
+                         options: dict[str, Any] = None) -> bool:
         """
         Add an existing related object to a Many to Many relationship
 
@@ -368,6 +373,7 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_id: The object ID to add
         :param options: Dictionary with options to use
+        :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
                            values={field: [(4, related_id)]},

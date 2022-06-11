@@ -286,7 +286,7 @@ class TestCaseContacts(unittest.TestCase):
                                               field='child_ids',
                                               related_id=child_contact)
         # Check if we have results
-        self.assertIsNone(results)
+        self.assertTrue(results)
 
     def test_16_many_to_many_create(self) -> None:
         """
@@ -304,7 +304,7 @@ class TestCaseContacts(unittest.TestCase):
                                                  field='child_ids',
                                                  values=values)
         # Check if we have results
-        self.assertIsNone(results)
+        self.assertTrue(results)
 
     def test_17_update(self) -> None:
         """
@@ -352,16 +352,17 @@ class TestCaseContacts(unittest.TestCase):
         PoS session
         """
         filters = [Filter(field='name',
-                          compare_type=CompareType.EQUAL,
+                          compare_type=CompareType.CONTAINS,
                           value=f'{APP_NAME} v.{APP_VERSION}')]
-        results = self.model.search(filters=filters)
+        contacts = self.model.search(filters=filters)
         # Check if we have results
-        self.assertIsNotNone(results)
-        self.assertGreater(len(results), 0)
+        self.assertIsNotNone(contacts)
+        self.assertGreater(len(contacts), 0)
         # Delete found data
-        for entity_id in results:
+        for entity_id in contacts:
             try:
-                self.model.delete(entity_id=entity_id)
+                results = self.model.delete(entity_id=entity_id)
+                self.assertTrue(results)
                 results_updated = self.model.get(entity_id=entity_id,
                                                  fields=('id', 'street'))
                 # Check if the results are None, then deleted
