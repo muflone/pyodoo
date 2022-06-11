@@ -399,7 +399,23 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_20_update(self) -> None:
+    def test_20_many_to_many_clear(self) -> None:
+        """
+        Clear any existing children records from a Many to Many relationship
+        """
+        # Find the main contact
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        main_contact = results[0] if isinstance(results, list) else results
+        # Remove any children contacts from the main contact
+        results = self.model.many_to_many_clear(entity_id=main_contact,
+                                                field='child_ids')
+        # Check if we have results
+        self.assertTrue(results)
+
+    def test_21_update(self) -> None:
         """
         Update the newly created rows
         """
@@ -425,7 +441,7 @@ class TestCaseContacts(unittest.TestCase):
             # Check the field street
             self.assertEqual(results_updated['street'], 'TEST TEST TEST')
 
-    def test_21_count(self) -> None:
+    def test_22_count(self) -> None:
         """
         Count the newly created rows.
         """
@@ -437,7 +453,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_22_delete(self) -> None:
+    def test_23_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -469,7 +485,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_23_language(self) -> None:
+    def test_24_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -486,7 +502,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_24_get_fields(self) -> None:
+    def test_25_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -494,7 +510,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_25_get_fields_attributes(self) -> None:
+    def test_26_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
