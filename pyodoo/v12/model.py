@@ -339,6 +339,23 @@ class Model(object):
                                          options=options)
         return results
 
+    def many_to_many_create(self,
+                            entity_id: int,
+                            field: str,
+                            values: dict[str, Any],
+                            options: dict[str, Any] = None) -> None:
+        """
+        Create a new object and add it to a Many to Many relationship
+
+        :param entity_id: The object ID to update
+        :param field: The field name for the relationship to update
+        :param values: Dictionary with values for the new record to create
+        :param options: Dictionary with options to use
+        """
+        return self.update(entity_id=entity_id,
+                           values={field: [(0, 0, values)]},
+                           options=options)
+
     def many_to_many_add(self,
                          entity_id: int,
                          field: str,
