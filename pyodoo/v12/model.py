@@ -379,6 +379,26 @@ class Model(object):
                            values={field: [(4, related_id)]},
                            options=options)
 
+    def many_to_many_update(self,
+                            entity_id: int,
+                            field: str,
+                            related_id: int,
+                            values: dict[str, Any],
+                            options: dict[str, Any] = None) -> bool:
+        """
+        Update an existing related object from a Many to Many relationship
+
+        :param entity_id: The object ID to update
+        :param field: The field name for the relationship to update
+        :param related_id: The object ID to add
+        :param values: Dictionary with values for the record to update
+        :param options: Dictionary with options to use
+        :return: True if the record was updated
+        """
+        return self.update(entity_id=entity_id,
+                           values={field: [(1, related_id, values)]},
+                           options=options)
+
     @property
     def model_name(self):
         """
