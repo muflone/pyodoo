@@ -27,4 +27,4 @@ its XML RPC API.
 
 # Usage
 
-Please see the **samples** folder for some usage examples.
+Please see the **samples** and the **tests* folders for some usage examples.
