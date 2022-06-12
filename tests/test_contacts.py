@@ -362,12 +362,21 @@ class TestCaseContacts(unittest.TestCase):
         child_contact = results[0] if isinstance(results, list) else results
         # Check if the results are not None
         self.assertIsNotNone(results)
-        # Delete the child contact from the main contact
-        results = self.model.many_to_many_delete(entity_id=main_contact,
-                                                 field='child_ids',
-                                                 related_id=child_contact)
-        # Check if we have results
-        self.assertTrue(results)
+        try:
+            # Delete the child contact from the main contact
+            results = self.model.many_to_many_delete(entity_id=main_contact,
+                                                     field='child_ids',
+                                                     related_id=child_contact)
+            # Check if we have results
+            self.assertTrue(results)
+        except xmlrpc.client.Fault as error:
+            if error.faultCode == 2:
+                # We have an active PoS session running
+                # It's not possible to delete contacts until it's closed
+                pass
+            else:
+                # We catched a different error, re-raise it
+                raise error
 
     def test_19_many_to_many_remove(self) -> None:
         """
