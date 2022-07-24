@@ -87,7 +87,8 @@ class Model(object):
             fields: tuple[str, ...] = None,
             options: dict[str, Any] = None,
             limit: Optional[int] = None,
-            offset: Optional[int] = None) -> Optional[dict[str, Any]]:
+            offset: Optional[int] = None,
+            order: Optional[str] = None) -> Optional[dict[str, Any]]:
         """
         Get a row from a model using its ID
 
@@ -96,6 +97,7 @@ class Model(object):
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
+        :param order: Ordering clause
         :return: Dictionary with the requested fields
         """
         if options is None:
@@ -109,6 +111,9 @@ class Model(object):
         self.set_pagination(options=options,
                             limit=limit,
                             offset=offset)
+        # Set order
+        self.set_order_by(options=options,
+                          order=order)
         # Request data and get results
         results = self.api.do_read(entity_id=entity_id,
                                    options=options)
@@ -118,7 +123,8 @@ class Model(object):
             fields: tuple[str, ...] = None,
             options: dict[str, Any] = None,
             limit: Optional[int] = None,
-            offset: Optional[int] = None) -> list[dict[str, Any]]:
+            offset: Optional[int] = None,
+            order: Optional[str] = None) -> list[dict[str, Any]]:
         """
         Get all the objects
 
@@ -126,13 +132,15 @@ class Model(object):
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
+        :param order: Ordering clause
         :return: List of dictionaries with the requested fields
         """
         return self.filter(filters=[],
                            fields=fields,
                            options=options,
                            limit=limit,
-                           offset=offset)
+                           offset=offset,
+                           order=order)
 
     def find(self,
              entity_ids: list[int],
@@ -140,7 +148,8 @@ class Model(object):
              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
              options: dict[str, Any] = None,
              limit: Optional[int] = None,
-             offset: Optional[int] = None) -> list[dict[str, Any]]:
+             offset: Optional[int] = None,
+             order: Optional[str] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using their ID
 
@@ -150,6 +159,7 @@ class Model(object):
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
+        :param order: Ordering clause
         :return: List of dictionaries with the requested fields
         """
         # Add filtered IDs
@@ -170,6 +180,9 @@ class Model(object):
         self.set_pagination(options=options,
                             limit=limit,
                             offset=offset)
+        # Set order
+        self.set_order_by(options=options,
+                          order=order)
         # Request data and get results
         results = self.api.do_search_read(filters=filters,
                                           options=options)
@@ -180,7 +193,8 @@ class Model(object):
                fields: tuple[str, ...] = None,
                options: dict[str, Any] = None,
                limit: Optional[int] = None,
-               offset: Optional[int] = None) -> list[dict[str, Any]]:
+               offset: Optional[int] = None,
+               order: Optional[str] = None) -> list[dict[str, Any]]:
         """
         Find some rows from a model using some filters
 
@@ -189,6 +203,7 @@ class Model(object):
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
+        :param order: Ordering clause
         :return: List of dictionaries with the requested fields
         """
         if options is None:
@@ -202,6 +217,9 @@ class Model(object):
         self.set_pagination(options=options,
                             limit=limit,
                             offset=offset)
+        # Set order
+        self.set_order_by(options=options,
+                          order=order)
         # Request data and get results
         results = self.api.do_search_read(filters=filters,
                                           options=options)
@@ -228,7 +246,8 @@ class Model(object):
                filters: list[Union[BooleanOperator, Filter]],
                options: dict[str, Any] = None,
                limit: Optional[int] = None,
-               offset: Optional[int] = None) -> list[int]:
+               offset: Optional[int] = None,
+               order: Optional[str] = None) -> list[int]:
         """
         Find rows list from a list of filters
 
@@ -236,6 +255,7 @@ class Model(object):
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
+        :param order: Ordering clause
         :return: List of ID for the objects found
         """
         if options is None:
@@ -246,6 +266,9 @@ class Model(object):
         self.set_pagination(options=options,
                             limit=limit,
                             offset=offset)
+        # Set order
+        self.set_order_by(options=options,
+                          order=order)
         # Request data and get results
         results = self.api.do_search(filters=filters,
                                      options=options)
@@ -324,6 +347,21 @@ class Model(object):
             else:
                 options['context'] = {'lang': self.api.language}
         return self.language
+
+    def set_order_by(self,
+                     options: dict,
+                     order: Optional[str]) -> dict:
+        """
+        Apply order for ordering results to the options
+
+        :param options: Dictionary with any existing options
+        :param order: Order string
+        :return: The options dictionary
+        """
+        # Set order
+        if order is not None and 'order' not in options:
+            options['order'] = order
+        return options
 
     def set_pagination(self,
                        options: dict,

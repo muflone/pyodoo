@@ -236,7 +236,29 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results list is not empty
         self.assertGreater(len(results), 0)
 
-    def test_13_get(self) -> None:
+    def test_13_filter_with_order(self) -> None:
+        """
+        Find multiple rows using some filters and order
+        """
+        # Filters by name and excluding an explicit ID
+        filters = [BooleanOperator.AND,
+                   Filter(field='active',
+                          compare_type=CompareType.EQUAL,
+                          value=False),
+                   BooleanOperator.NOT,
+                   Filter(field='name',
+                          compare_type=CompareType.CONTAINS,
+                          value='OdooBot'),
+                   ]
+        results = self.model.filter(filters=filters,
+                                    fields=('id', 'name', 'type', 'street'),
+                                    order='name asc')
+        # Check if the results are not None
+        self.assertIsNotNone(results)
+        # Check if the results list is not empty
+        self.assertGreater(len(results), 0)
+
+    def test_14_get(self) -> None:
         """
         Get a single row using ID
         """
@@ -256,7 +278,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results['type'], 'contact')
         self.assertGreater(len(results['street']), 0)
 
-    def test_14_create(self) -> None:
+    def test_15_create(self) -> None:
         """
         Create a new row
         """
@@ -267,7 +289,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results is not empty
         self.assertGreater(results, 0)
 
-    def test_15_many_to_many_add(self) -> None:
+    def test_16_many_to_many_add(self) -> None:
         """
         Add a record to a Many to Many relationship
         """
@@ -288,7 +310,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_16_many_to_many_create(self) -> None:
+    def test_17_many_to_many_create(self) -> None:
         """
         Create a new record and add it to a Many to Many relationship
         """
@@ -306,7 +328,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_17_many_to_many_update(self) -> None:
+    def test_18_many_to_many_update(self) -> None:
         """
         Update an existing record from a Many to Many relationship
         """
@@ -338,7 +360,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_18_many_to_many_delete(self) -> None:
+    def test_19_many_to_many_delete(self) -> None:
         """
         Delete an existing child record from a Many to Many relationship
         and delete the record itself
@@ -378,7 +400,7 @@ class TestCaseContacts(unittest.TestCase):
                 # We catched a different error, re-raise it
                 raise error
 
-    def test_19_many_to_many_remove(self) -> None:
+    def test_20_many_to_many_remove(self) -> None:
         """
         Remove an existing child record from a Many to Many relationship
         """
@@ -408,7 +430,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_20_many_to_many_clear(self) -> None:
+    def test_21_many_to_many_clear(self) -> None:
         """
         Clear any existing children records from a Many to Many relationship
         """
@@ -424,7 +446,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_21_many_to_many_replace(self) -> None:
+    def test_22_many_to_many_replace(self) -> None:
         """
         Replace any existing children records from a Many to Many relationship
         """
@@ -451,7 +473,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_22_update(self) -> None:
+    def test_23_update(self) -> None:
         """
         Update the newly created rows
         """
@@ -477,7 +499,7 @@ class TestCaseContacts(unittest.TestCase):
             # Check the field street
             self.assertEqual(results_updated['street'], 'TEST TEST TEST')
 
-    def test_23_count(self) -> None:
+    def test_24_count(self) -> None:
         """
         Count the newly created rows.
         """
@@ -489,7 +511,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_24_delete(self) -> None:
+    def test_25_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -521,7 +543,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_25_language(self) -> None:
+    def test_26_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -538,7 +560,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_26_get_fields(self) -> None:
+    def test_27_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -546,7 +568,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_27_get_fields_attributes(self) -> None:
+    def test_28_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
