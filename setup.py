@@ -37,7 +37,7 @@ setuptools.setup(
     description=pyodoo.constants.APP_DESCRIPTION,
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url=pyodoo.constants.APP_URL,
+    url=pyodoo.constants.URL_APPLICATION,
     packages=setuptools.find_packages(),
     classifiers=[
         'Development Status :: 1 - Planning ',
