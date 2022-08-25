@@ -5,7 +5,11 @@ __pycache__/
 # Ignore build and dist folders for PyPI
 /build/
 /dist/
+/*.egg-info/
 
 # Ignore tests and coverage
 /.coverage
 /.noseids
+
+# Ignore PyCharm project folder
+/.idea/
