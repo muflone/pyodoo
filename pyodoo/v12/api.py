@@ -104,6 +104,28 @@ class Api(object):
                  else item
                  for item in filters]]
 
+    def do_execute(self,
+                   method_name: str,
+                   args: list[Any],
+                   kwargs: dict[str, Any]) -> Any:
+        """
+        Execute a method on a model
+
+        :param method_name: method name to call
+        :param args: arguments list passed by position
+        :param kwargs: arguments dict passed by keyword
+        :return:
+        """
+        proxy = self.get_proxy_object()
+        results = proxy.execute_kw(self.database,
+                                   self.uid,
+                                   self.password,
+                                   self.model_name,
+                                   method_name,
+                                   args,
+                                   kwargs)
+        return results
+
     def do_read(self,
                 entity_id: int,
                 options: dict[str, Any]) -> Optional[dict[str, Any]]:
@@ -115,14 +137,9 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: Dictionary with the requested fields
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   'read',
-                                   [entity_id],
-                                   options)
+        results = self.do_execute(method_name='read',
+                                  args=[entity_id],
+                                  kwargs=options)
         return results[0] if results else None
 
     def do_fields_get(self,
@@ -135,14 +152,9 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: Dictionary with the requested fields
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   'fields_get',
-                                   fields,
-                                   options)
+        results = self.do_execute(method_name='fields_get',
+                                  args=fields,
+                                  kwargs=options)
         return results
 
     def do_search(self,
@@ -156,14 +168,9 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: List of objects ID found
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   'search',
-                                   self.explode_filter(filters),
-                                   options)
+        results = self.do_execute(method_name='search',
+                                  args=self.explode_filter(filters),
+                                  kwargs=options)
         return results
 
     def do_search_count(self,
@@ -176,14 +183,9 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: Records count found
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   'search_count',
-                                   self.explode_filter(filters),
-                                   options)
+        results = self.do_execute(method_name='search_count',
+                                  args=self.explode_filter(filters),
+                                  kwargs=options)
         return results
 
     def do_search_read(self,
@@ -198,14 +200,9 @@ class Api(object):
         :return: List of dictionaries where each item is a record with the
                  requested fields
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   'search_read',
-                                   self.explode_filter(filters),
-                                   options)
+        results = self.do_execute(method_name='search_read',
+                                  args=self.explode_filter(filters),
+                                  kwargs=options)
         return results
 
     def do_create(self,
@@ -218,15 +215,10 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: The ID of the newly created object
         """
-        proxy = self.get_proxy_object()
-        result = proxy.execute_kw(self.database,
-                                  self.uid,
-                                  self.password,
-                                  self.model_name,
-                                  'create',
-                                  [values],
-                                  options)
-        return result
+        results = self.do_execute(method_name='create',
+                                  args=[values],
+                                  kwargs=options)
+        return results
 
     def do_update(self,
                   entity_id: int,
@@ -240,14 +232,9 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: True if the record was updated
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   'write',
-                                   [[entity_id], values],
-                                   options)
+        results = self.do_execute(method_name='write',
+                                  args=[[entity_id], values],
+                                  kwargs=options)
         return results
 
     def do_delete(self,
@@ -260,12 +247,7 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: True if the record was updated
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   'unlink',
-                                   [entity_id],
-                                   options)
+        results = self.do_execute(method_name='unlink',
+                                  args=[entity_id],
+                                  kwargs=options)
         return results

@@ -535,3 +535,19 @@ class Model(object):
         return self.update(entity_id=entity_id,
                            values={field: [(6, 0, related_ids)]},
                            options=options)
+
+    def execute(self,
+                method_name: str,
+                args: list[Any],
+                kwargs: dict[str, Any]) -> Any:
+        """
+        Execute a method on a model
+
+        :param method_name: method name to call
+        :param args: arguments list passed by position
+        :param kwargs: arguments dict passed by keyword
+        :return:
+        """
+        return self.api.do_execute(method_name=method_name,
+                                   args=args,
+                                   kwargs=kwargs)
