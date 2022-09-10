@@ -577,3 +577,22 @@ class Model(object):
                                         subject=subject,
                                         body=body,
                                         options=options)
+
+    def post_message_as_note(self,
+                             entity_id: int,
+                             body: str,
+                             author_id: int) -> int:
+        """
+        Add a note message to a model row
+
+        :param entity_id: The object ID to which to add the message
+        :param body: The message body to add
+        :param author_id: The partner ID which authored the note
+        :return: Returned message ID
+        """
+        return self.post_message(subtype=MessageSubType.NOTE,
+                                 entity_id=entity_id,
+                                 author_id=author_id,
+                                 subject=False,
+                                 body=body,
+                                 options=None)
