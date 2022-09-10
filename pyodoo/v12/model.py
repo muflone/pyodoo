@@ -543,10 +543,10 @@ class Model(object):
         """
         Execute a method on a model
 
-        :param method_name: method name to call
-        :param args: arguments list passed by position
-        :param kwargs: arguments dict passed by keyword
-        :return:
+        :param method_name: The method name to call
+        :param args: Arguments list passed by position
+        :param kwargs: Arguments dict passed by keyword
+        :return: Method calling result data
         """
         return self.api.do_execute(method_name=method_name,
                                    args=args,

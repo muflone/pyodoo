@@ -89,7 +89,7 @@ class Api(object):
 
         :return: A new ServerProxy object for a standard Odoo objects endpoint
         """
-        return ServerProxy(self.build_endpoint(method='xmlrpc/2/object'))
+        return self.get_proxy(method='xmlrpc/2/object')
 
     @staticmethod
     def explode_filter(filters: list[Union[BooleanOperator, Filter, str]]
