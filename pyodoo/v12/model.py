@@ -83,6 +83,20 @@ class Model(object):
         """
         return self.api.authenticate()
 
+    def get_model(self,
+                  model_name: str) -> 'Model':
+        """
+        Get a Model object for another model name
+        :param model_name: Model name
+        :return: Model object
+        """
+        return Model(model_name=model_name,
+                     endpoint=self.api.endpoint,
+                     database=self.api.database,
+                     username=self.api.username,
+                     password=self.api.password,
+                     language=self.api.language)
+
     def get(self,
             entity_id: int,
             fields: tuple[str, ...] = None,

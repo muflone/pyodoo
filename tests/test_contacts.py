@@ -581,3 +581,14 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIn('name', field_name)
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
+
+    def test_29_get_model(self) -> None:
+        """
+        Get a new Model object
+        """
+        model_name = 'res.users'
+        results = self.model.get_model(model_name=model_name)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertIsInstance(results, Model)
+        self.assertEqual(results.model_name, model_name)
