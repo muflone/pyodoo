@@ -23,7 +23,8 @@ from typing import Any, Optional, Union
 from pyodoo import (ActiveStatusChoice,
                     BooleanOperator,
                     CompareType,
-                    Filter)
+                    Filter,
+                    MessageSubType)
 from pyodoo.v12.api import Api
 
 
@@ -551,3 +552,28 @@ class Model(object):
         return self.api.do_execute(method_name=method_name,
                                    args=args,
                                    kwargs=kwargs)
+
+    def post_message(self,
+                     subtype: MessageSubType,
+                     entity_id: int,
+                     author_id: int,
+                     subject: str,
+                     body: str,
+                     options: dict[str, Any]) -> int:
+        """
+        Add a message to a model row
+
+        :param subtype: Message subtype to post
+        :param entity_id: The object ID to which to add the message
+        :param author_id: The partner ID which authored the note
+        :param subject: The message subject to add
+        :param body: The message body to add
+        :param options: Dictionary with any existing options
+        :return: New message ID
+        """
+        return self.api.do_post_message(subtype=subtype,
+                                        entity_id=entity_id,
+                                        author_id=author_id,
+                                        subject=subject,
+                                        body=body,
+                                        options=options)
