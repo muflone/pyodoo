@@ -578,6 +578,25 @@ class Model(object):
                                         body=body,
                                         options=options)
 
+    def post_message_as_comment(self,
+                                entity_id: int,
+                                body: str,
+                                author_id: int) -> int:
+        """
+        Add a comment message to a model row
+
+        :param entity_id: The object ID to which to add the message
+        :param body: The message body to add
+        :param author_id: The partner ID which authored the message
+        :return: Returned message ID
+        """
+        return self.post_message(subtype=MessageSubType.COMMENT,
+                                 entity_id=entity_id,
+                                 author_id=author_id,
+                                 subject=False,
+                                 body=body,
+                                 options=None)
+
     def post_message_as_note(self,
                              entity_id: int,
                              body: str,
