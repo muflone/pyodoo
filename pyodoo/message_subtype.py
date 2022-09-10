@@ -18,9 +18,10 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from .active_status_choice import ActiveStatusChoice               # noqa: F401
-from .boolean_operator import BooleanOperator                      # noqa: F401
-from .compare_type import CompareType                              # noqa: F401
-from .constants import APP_VERSION as __version__                  # noqa: F401
-from .filter import Filter                                         # noqa: F401
-from .message_subtype import MessageSubType                        # noqa: F401
+class MessageSubType(object):
+    """
+    Message Sub-type used to post messages to model rows
+    """
+    ACTIVITY = 'mt_activity'
+    COMMENT = 'mt_comment'
+    NOTE = 'mt_note'
