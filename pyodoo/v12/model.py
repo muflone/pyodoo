@@ -416,7 +416,7 @@ class Model(object):
                             values: dict[str, Any],
                             options: dict[str, Any] = None) -> bool:
         """
-        Create a new object and add it to a Many to Many relationship
+        Create a new object and add it to a Many-to-Many relationship
 
         :param entity_id: The object ID to update
         :param field: The field name for the relationship to update
@@ -434,7 +434,7 @@ class Model(object):
                          related_id: int,
                          options: dict[str, Any] = None) -> bool:
         """
-        Add an existing related object to a Many to Many relationship
+        Add an existing related object to a Many-to-Many relationship
 
         :param entity_id: The object ID to update
         :param field: The field name for the relationship to update
@@ -453,7 +453,7 @@ class Model(object):
                             values: dict[str, Any],
                             options: dict[str, Any] = None) -> bool:
         """
-        Update an existing related object from a Many to Many relationship
+        Update an existing related object from a Many-to-Many relationship
 
         :param entity_id: The object ID to update
         :param field: The field name for the relationship to update
@@ -472,7 +472,7 @@ class Model(object):
                             related_id: int,
                             options: dict[str, Any] = None) -> bool:
         """
-        Delete an existing related object from a Many to Many relationship
+        Delete an existing related object from a Many-to-Many relationship
         and delete the whole object completely
 
         :param entity_id: The object ID from which delete the related object
@@ -491,7 +491,7 @@ class Model(object):
                             related_id: int,
                             options: dict[str, Any] = None) -> bool:
         """
-        Remove an existing related object from a Many to Many relationship
+        Remove an existing related object from a Many-to-Many relationship
 
         :param entity_id: The object ID from which remove the related object
         :param field: The field name for the relationship to update
@@ -508,7 +508,7 @@ class Model(object):
                            field: str,
                            options: dict[str, Any] = None) -> bool:
         """
-        Clear any existing related objects from a Many to Many relationship
+        Clear any existing related objects from a Many-to-Many relationship
 
         :param entity_id: The object ID from which remove the related object
         :param field: The field name for the relationship to update
@@ -525,7 +525,7 @@ class Model(object):
                              related_ids: list[int],
                              options: dict[str, Any] = None) -> bool:
         """
-        Replace any existing related objects from a Many to Many relationship
+        Replace any existing related objects from a Many-to-Many relationship
 
         :param entity_id: The object ID from which remove the related object
         :param field: The field name for the relationship to update
@@ -557,9 +557,9 @@ class Model(object):
                      subtype: MessageSubType,
                      entity_id: int,
                      author_id: int,
-                     subject: str,
+                     subject: Union[str, bool],
                      body: str,
-                     options: dict[str, Any]) -> int:
+                     options: Optional[dict[str, Any]]) -> int:
         """
         Add a message to a model row
 

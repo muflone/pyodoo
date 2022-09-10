@@ -71,7 +71,8 @@ results = model.filter(filters=filters,
 print('filter', results)
 
 # Get all the record
-results = model.all(fields=('id', 'name'))
+results = model.all(fields=('id', 'name'),
+                    limit=1000)
 print('all', len(results))
 
 # Get a record by ID

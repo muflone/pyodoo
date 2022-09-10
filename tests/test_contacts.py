@@ -291,9 +291,9 @@ class TestCaseContacts(unittest.TestCase):
 
     def test_16_many_to_many_add(self) -> None:
         """
-        Add a record to a Many to Many relationship
+        Add a record to a Many-to-Many relationship
         """
-        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many to Many ADD'}
+        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many-to-Many ADD'}
         child_contact = self.model.create(values)
         # Check if the results are not None
         self.assertIsNotNone(child_contact)
@@ -312,9 +312,9 @@ class TestCaseContacts(unittest.TestCase):
 
     def test_17_many_to_many_create(self) -> None:
         """
-        Create a new record and add it to a Many to Many relationship
+        Create a new record and add it to a Many-to-Many relationship
         """
-        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many to Many CREATE'}
+        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many-to-Many CREATE'}
         # Find the main contact
         filters = [Filter(field='name',
                           compare_type=CompareType.EQUAL,
@@ -330,7 +330,7 @@ class TestCaseContacts(unittest.TestCase):
 
     def test_18_many_to_many_update(self) -> None:
         """
-        Update an existing record from a Many to Many relationship
+        Update an existing record from a Many-to-Many relationship
         """
         # Find the main contact
         filters = [Filter(field='name',
@@ -339,7 +339,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.search(filters=filters)
         main_contact = results[0] if isinstance(results, list) else results
         # Add the temporary child contact to the main contact
-        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many to Many TEMP'}
+        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many-to-Many TEMP'}
         self.model.many_to_many_create(entity_id=main_contact,
                                        field='child_ids',
                                        values=values)
@@ -352,7 +352,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Update the child contact from the main contact
-        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many to Many UPDATE'}
+        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many-to-Many UPDATE'}
         results = self.model.many_to_many_update(entity_id=main_contact,
                                                  field='child_ids',
                                                  related_id=child_contact,
@@ -362,7 +362,7 @@ class TestCaseContacts(unittest.TestCase):
 
     def test_19_many_to_many_delete(self) -> None:
         """
-        Delete an existing child record from a Many to Many relationship
+        Delete an existing child record from a Many-to-Many relationship
         and delete the record itself
         """
         # Find the main contact
@@ -372,7 +372,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.search(filters=filters)
         main_contact = results[0] if isinstance(results, list) else results
         # Add the temporary child contact to the main contact
-        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many to Many TEMP'}
+        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many-to-Many TEMP'}
         self.model.many_to_many_create(entity_id=main_contact,
                                        field='child_ids',
                                        values=values)
@@ -402,7 +402,7 @@ class TestCaseContacts(unittest.TestCase):
 
     def test_20_many_to_many_remove(self) -> None:
         """
-        Remove an existing child record from a Many to Many relationship
+        Remove an existing child record from a Many-to-Many relationship
         """
         # Find the main contact
         filters = [Filter(field='name',
@@ -411,7 +411,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.search(filters=filters)
         main_contact = results[0] if isinstance(results, list) else results
         # Add the temporary child contact to the main contact
-        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many to Many REMOVED'}
+        values = {'name': f'{APP_NAME} v.{APP_VERSION} Many-to-Many REMOVED'}
         self.model.many_to_many_create(entity_id=main_contact,
                                        field='child_ids',
                                        values=values)
@@ -432,7 +432,7 @@ class TestCaseContacts(unittest.TestCase):
 
     def test_21_many_to_many_clear(self) -> None:
         """
-        Clear any existing children records from a Many to Many relationship
+        Clear any existing children records from a Many-to-Many relationship
         """
         # Find the main contact
         filters = [Filter(field='name',
@@ -448,7 +448,7 @@ class TestCaseContacts(unittest.TestCase):
 
     def test_22_many_to_many_replace(self) -> None:
         """
-        Replace any existing children records from a Many to Many relationship
+        Replace any existing children records from a Many-to-Many relationship
         """
         # Find the main contact
         filters = [Filter(field='name',

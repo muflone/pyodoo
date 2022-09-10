@@ -28,14 +28,14 @@ from pyodoo.v12 import Model
 from awaitable import awaitable
 
 
-def measure_time(name: str, start_time: int) -> None:
+def measure_time(name: str, start: float) -> None:
     """
     Print elapsed time since start time
 
     :param name: task name
-    :param start_time: start time
+    :param start: start time
     """
-    duration = int((time.time() - start_time) * 1000)
+    duration = int((time.time() - start) * 1000)
     print(f'Duration for {name}: {duration} ms')
 
 
@@ -64,7 +64,7 @@ def update_one_async(entity_id: int) -> None:
                  values={'name': f'test {now}'})
 
 
-def find_many(entity_ids: list[int]) -> None:
+def find_many(entity_ids: list[int]) -> list[list[dict[str, str]]]:
     results = []
     for entity_id in entity_ids:
         results.append(find_one([entity_id]))
@@ -105,17 +105,17 @@ model.authenticate()
 model.language = 'en_GB'
 
 start_time = time.time()
-results = find_many(list(range(24540, 24550)))
-measure_time(name='find_many', start_time=start_time)
+find_many(list(range(24540, 24550)))
+measure_time(name='find_many', start=start_time)
 
 start_time = time.time()
-results = asyncio.run(find_many_async(list(range(24540, 24550))))
-measure_time(name='find_many_async', start_time=start_time)
+asyncio.run(find_many_async(list(range(24540, 24550))))
+measure_time(name='find_many_async', start=start_time)
 
 start_time = time.time()
 update_many(minimum=24540, maximum=24550)
-measure_time(name='update_many', start_time=start_time)
+measure_time(name='update_many', start=start_time)
 
 start_time = time.time()
 asyncio.run(update_many_async(minimum=24540, maximum=24550))
-measure_time(name='update_many_async', start_time=start_time)
+measure_time(name='update_many_async', start=start_time)
