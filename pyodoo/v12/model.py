@@ -565,7 +565,7 @@ class Model(object):
 
         :param subtype: Message subtype to post
         :param entity_id: The object ID to which to add the message
-        :param author_id: The partner ID which authored the note
+        :param author_id: The partner ID which authored the message
         :param subject: The message subject to add
         :param body: The message body to add
         :param options: Dictionary with any existing options
@@ -587,7 +587,7 @@ class Model(object):
 
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
-        :param author_id: The partner ID which authored the note
+        :param author_id: The partner ID which authored the message
         :return: Returned message ID
         """
         return self.post_message(subtype=MessageSubType.NOTE,
