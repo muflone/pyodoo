@@ -26,7 +26,7 @@ from pyodoo import (ActiveStatusChoice,
                     CompareType,
                     Filter,
                     MessageSubType)
-from pyodoo.constants import APP_NAME, APP_VERSION
+from pyodoo.constants import APP_AUTHOR_EMAIL, APP_NAME, APP_VERSION
 from pyodoo.v12 import Model
 
 
@@ -489,15 +489,18 @@ class TestCaseContacts(unittest.TestCase):
         # Update found data
         for entity_id in results:
             self.model.update(entity_id=entity_id,
-                              values={'street': 'TEST TEST TEST'})
+                              values={'street': 'TEST TEST TEST',
+                                      'email': APP_AUTHOR_EMAIL})
             results_updated = self.model.get(entity_id=entity_id,
-                                             fields=('id', 'street'))
+                                             fields=('id', 'email', 'street'))
             # Check if the results are not None
             self.assertIsNotNone(results_updated)
             # Check if the results contain two fields
-            self.assertEqual(len(results_updated), 2)
+            self.assertEqual(len(results_updated), 3)
             # Check the field id
             self.assertEqual(results_updated['id'], entity_id)
+            # Check the field email
+            self.assertEqual(results_updated['email'], APP_AUTHOR_EMAIL)
             # Check the field street
             self.assertEqual(results_updated['street'], 'TEST TEST TEST')
 
