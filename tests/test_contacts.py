@@ -558,7 +558,64 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, int)
         self.assertGreater(results, 0)
 
-    def test_29_delete(self) -> None:
+    def test_29_post_message_activity(self) -> None:
+        """
+        Post a new message as activity
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(len(results), 0)
+        # Add a comment
+        entity_id = self.model.post_message_as_activity(
+            entity_id=results[0],
+            body='This is an activity message',
+            author_id=results[0])
+        self.assertIsNotNone(entity_id)
+        self.assertGreater(entity_id, 0)
+
+    def test_30_post_message_comment(self) -> None:
+        """
+        Post a new message as comment
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(len(results), 0)
+        # Add a comment
+        entity_id = self.model.post_message_as_comment(
+            entity_id=results[0],
+            body='This is a comment message',
+            author_id=results[0])
+        self.assertIsNotNone(entity_id)
+        self.assertGreater(entity_id, 0)
+
+    def test_31_post_message_note(self) -> None:
+        """
+        Post a new message as note
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(len(results), 0)
+        # Add a comment
+        entity_id = self.model.post_message_as_note(
+            entity_id=results[0],
+            body='This is a note message',
+            author_id=results[0])
+        self.assertIsNotNone(entity_id)
+        self.assertGreater(entity_id, 0)
+
+    def test_32_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -590,7 +647,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_30_language(self) -> None:
+    def test_33_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -607,7 +664,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_31_get_fields(self) -> None:
+    def test_34_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -615,7 +672,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_32_get_fields_attributes(self) -> None:
+    def test_35_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
@@ -628,7 +685,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_33_get_model(self) -> None:
+    def test_36_get_model(self) -> None:
         """
         Get a new Model object
         """

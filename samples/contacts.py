@@ -103,6 +103,21 @@ for subtype in (MessageSubType.ACTIVITY,
           subtype_item['res_id'],
           model.get_message_subtype_id(subtype=subtype))
 
+results = model.post_message_as_activity(entity_id=entity_id,
+                                         body='This is an activity message',
+                                         author_id=entity_id)
+print('activity message', results)
+
+results = model.post_message_as_comment(entity_id=entity_id,
+                                        body='This is a comment message',
+                                        author_id=entity_id)
+print('comment message', results)
+
+results = model.post_message_as_note(entity_id=entity_id,
+                                     body='This is a note',
+                                     author_id=entity_id)
+print('note message', results)
+
 # Delete a record
 model.delete(entity_id=entity_id)
 print('delete')

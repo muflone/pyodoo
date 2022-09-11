@@ -21,7 +21,7 @@
 from typing import Any, Optional, Union
 from xmlrpc.client import ServerProxy
 
-from pyodoo import BooleanOperator, Filter, MessageSubType
+from pyodoo import BooleanOperator, Filter
 
 
 class Api(object):
@@ -253,7 +253,7 @@ class Api(object):
         return results
 
     def do_post_message(self,
-                        subtype: MessageSubType,
+                        subtype_id: int,
                         entity_id: int,
                         author_id: int,
                         subject: str,
@@ -262,7 +262,7 @@ class Api(object):
         """
         Add a message to a model row
 
-        :param subtype: Message subtype to post
+        :param subtype_id: Message subtype ID to post
         :param entity_id: The object ID to which to add the message
         :param author_id: The partner ID which authored the message
         :param subject: The message subject to add
@@ -271,7 +271,7 @@ class Api(object):
         :return: New message ID
         """
         kwargs = options.copy() if options else {}
-        kwargs['subtype'] = subtype
+        kwargs['subtype_id'] = subtype_id
         kwargs['author_id'] = author_id
         kwargs['subject'] = subject
         kwargs['body'] = body

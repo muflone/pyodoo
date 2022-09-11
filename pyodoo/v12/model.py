@@ -613,7 +613,7 @@ class Model(object):
         return self._message_subtypes.get(subtype)
 
     def post_message(self,
-                     subtype: MessageSubType,
+                     subtype: Union[str, int],
                      entity_id: int,
                      author_id: int,
                      subject: Union[str, bool],
@@ -622,7 +622,7 @@ class Model(object):
         """
         Add a message to a model row
 
-        :param subtype: Message subtype to post
+        :param subtype: Message subtype name or ID to post
         :param entity_id: The object ID to which to add the message
         :param author_id: The partner ID which authored the message
         :param subject: The message subject to add
@@ -630,7 +630,10 @@ class Model(object):
         :param options: Dictionary with any existing options
         :return: New message ID
         """
-        return self.api.do_post_message(subtype=subtype,
+        subtype_id = (self.get_message_subtype_id(subtype)
+                      if isinstance(subtype, str)
+                      else subtype)
+        return self.api.do_post_message(subtype_id=subtype_id,
                                         entity_id=entity_id,
                                         author_id=author_id,
                                         subject=subject,
