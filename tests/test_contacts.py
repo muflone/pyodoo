@@ -525,7 +525,40 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, dict)
         self.assertGreater(results['res_id'], 0)
 
-    def test_26_delete(self) -> None:
+    def test_26_get_message_subtype_id_activity(self) -> None:
+        """
+        Get a Message subtype ID
+        """
+        results = self.model.get_message_subtype_id(
+            subtype=MessageSubType.ACTIVITY)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertIsInstance(results, int)
+        self.assertGreater(results, 0)
+
+    def test_27_get_message_subtype_id_comment(self) -> None:
+        """
+        Get a Message subtype ID
+        """
+        results = self.model.get_message_subtype_id(
+            subtype=MessageSubType.COMMENT)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertIsInstance(results, int)
+        self.assertGreater(results, 0)
+
+    def test_28_get_message_subtype_id_note(self) -> None:
+        """
+        Get a Message subtype ID
+        """
+        results = self.model.get_message_subtype_id(
+            subtype=MessageSubType.NOTE)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertIsInstance(results, int)
+        self.assertGreater(results, 0)
+
+    def test_29_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -557,7 +590,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_27_language(self) -> None:
+    def test_30_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -574,7 +607,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_28_get_fields(self) -> None:
+    def test_31_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -582,7 +615,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_29_get_fields_attributes(self) -> None:
+    def test_32_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
@@ -595,7 +628,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_30_get_model(self) -> None:
+    def test_33_get_model(self) -> None:
         """
         Get a new Model object
         """

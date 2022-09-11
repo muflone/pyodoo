@@ -93,9 +93,15 @@ results = model.get(entity_id=entity_id,
                     fields=('id', 'street'))
 print('update', results)
 
-subtype_item = model.get_model_data_reference(module_name='mail',
-                                              value=MessageSubType.COMMENT)
-print(MessageSubType.COMMENT, subtype_item)
+# Get Message subtype IDs
+for subtype in (MessageSubType.ACTIVITY,
+                MessageSubType.COMMENT,
+                MessageSubType.NOTE):
+    subtype_item = model.get_model_data_reference(module_name='mail',
+                                                  value=subtype)
+    print(subtype,
+          subtype_item['res_id'],
+          model.get_message_subtype_id(subtype=subtype))
 
 # Delete a record
 model.delete(entity_id=entity_id)

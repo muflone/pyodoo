@@ -46,6 +46,8 @@ class Model(object):
                        username=username,
                        password=password,
                        language=language)
+        # Message Subtype IDs
+        self._message_subtypes = {}
 
     @property
     def model_name(self):
@@ -595,6 +597,20 @@ class Model(object):
         return self.api.do_execute(method_name=method_name,
                                    args=args,
                                    kwargs=kwargs)
+
+    def get_message_subtype_id(self, subtype: str):
+        """
+        Get Message subtype ID from its name
+
+        :param subtype: Message subtype name
+        :return: Resulting ID
+        """
+        if subtype not in self._message_subtypes:
+            item = self.get_model_data_reference(module_name='mail',
+                                                 value=subtype)
+            if item:
+                self._message_subtypes[subtype] = item['res_id']
+        return self._message_subtypes.get(subtype)
 
     def post_message(self,
                      subtype: MessageSubType,
