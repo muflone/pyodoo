@@ -97,6 +97,35 @@ class Model(object):
                      password=self.api.password,
                      language=self.api.language)
 
+    def get_model_data_reference(self,
+                                 module_name: str,
+                                 value: str):
+        """
+        Get a reference row from ir.module.data
+
+        :param module_name: Module name to lookup
+        :param value: Value to lookup
+        :return: Dictionary with the data for the referenced object
+        """
+        model = self.get_model(model_name='ir.model.data')
+        filters = [Filter(field='module',
+                          compare_type=CompareType.EQUAL,
+                          value=module_name),
+                   Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=value)]
+        options = {}
+        model.set_pagination(options=options,
+                             limit=1,
+                             offset=0)
+        model.authenticate()
+        results = model.filter(filters=filters,
+                               fields=(),
+                               options={},
+                               limit=1,
+                               offset=0)
+        return results[0] if results else None
+
     def get(self,
             entity_id: int,
             fields: tuple[str, ...] = None,

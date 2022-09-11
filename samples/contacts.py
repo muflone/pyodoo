@@ -22,7 +22,8 @@ import os
 
 from pyodoo import (BooleanOperator,
                     CompareType,
-                    Filter)
+                    Filter,
+                    MessageSubType)
 from pyodoo.v12 import Model
 
 
@@ -91,6 +92,10 @@ model.update(entity_id=entity_id,
 results = model.get(entity_id=entity_id,
                     fields=('id', 'street'))
 print('update', results)
+
+subtype_item = model.get_model_data_reference(module_name='mail',
+                                              value=MessageSubType.COMMENT)
+print(MessageSubType.COMMENT, subtype_item)
 
 # Delete a record
 model.delete(entity_id=entity_id)

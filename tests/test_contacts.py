@@ -24,7 +24,8 @@ import xmlrpc.client
 from pyodoo import (ActiveStatusChoice,
                     BooleanOperator,
                     CompareType,
-                    Filter)
+                    Filter,
+                    MessageSubType)
 from pyodoo.constants import APP_NAME, APP_VERSION
 from pyodoo.v12 import Model
 
@@ -592,3 +593,15 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertIsInstance(results, Model)
         self.assertEqual(results.model_name, model_name)
+
+    def test_30_get_model_data_reference(self) -> None:
+        """
+        Get a reference row from ir.model.data
+        """
+        results = self.model.get_model_data_reference(
+            module_name='mail',
+            value=MessageSubType.COMMENT)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertIsInstance(results, dict)
+        self.assertGreater(results['res_id'], 0)
