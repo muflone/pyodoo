@@ -59,7 +59,8 @@ class TestCaseContacts(unittest.TestCase):
         """
         Search all the rows in the model
         """
-        results = self.model.all(fields=('id', 'name', 'type', 'street'))
+        results = self.model.all(fields=('id', 'name', 'type', 'street'),
+                                 limit=1000)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list is not empty
@@ -512,7 +513,19 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_25_delete(self) -> None:
+    def test_25_get_model_data_reference(self) -> None:
+        """
+        Get a reference row from ir.model.data
+        """
+        results = self.model.get_model_data_reference(
+            module_name='mail',
+            value=MessageSubType.COMMENT)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertIsInstance(results, dict)
+        self.assertGreater(results['res_id'], 0)
+
+    def test_26_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -544,7 +557,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_26_language(self) -> None:
+    def test_27_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -561,7 +574,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_27_get_fields(self) -> None:
+    def test_28_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -569,21 +582,20 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_28_get_fields_attributes(self) -> None:
+    def test_29_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
-        results = self.model.get_fields(attributes=['name', 'string', 'type'])
+        results = self.model.get_fields(attributes=['string', 'type'])
         # Check if we have results
         self.assertIsNotNone(results)
-        # Check if we have 3 fields
+        # Check if we have 2 fields
         field_name = results['name']
-        self.assertEqual(len(field_name), 3)
-        self.assertIn('name', field_name)
+        self.assertEqual(len(field_name), 2)
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_29_get_model(self) -> None:
+    def test_30_get_model(self) -> None:
         """
         Get a new Model object
         """
@@ -593,15 +605,3 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertIsInstance(results, Model)
         self.assertEqual(results.model_name, model_name)
-
-    def test_30_get_model_data_reference(self) -> None:
-        """
-        Get a reference row from ir.model.data
-        """
-        results = self.model.get_model_data_reference(
-            module_name='mail',
-            value=MessageSubType.COMMENT)
-        # Check if we have results
-        self.assertIsNotNone(results)
-        self.assertIsInstance(results, dict)
-        self.assertGreater(results['res_id'], 0)

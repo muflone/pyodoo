@@ -22,6 +22,6 @@ class MessageSubType(object):
     """
     Message Sub-type used to post messages to model rows
     """
-    ACTIVITY = 'mt_activity'
+    ACTIVITY = 'mt_activities'
     COMMENT = 'mt_comment'
     NOTE = 'mt_note'
