@@ -1,3 +1,6 @@
+# Ignore .idea folder for Jetbrains IDEs
+.idea/
+
 # Ignore Python compiled files
 *.pyc
 __pycache__/
@@ -10,6 +13,3 @@ __pycache__/
 # Ignore tests and coverage
 /.coverage
 /.noseids
-
-# Ignore PyCharm project folder
-/.idea/

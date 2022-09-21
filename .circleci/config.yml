@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  # The python orb contains a set of prepackaged CircleCI configuration you can use repeatedly in your configuration files
+  # The python orb contains a set of prepackaged CircleCI configuration you can
+  # use repeatedly in your configuration files
   # Orb commands and jobs help you with common scripting around a language/tool,
   # so you don't have to copy and paste it everywhere.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
