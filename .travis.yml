@@ -4,9 +4,13 @@ python:
 install:
   - pip install -r requirements_ci.txt
 script:
-  - python -m compileall .
-  - pycodestyle .
-  - python -m flake8 .
-  - python setup.py install --optimize=1 --root=build
-  - ls -laR build
+  - python -m compileall pyodoo samples
+  - python -m pycodestyle pyodoo samples
+  - python -m flake8 pyodoo samples
+  - python -m build --outdir=dist .
+  - python -m pip install --verbose dist/*.whl
+  - python -m pip list
+  - python -m pip freeze
+  - ls -laR .
+  - python -m pip uninstall --yes --verbose pyodoo
   - python -m pytest --verbose --capture=no tests
