@@ -2,7 +2,7 @@ language: python
 python:
   - "3.9"
 install:
-  - pip install -r requirements_travis.txt
+  - pip install -r requirements_ci.txt
 script:
   - python -m compileall .
   - pycodestyle .
