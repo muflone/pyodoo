@@ -4,9 +4,9 @@ python:
 install:
   - pip install -r requirements_ci.txt
 script:
-  - python -m compileall pyodoo samples
-  - python -m pycodestyle pyodoo samples
-  - python -m flake8 pyodoo samples
+  - python -m compileall pyodoo
+  - python -m pycodestyle pyodoo
+  - python -m flake8 pyodoo
   - python -m build --outdir=dist .
   - python -m pip install --verbose dist/*.whl
   - python -m pip list
