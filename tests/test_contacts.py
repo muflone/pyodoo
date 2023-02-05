@@ -633,7 +633,8 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(contacts)
         self.assertGreater(len(contacts), 0)
         # Delete found data
-        for entity_id in contacts:
+        if contacts:
+            entity_id = contacts[0]
             try:
                 results = self.model.delete(entity_id=entity_id)
                 self.assertTrue(results)
@@ -650,7 +651,33 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_33_language(self) -> None:
+    def test_33_delete_many(self) -> None:
+        """
+        Delete the newly created rows.
+        This test may be skipped in the case there's an active PoS session
+        as Odoo doesn't allow contacts deletion when there's some active
+        PoS session
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.CONTAINS,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        contacts = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(contacts)
+        # Delete found data
+        try:
+            results = self.model.delete(entity_id=contacts)
+            self.assertTrue(results)
+        except xmlrpc.client.Fault as error:
+            if error.faultCode == 2:
+                # We have an active PoS session running
+                # It's not possible to delete contacts until it's closed
+                pass
+            else:
+                # We catched a different error, re-raise it
+                raise error
+
+    def test_34_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -667,7 +694,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_34_get_fields(self) -> None:
+    def test_35_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -675,7 +702,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_35_get_fields_attributes(self) -> None:
+    def test_36_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
@@ -688,7 +715,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_36_get_model(self) -> None:
+    def test_37_get_model(self) -> None:
         """
         Get a new Model object
         """

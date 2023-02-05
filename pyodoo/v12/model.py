@@ -362,14 +362,14 @@ class Model(object):
         return results
 
     def delete(self,
-               entity_id: int,
+               entity_id: Union[int, list[int]],
                options: dict[str, Any] = None) -> bool:
         """
-        Delete a row from a model using its ID
+        Delete one or multiple rows from a model using the object IDs
 
-        :param entity_id: The object ID to delete
+        :param entity_id: The object IDs to delete
         :param options: Dictionary with options to use
-        :return: True if the record was deleted
+        :return: True if the records were deleted
         """
         if options is None:
             options = {}

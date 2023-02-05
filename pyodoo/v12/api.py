@@ -238,14 +238,14 @@ class Api(object):
         return results
 
     def do_delete(self,
-                  entity_id: int,
+                  entity_id: Union[int, list[int]],
                   options: dict[str, Any]) -> bool:
         """
-        Delete a record in the requested model
+        Delete one or multiple records in the requested model
 
-        :param entity_id: Object ID to delete
+        :param entity_id: The Object IDs to delete
         :param options: Dictionary with options to use
-        :return: True if the record was deleted
+        :return: True if the records were deleted
         """
         results = self.do_execute(method_name='unlink',
                                   args=[entity_id],
