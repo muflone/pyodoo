@@ -158,8 +158,8 @@ class TestCaseContacts(unittest.TestCase):
         Find a single active row using its ID
         """
         results = self.model.find(entity_ids=[2, 11],
-                                  fields=('id', 'name', 'type', 'street'),
-                                  is_active=ActiveStatusChoice.ACTIVE)
+                                  is_active=ActiveStatusChoice.ACTIVE,
+                                  fields=('id', 'name', 'type', 'street'))
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list is not empty
@@ -177,8 +177,8 @@ class TestCaseContacts(unittest.TestCase):
         Find a single inactive row using its ID
         """
         results = self.model.find(entity_ids=[2, 11],
-                                  fields=('id', 'name', 'type', 'street'),
-                                  is_active=ActiveStatusChoice.INACTIVE)
+                                  is_active=ActiveStatusChoice.INACTIVE,
+                                  fields=('id', 'name', 'type', 'street'))
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list is not empty
@@ -196,8 +196,8 @@ class TestCaseContacts(unittest.TestCase):
         Find two rows using their IDs, both active and inactive
         """
         results = self.model.find(entity_ids=[2, 11],
-                                  fields=('id', 'name', 'type', 'street'),
-                                  is_active=ActiveStatusChoice.BOTH)
+                                  is_active=ActiveStatusChoice.BOTH,
+                                  fields=('id', 'name', 'type', 'street'))
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list is not empty

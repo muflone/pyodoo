@@ -180,6 +180,7 @@ class Model(object):
         :param order: Ordering clause
         :return: List of dictionaries with the requested fields
         """
+        # Set options
         if options is None:
             options = {}
         # Limit results only to selected fields
@@ -224,8 +225,8 @@ class Model(object):
 
     def find(self,
              entity_ids: list[int],
-             fields: tuple[str, ...] = None,
              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
+             fields: tuple[str, ...] = None,
              options: dict[str, Any] = None,
              limit: Optional[int] = None,
              offset: Optional[int] = None,
@@ -234,8 +235,8 @@ class Model(object):
         Find some rows from a model using their ID
 
         :param entity_ids: Objects ID to query
-        :param fields: Tuple with the fields to include in the response
         :param is_active: Additional filter for active field
+        :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
@@ -244,11 +245,10 @@ class Model(object):
         """
         # Add filtered IDs
         filters = [['id', CompareType.IN, entity_ids]]
-        # Check for active records (Only active, only inactive or both)
-        if is_active == ActiveStatusChoice.BOTH:
-            filters.append(['active', CompareType.IN, is_active])
-        elif is_active != ActiveStatusChoice.NOT_SET:
-            filters.append(['active', CompareType.EQUAL, is_active])
+        # Filter for active status
+        self._set_active(filters=filters,
+                         is_active=is_active)
+        # Set options
         if options is None:
             options = {}
         # Limit results only to selected fields
@@ -286,6 +286,7 @@ class Model(object):
         :param order: Ordering clause
         :return: List of dictionaries with the requested fields
         """
+        # Set options
         if options is None:
             options = {}
         # Limit results only to selected fields
@@ -338,6 +339,7 @@ class Model(object):
         :param order: Ordering clause
         :return: List of ID for the objects found
         """
+        # Set options
         if options is None:
             options = {}
         # Set language for translated fields
@@ -364,6 +366,7 @@ class Model(object):
         :param options: Dictionary with options to use
         :return: The ID of the newly created object
         """
+        # Set options
         if options is None:
             options = {}
         # Set language for translated fields
@@ -385,6 +388,7 @@ class Model(object):
         :param options: Dictionary with options to use
         :return: True if the records were updated
         """
+        # Set options
         if options is None:
             options = {}
         # Set language for translated fields
@@ -405,12 +409,29 @@ class Model(object):
         :param options: Dictionary with options to use
         :return: True if the records were deleted
         """
+        # Set options
         if options is None:
             options = {}
         # Request data and get results
         results = self.api.do_delete(entity_id=entity_id,
                                      options=options)
         return results
+
+    def _set_active(self,
+                    filters: list[Union[BooleanOperator, Filter]],
+                    is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
+                    ) -> None:
+        """
+        Add a new filter for active records
+
+        :param filters: List of filters used for searching the data
+        :return: None
+        """
+        if filters is not None:
+            if is_active == ActiveStatusChoice.BOTH:
+                filters.append(['active', CompareType.IN, is_active])
+            elif is_active != ActiveStatusChoice.NOT_SET:
+                filters.append(['active', CompareType.EQUAL, is_active])
 
     def _set_options_language(self,
                               options: dict) -> Optional[str]:
@@ -474,6 +495,7 @@ class Model(object):
         :param options: Dictionary with options to use
         :return: Dictionary with the requested fields
         """
+        # Set options
         if options is None:
             options = {}
         # Limit results only to selected fields
