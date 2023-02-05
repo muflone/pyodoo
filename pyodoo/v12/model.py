@@ -192,8 +192,8 @@ class Model(object):
                             limit=limit,
                             offset=offset)
         # Set order
-        self.set_order_by(options=options,
-                          order=order)
+        self._set_order_by(options=options,
+                           order=order)
         # Request data and get results
         results = self.api.do_read_many(entity_ids=entity_ids,
                                         options=options)
@@ -261,8 +261,8 @@ class Model(object):
                             limit=limit,
                             offset=offset)
         # Set order
-        self.set_order_by(options=options,
-                          order=order)
+        self._set_order_by(options=options,
+                           order=order)
         # Request data and get results
         results = self.api.do_search_read(filters=filters,
                                           options=options)
@@ -298,8 +298,8 @@ class Model(object):
                             limit=limit,
                             offset=offset)
         # Set order
-        self.set_order_by(options=options,
-                          order=order)
+        self._set_order_by(options=options,
+                           order=order)
         # Request data and get results
         results = self.api.do_search_read(filters=filters,
                                           options=options)
@@ -347,8 +347,8 @@ class Model(object):
                             limit=limit,
                             offset=offset)
         # Set order
-        self.set_order_by(options=options,
-                          order=order)
+        self._set_order_by(options=options,
+                           order=order)
         # Request data and get results
         results = self.api.do_search(filters=filters,
                                      options=options)
@@ -428,9 +428,9 @@ class Model(object):
                 options['context'] = {'lang': self.api.language}
         return self.language
 
-    def set_order_by(self,
-                     options: dict,
-                     order: Optional[str]) -> dict:
+    def _set_order_by(self,
+                      options: dict,
+                      order: Optional[str]) -> dict:
         """
         Apply order for ordering results to the options
 
