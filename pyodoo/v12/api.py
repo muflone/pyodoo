@@ -137,10 +137,26 @@ class Api(object):
         :param options: Dictionary with options to use
         :return: Dictionary with the requested fields
         """
-        results = self.do_execute(method_name='read',
-                                  args=[entity_id],
-                                  kwargs=options)
+        results = self.do_read_many(entity_ids=[entity_id],
+                                    options=options)
         return results[0] if results else None
+
+    def do_read_many(self,
+                     entity_ids: list[int],
+                     options: dict[str, Any]
+                     ) -> Optional[list[dict[str, Any]]]:
+        """
+        Get multiple records in the requested model applying a filter and some
+        options (like fields or context)
+
+        :param entity_ids: Object IDs to get
+        :param options: Dictionary with options to use
+        :return: List of dictionaries with the requested fields
+        """
+        results = self.do_execute(method_name='read',
+                                  args=[entity_ids],
+                                  kwargs=options)
+        return results
 
     def do_fields_get(self,
                       fields: list[str],
