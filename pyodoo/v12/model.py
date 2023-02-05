@@ -186,7 +186,7 @@ class Model(object):
         if fields:
             options['fields'] = fields
         # Set language for translated fields
-        self.set_options_language(options=options)
+        self._set_options_language(options=options)
         # Set pagination
         self._set_pagination(options=options,
                              limit=limit,
@@ -255,7 +255,7 @@ class Model(object):
         if fields:
             options['fields'] = fields
         # Set language for translated fields
-        self.set_options_language(options=options)
+        self._set_options_language(options=options)
         # Set pagination
         self._set_pagination(options=options,
                              limit=limit,
@@ -292,7 +292,7 @@ class Model(object):
         if fields:
             options['fields'] = fields
         # Set language for translated fields
-        self.set_options_language(options=options)
+        self._set_options_language(options=options)
         # Set pagination
         self._set_pagination(options=options,
                              limit=limit,
@@ -341,7 +341,7 @@ class Model(object):
         if options is None:
             options = {}
         # Set language for translated fields
-        self.set_options_language(options=options)
+        self._set_options_language(options=options)
         # Set pagination
         self._set_pagination(options=options,
                              limit=limit,
@@ -367,7 +367,7 @@ class Model(object):
         if options is None:
             options = {}
         # Set language for translated fields
-        self.set_options_language(options=options)
+        self._set_options_language(options=options)
         # Create data and get results
         results = self.api.do_create(values=values,
                                      options=options)
@@ -388,7 +388,7 @@ class Model(object):
         if options is None:
             options = {}
         # Set language for translated fields
-        self.set_options_language(options=options)
+        self._set_options_language(options=options)
         # Update data and get results
         results = self.api.do_update(entity_id=entity_id,
                                      values=values,
@@ -412,8 +412,8 @@ class Model(object):
                                      options=options)
         return results
 
-    def set_options_language(self,
-                             options: dict) -> Optional[str]:
+    def _set_options_language(self,
+                              options: dict) -> Optional[str]:
         """
         Apply the default language context to the options
 
@@ -483,7 +483,7 @@ class Model(object):
         if attributes is not None:
             options['attributes'] = attributes
         # Set language for translated fields
-        self.set_options_language(options=options)
+        self._set_options_language(options=options)
         # Request data and get results
         results = self.api.do_fields_get(fields=fields,
                                          options=options)
