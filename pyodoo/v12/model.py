@@ -201,6 +201,7 @@ class Model(object):
         return results
 
     def all(self,
+            is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
             fields: tuple[str, ...] = None,
             options: dict[str, Any] = None,
             limit: Optional[int] = None,
@@ -209,6 +210,7 @@ class Model(object):
         """
         Get all the objects
 
+        :param is_active: Additional filter for active field
         :param fields: Fields to include in the response
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
@@ -217,6 +219,7 @@ class Model(object):
         :return: List of dictionaries with the requested fields
         """
         return self.filter(filters=[],
+                           is_active=is_active,
                            fields=fields,
                            options=options,
                            limit=limit,
@@ -270,6 +273,7 @@ class Model(object):
 
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],
+               is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
                fields: tuple[str, ...] = None,
                options: dict[str, Any] = None,
                limit: Optional[int] = None,
@@ -279,6 +283,7 @@ class Model(object):
         Find some rows from a model using some filters
 
         :param filters: List of filters used for searching the data
+        :param is_active: Additional filter for active field
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
@@ -286,6 +291,9 @@ class Model(object):
         :param order: Ordering clause
         :return: List of dictionaries with the requested fields
         """
+        # Filter for active status
+        self._set_active(filters=filters,
+                         is_active=is_active)
         # Set options
         if options is None:
             options = {}
@@ -308,14 +316,20 @@ class Model(object):
 
     def count(self,
               filters: list[Union[BooleanOperator, Filter]],
+              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
               options: dict[str, Any] = None) -> int:
         """
         Get the rows count from a model using some filters
 
         :param filters: List of filters used for searching the data
+        :param is_active: Additional filter for active field
         :param options: Dictionary with options to use
         :return: Rows count
         """
+        # Filter for active status
+        self._set_active(filters=filters,
+                         is_active=is_active)
+        # Set options
         if options is None:
             options = {}
         # Request data and get results
@@ -325,6 +339,7 @@ class Model(object):
 
     def search(self,
                filters: list[Union[BooleanOperator, Filter]],
+               is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
                options: dict[str, Any] = None,
                limit: Optional[int] = None,
                offset: Optional[int] = None,
@@ -333,12 +348,16 @@ class Model(object):
         Find rows list from a list of filters
 
         :param filters: List of filters used for searching the data
+        :param is_active: Additional filter for active field
         :param options: Dictionary with options to use
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
         :return: List of ID for the objects found
         """
+        # Filter for active status
+        self._set_active(filters=filters,
+                         is_active=is_active)
         # Set options
         if options is None:
             options = {}
