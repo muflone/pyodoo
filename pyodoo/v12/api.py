@@ -243,9 +243,9 @@ class Api(object):
         """
         Delete a record in the requested model
 
-        :param entity_id: Object ID to get
+        :param entity_id: Object ID to delete
         :param options: Dictionary with options to use
-        :return: True if the record was updated
+        :return: True if the record was deleted
         """
         results = self.do_execute(method_name='unlink',
                                   args=[entity_id],
