@@ -44,7 +44,7 @@ class TestCaseContacts(unittest.TestCase):
             # Sometimes the free public server start page is not available
             # Use a specif instance (this may be very mutable)
             info = {'host': 'https://demo4.odoo.com',
-                    'database': 'demo_160_1675600518',
+                    'database': 'demo_160_1675617129',
                     'user': 'admin',
                     'password': 'admin'}
         cls.model = Model(model_name='res.partner',
