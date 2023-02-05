@@ -37,7 +37,16 @@ class TestCaseContacts(unittest.TestCase):
         Model object preparation
         """
         # Get the free public server credentials
-        info = xmlrpc.client.ServerProxy('https://demo.odoo.com/start').start()
+        try:
+            info = xmlrpc.client.ServerProxy(
+                uri='https://demo.odoo.com/start').start()
+        except xmlrpc.client.Fault:
+            # Sometimes the free public server start page is not available
+            # Use a specif instance (this may be very mutable)
+            info = {'host': 'https://demo4.odoo.com',
+                    'database': 'demo_160_1675600518',
+                    'user': 'admin',
+                    'password': 'admin'}
         cls.model = Model(model_name='res.partner',
                           endpoint=info['host'],
                           database=info['database'],
