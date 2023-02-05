@@ -153,6 +153,33 @@ class Model(object):
         :param order: Ordering clause
         :return: Dictionary with the requested fields
         """
+        results = self.get_many(entity_ids=[entity_id],
+                                fields=fields,
+                                options=options,
+                                limit=limit,
+                                offset=offset,
+                                order=order)
+        return results[0] if results else None
+
+    def get_many(self,
+                 entity_ids: list[int],
+                 fields: tuple[str, ...] = None,
+                 options: dict[str, Any] = None,
+                 limit: Optional[int] = None,
+                 offset: Optional[int] = None,
+                 order: Optional[str] = None
+                 ) -> Optional[list[dict[str, Any]]]:
+        """
+        Get a row from a model using its ID
+
+        :param entity_ids: Object IDs to query
+        :param fields: Tuple with the fields to include in the response
+        :param options: Dictionary with options to use
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
+        :param order: Ordering clause
+        :return: List of dictionaries with the requested fields
+        """
         if options is None:
             options = {}
         # Limit results only to selected fields
@@ -168,8 +195,8 @@ class Model(object):
         self.set_order_by(options=options,
                           order=order)
         # Request data and get results
-        results = self.api.do_read(entity_id=entity_id,
-                                   options=options)
+        results = self.api.do_read_many(entity_ids=entity_ids,
+                                        options=options)
         return results
 
     def all(self,
