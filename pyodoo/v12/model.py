@@ -374,16 +374,16 @@ class Model(object):
         return results
 
     def update(self,
-               entity_id: int,
+               entity_id: Union[int, list[int]],
                values: dict[str, Any],
                options: dict[str, Any] = None) -> bool:
         """
-        Get a row from a model using its ID
+        Update one or multiple rows from a model using the object IDs
 
-        :param entity_id: The object ID to update
+        :param entity_id: The object IDs to update
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
-        :return: True if the record was updated
+        :return: True if the records were updated
         """
         if options is None:
             options = {}

@@ -237,19 +237,19 @@ class Api(object):
         return results
 
     def do_update(self,
-                  entity_id: int,
+                  entity_id: Union[int, list[int]],
                   values: dict[str, Any],
                   options: dict[str, Any]) -> bool:
         """
-        Update a record in the requested model
+        Update one or more records in the requested model
 
-        :param entity_id: object ID to update
+        :param entity_id: The Object IDs to update
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
-        :return: True if the record was updated
+        :return: True if the records were updated
         """
         results = self.do_execute(method_name='write',
-                                  args=[[entity_id], values],
+                                  args=[entity_id, values],
                                   kwargs=options)
         return results
 

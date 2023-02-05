@@ -532,7 +532,22 @@ class TestCaseContacts(unittest.TestCase):
             # Check the field street
             self.assertEqual(results_updated['street'], 'TEST TEST TEST')
 
-    def test_25_count(self) -> None:
+    def test_25_update_many(self) -> None:
+        """
+        Update all the newly created rows at once
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(len(results), 0)
+        # Update found data
+        self.model.update(entity_id=results,
+                          values={'street': 'TEST TEST TEST 2'})
+
+    def test_26_count(self) -> None:
         """
         Count the newly created rows.
         """
@@ -544,7 +559,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_26_get_model_data_reference(self) -> None:
+    def test_27_get_model_data_reference(self) -> None:
         """
         Get a reference row from ir.model.data
         """
@@ -556,7 +571,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, dict)
         self.assertGreater(results['res_id'], 0)
 
-    def test_27_get_message_subtype_id_activity(self) -> None:
+    def test_28_get_message_subtype_id_activity(self) -> None:
         """
         Get a Message subtype ID
         """
@@ -567,7 +582,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, int)
         self.assertGreater(results, 0)
 
-    def test_28_get_message_subtype_id_comment(self) -> None:
+    def test_29_get_message_subtype_id_comment(self) -> None:
         """
         Get a Message subtype ID
         """
@@ -578,7 +593,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, int)
         self.assertGreater(results, 0)
 
-    def test_29_get_message_subtype_id_note(self) -> None:
+    def test_30_get_message_subtype_id_note(self) -> None:
         """
         Get a Message subtype ID
         """
@@ -589,7 +604,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, int)
         self.assertGreater(results, 0)
 
-    def test_30_post_message_activity(self) -> None:
+    def test_31_post_message_activity(self) -> None:
         """
         Post a new message as activity
         """
@@ -608,7 +623,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(entity_id)
         self.assertGreater(entity_id, 0)
 
-    def test_31_post_message_comment(self) -> None:
+    def test_32_post_message_comment(self) -> None:
         """
         Post a new message as comment
         """
@@ -627,7 +642,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(entity_id)
         self.assertGreater(entity_id, 0)
 
-    def test_32_post_message_note(self) -> None:
+    def test_33_post_message_note(self) -> None:
         """
         Post a new message as note
         """
@@ -646,7 +661,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(entity_id)
         self.assertGreater(entity_id, 0)
 
-    def test_33_delete(self) -> None:
+    def test_34_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -679,7 +694,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_34_delete_many(self) -> None:
+    def test_35_delete_many(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -705,7 +720,7 @@ class TestCaseContacts(unittest.TestCase):
                 # We catched a different error, re-raise it
                 raise error
 
-    def test_35_language(self) -> None:
+    def test_36_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -722,7 +737,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_36_get_fields(self) -> None:
+    def test_37_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -730,7 +745,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_37_get_fields_attributes(self) -> None:
+    def test_38_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
@@ -743,7 +758,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_38_get_model(self) -> None:
+    def test_39_get_model(self) -> None:
         """
         Get a new Model object
         """
