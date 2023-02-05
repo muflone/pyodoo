@@ -38,7 +38,8 @@ class Model(object):
                  database: str,
                  username: str,
                  password: str,
-                 language: str = None):
+                 language: str = None,
+                 authenticate: bool = False):
         # API object
         self.api = Api(model_name=model_name,
                        endpoint=endpoint,
@@ -48,6 +49,9 @@ class Model(object):
                        language=language)
         # Message Subtype IDs
         self._message_subtypes = {}
+        # Automatically authenticate if required
+        if authenticate:
+            self.authenticate()
 
     @property
     def model_name(self):
@@ -86,10 +90,12 @@ class Model(object):
         return self.api.authenticate()
 
     def get_model(self,
-                  model_name: str) -> 'Model':
+                  model_name: str,
+                  authenticate: bool = False) -> 'Model':
         """
         Get a Model object for another model name
         :param model_name: Model name
+        :param authenticate: Automatically authenticate user
         :return: Model object
         """
         return Model(model_name=model_name,
@@ -97,7 +103,8 @@ class Model(object):
                      database=self.api.database,
                      username=self.api.username,
                      password=self.api.password,
-                     language=self.api.language)
+                     language=self.api.language,
+                     authenticate=authenticate)
 
     def get_model_data_reference(self,
                                  module_name: str,
@@ -109,7 +116,8 @@ class Model(object):
         :param value: Value to lookup
         :return: Dictionary with the data for the referenced object
         """
-        model = self.get_model(model_name='ir.model.data')
+        model = self.get_model(model_name='ir.model.data',
+                               authenticate=True)
         filters = [Filter(field='module',
                           compare_type=CompareType.EQUAL,
                           value=module_name),
@@ -120,7 +128,6 @@ class Model(object):
         model.set_pagination(options=options,
                              limit=1,
                              offset=0)
-        model.authenticate()
         results = model.filter(filters=filters,
                                fields=(),
                                options={},

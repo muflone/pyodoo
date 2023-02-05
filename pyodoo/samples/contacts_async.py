@@ -98,7 +98,8 @@ model = Model(model_name='res.partner',
               database=os.environ['ODOO_DATABASE'],
               username=os.environ['ODOO_USERNAME'],
               password=os.environ['ODOO_PASSWORD'],
-              language=None)
+              language=None,
+              authenticate=False)
 # Authenticate user
 model.authenticate()
 # Change default language

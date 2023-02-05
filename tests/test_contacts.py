@@ -52,7 +52,8 @@ class TestCaseContacts(unittest.TestCase):
                           database=info['database'],
                           username=info['user'],
                           password=info['password'],
-                          language='en_US')
+                          language='en_US',
+                          authenticate=False)
 
     def test_01_authenticate(self) -> None:
         """
@@ -729,7 +730,8 @@ class TestCaseContacts(unittest.TestCase):
         Get a new Model object
         """
         model_name = 'res.users'
-        results = self.model.get_model(model_name=model_name)
+        results = self.model.get_model(model_name=model_name,
+                                       authenticate=False)
         # Check if we have results
         self.assertIsNotNone(results)
         self.assertIsInstance(results, Model)
