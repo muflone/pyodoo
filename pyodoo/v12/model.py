@@ -125,9 +125,9 @@ class Model(object):
                           compare_type=CompareType.EQUAL,
                           value=value)]
         options = {}
-        model.set_pagination(options=options,
-                             limit=1,
-                             offset=0)
+        model._set_pagination(options=options,
+                              limit=1,
+                              offset=0)
         results = model.filter(filters=filters,
                                fields=(),
                                options={},
@@ -188,9 +188,9 @@ class Model(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Set pagination
-        self.set_pagination(options=options,
-                            limit=limit,
-                            offset=offset)
+        self._set_pagination(options=options,
+                             limit=limit,
+                             offset=offset)
         # Set order
         self._set_order_by(options=options,
                            order=order)
@@ -257,9 +257,9 @@ class Model(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Set pagination
-        self.set_pagination(options=options,
-                            limit=limit,
-                            offset=offset)
+        self._set_pagination(options=options,
+                             limit=limit,
+                             offset=offset)
         # Set order
         self._set_order_by(options=options,
                            order=order)
@@ -294,9 +294,9 @@ class Model(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Set pagination
-        self.set_pagination(options=options,
-                            limit=limit,
-                            offset=offset)
+        self._set_pagination(options=options,
+                             limit=limit,
+                             offset=offset)
         # Set order
         self._set_order_by(options=options,
                            order=order)
@@ -343,9 +343,9 @@ class Model(object):
         # Set language for translated fields
         self.set_options_language(options=options)
         # Set pagination
-        self.set_pagination(options=options,
-                            limit=limit,
-                            offset=offset)
+        self._set_pagination(options=options,
+                             limit=limit,
+                             offset=offset)
         # Set order
         self._set_order_by(options=options,
                            order=order)
@@ -443,10 +443,10 @@ class Model(object):
             options['order'] = order
         return options
 
-    def set_pagination(self,
-                       options: dict,
-                       limit: Optional[int],
-                       offset: Optional[int]) -> dict:
+    def _set_pagination(self,
+                        options: dict,
+                        limit: Optional[int],
+                        offset: Optional[int]) -> dict:
         """
         Apply limit and offset for pagination to the options
 
