@@ -19,6 +19,7 @@
 ##
 
 from typing import Any, Optional, Union
+import xmlrpc
 
 from pyodoo import (ActiveStatusChoice,
                     BooleanOperator,
@@ -660,18 +661,31 @@ class Model(object):
     def execute(self,
                 method_name: str,
                 args: list[Any],
-                kwargs: dict[str, Any]) -> Any:
+                kwargs: dict[str, Any],
+                ignore_none_errors: bool = False) -> Any:
         """
         Execute a method on a model
 
         :param method_name: The method name to call
         :param args: Arguments list passed by position
         :param kwargs: Arguments dict passed by keyword
+        :param ignore_none_errors: Ignore error about None values
         :return: Method calling result data
         """
-        return self.api.do_execute(method_name=method_name,
-                                   args=args,
-                                   kwargs=kwargs)
+        try:
+            results = self.api.do_execute(method_name=method_name,
+                                          args=args,
+                                          kwargs=kwargs)
+        except xmlrpc.client.Fault as error:
+            none_message = 'cannot marshal None unless allow_none is enabled'
+            if (ignore_none_errors and
+                    error.faultCode == 1 and
+                    none_message in error.faultString):
+                # Ignore errors about None
+                results = None
+            else:
+                raise
+        return results
 
     def get_message_subtype_id(self, subtype: str):
         """
