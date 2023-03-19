@@ -72,6 +72,11 @@ results = model.filter(filters=filters,
                        fields=('id', 'name', 'country_id'))
 print('filter', results)
 
+# Find first record by filters
+results = model.first(filters=filters,
+                      fields=('id', 'name', 'country_id'))
+print('first', results)
+
 # Get all the record
 results = model.all(fields=('id', 'name'),
                     limit=1000)

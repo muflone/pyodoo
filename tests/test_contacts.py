@@ -270,7 +270,48 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results list is not empty
         self.assertGreater(len(results), 0)
 
-    def test_14_get(self) -> None:
+    def test_14_first(self) -> None:
+        """
+        Find a single row using some filters
+        """
+        # Filters by active and exclude an explicit name
+        filters = [BooleanOperator.AND,
+                   Filter(field='active',
+                          compare_type=CompareType.EQUAL,
+                          value=False),
+                   BooleanOperator.NOT,
+                   Filter(field='name',
+                          compare_type=CompareType.CONTAINS,
+                          value='OdooBot'),
+                   ]
+        results = self.model.first(filters=filters,
+                                   fields=('id', 'name', 'type', 'street'))
+        # Check if the results type is None or dict
+        self.assertIn(type(results), (None, dict))
+        # Check if the results contains 4 values, for the 4 fields
+        self.assertEqual(len(results), 4)
+
+    def test_15_first_none(self) -> None:
+        """
+        Find a single row which returns None
+        """
+        # Filters by active and exclude an explicit name
+        filters = [BooleanOperator.AND,
+                   Filter(field='active',
+                          compare_type=CompareType.EQUAL,
+                          value=False),
+                   BooleanOperator.NOT,
+                   Filter(field='active',
+                          compare_type=CompareType.EQUAL,
+                          value=True),
+                   ]
+        results = self.model.first(filters=filters,
+                                   fields=('id', 'name', 'type', 'street'),
+                                   offset=1000)
+        # Check if the results type is None
+        self.assertEqual(results, None)
+
+    def test_16_get(self) -> None:
         """
         Get a single row using ID
         """
@@ -290,7 +331,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results['type'], 'contact')
         self.assertGreater(len(results['street']), 0)
 
-    def test_15_get_many(self) -> None:
+    def test_17_get_many(self) -> None:
         """
         Get multiple rows using ID
         """
@@ -308,7 +349,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 
-    def test_16_create(self) -> None:
+    def test_18_create(self) -> None:
         """
         Create a new row
         """
@@ -319,7 +360,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if the results is not empty
         self.assertGreater(results, 0)
 
-    def test_17_many_to_many_add(self) -> None:
+    def test_19_many_to_many_add(self) -> None:
         """
         Add a record to a Many-to-Many relationship
         """
@@ -340,7 +381,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_18_many_to_many_create(self) -> None:
+    def test_20_many_to_many_create(self) -> None:
         """
         Create a new record and add it to a Many-to-Many relationship
         """
@@ -358,7 +399,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_19_many_to_many_update(self) -> None:
+    def test_21_many_to_many_update(self) -> None:
         """
         Update an existing record from a Many-to-Many relationship
         """
@@ -390,7 +431,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_20_many_to_many_delete(self) -> None:
+    def test_22_many_to_many_delete(self) -> None:
         """
         Delete an existing child record from a Many-to-Many relationship
         and delete the record itself
@@ -430,7 +471,7 @@ class TestCaseContacts(unittest.TestCase):
                 # We catched a different error, re-raise it
                 raise error
 
-    def test_21_many_to_many_remove(self) -> None:
+    def test_23_many_to_many_remove(self) -> None:
         """
         Remove an existing child record from a Many-to-Many relationship
         """
@@ -460,7 +501,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_22_many_to_many_clear(self) -> None:
+    def test_24_many_to_many_clear(self) -> None:
         """
         Clear any existing children records from a Many-to-Many relationship
         """
@@ -476,7 +517,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_23_many_to_many_replace(self) -> None:
+    def test_25_many_to_many_replace(self) -> None:
         """
         Replace any existing children records from a Many-to-Many relationship
         """
@@ -503,7 +544,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertTrue(results)
 
-    def test_24_update(self) -> None:
+    def test_26_update(self) -> None:
         """
         Update the newly created rows
         """
@@ -532,7 +573,7 @@ class TestCaseContacts(unittest.TestCase):
             # Check the field street
             self.assertEqual(results_updated['street'], 'TEST TEST TEST')
 
-    def test_25_update_many(self) -> None:
+    def test_27_update_many(self) -> None:
         """
         Update all the newly created rows at once
         """
@@ -547,7 +588,7 @@ class TestCaseContacts(unittest.TestCase):
         self.model.update(entity_id=results,
                           values={'street': 'TEST TEST TEST 2'})
 
-    def test_26_count(self) -> None:
+    def test_28_count(self) -> None:
         """
         Count the newly created rows.
         """
@@ -559,7 +600,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_27_get_model_data_reference(self) -> None:
+    def test_29_get_model_data_reference(self) -> None:
         """
         Get a reference row from ir.model.data
         """
@@ -571,7 +612,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, dict)
         self.assertGreater(results['res_id'], 0)
 
-    def test_28_get_message_subtype_id_activity(self) -> None:
+    def test_30_get_message_subtype_id_activity(self) -> None:
         """
         Get a Message subtype ID
         """
@@ -582,7 +623,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, int)
         self.assertGreater(results, 0)
 
-    def test_29_get_message_subtype_id_comment(self) -> None:
+    def test_31_get_message_subtype_id_comment(self) -> None:
         """
         Get a Message subtype ID
         """
@@ -593,7 +634,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, int)
         self.assertGreater(results, 0)
 
-    def test_30_get_message_subtype_id_note(self) -> None:
+    def test_32_get_message_subtype_id_note(self) -> None:
         """
         Get a Message subtype ID
         """
@@ -604,7 +645,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsInstance(results, int)
         self.assertGreater(results, 0)
 
-    def test_31_post_message_activity(self) -> None:
+    def test_33_post_message_activity(self) -> None:
         """
         Post a new message as activity
         """
@@ -623,7 +664,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(entity_id)
         self.assertGreater(entity_id, 0)
 
-    def test_32_post_message_comment(self) -> None:
+    def test_34_post_message_comment(self) -> None:
         """
         Post a new message as comment
         """
@@ -642,7 +683,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(entity_id)
         self.assertGreater(entity_id, 0)
 
-    def test_33_post_message_note(self) -> None:
+    def test_35_post_message_note(self) -> None:
         """
         Post a new message as note
         """
@@ -661,7 +702,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIsNotNone(entity_id)
         self.assertGreater(entity_id, 0)
 
-    def test_34_delete(self) -> None:
+    def test_36_delete(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -694,7 +735,7 @@ class TestCaseContacts(unittest.TestCase):
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_35_delete_many(self) -> None:
+    def test_37_delete_many(self) -> None:
         """
         Delete the newly created rows.
         This test may be skipped in the case there's an active PoS session
@@ -720,7 +761,7 @@ class TestCaseContacts(unittest.TestCase):
                 # We catched a different error, re-raise it
                 raise error
 
-    def test_36_language(self) -> None:
+    def test_38_language(self) -> None:
         """
         Get the current default language, change and restore it
         """
@@ -737,7 +778,7 @@ class TestCaseContacts(unittest.TestCase):
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_37_get_fields(self) -> None:
+    def test_39_get_fields(self) -> None:
         """
         Get the model fields
         """
@@ -745,7 +786,7 @@ class TestCaseContacts(unittest.TestCase):
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_38_get_fields_attributes(self) -> None:
+    def test_40_get_fields_attributes(self) -> None:
         """
         Get the model fields
         """
@@ -758,7 +799,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_39_get_model(self) -> None:
+    def test_41_get_model(self) -> None:
         """
         Get a new Model object
         """

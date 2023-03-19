@@ -315,6 +315,35 @@ class Model(object):
                                           options=options)
         return results
 
+    def first(self,
+              filters: list[Union[BooleanOperator, Filter]],
+              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
+              fields: tuple[str, ...] = None,
+              options: dict[str, Any] = None,
+              limit: Optional[int] = None,
+              offset: Optional[int] = None,
+              order: Optional[str] = None) -> Optional[dict[str, Any]]:
+        """
+        Find the first row from a model using some filters
+
+        :param filters: List of filters used for searching the data
+        :param is_active: Additional filter for active field
+        :param fields: Tuple with the fields to include in the response
+        :param options: Dictionary with options to use
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
+        :param order: Ordering clause
+        :return: List of dictionaries with the requested fields
+        """
+        results = self.filter(filters=filters,
+                              is_active=is_active,
+                              fields=fields,
+                              options=options,
+                              limit=limit,
+                              offset=offset,
+                              order=order)
+        return results[0] if results else None
+
     def count(self,
               filters: list[Union[BooleanOperator, Filter]],
               is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
