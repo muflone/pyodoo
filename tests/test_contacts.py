@@ -117,7 +117,7 @@ class TestCaseContacts(unittest.TestCase):
         """
         Search some rows using filters
         """
-        # Filters by name and excluding an explicit ID
+        # Filters by active and exclude an explicit name
         filters = [BooleanOperator.AND,
                    Filter(field='active',
                           compare_type=CompareType.EQUAL,
@@ -231,7 +231,7 @@ class TestCaseContacts(unittest.TestCase):
         """
         Find multiple rows using some filters
         """
-        # Filters by name and excluding an explicit ID
+        # Filters by active and exclude an explicit name
         filters = [BooleanOperator.AND,
                    Filter(field='active',
                           compare_type=CompareType.EQUAL,
@@ -252,7 +252,7 @@ class TestCaseContacts(unittest.TestCase):
         """
         Find multiple rows using some filters and order
         """
-        # Filters by name and excluding an explicit ID
+        # Filters by active and exclude an explicit name
         filters = [BooleanOperator.AND,
                    Filter(field='active',
                           compare_type=CompareType.EQUAL,
