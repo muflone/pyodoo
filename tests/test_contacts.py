@@ -29,6 +29,8 @@ from pyodoo import (ActiveStatusChoice,
 from pyodoo.constants import APP_AUTHOR_EMAIL, APP_NAME, APP_VERSION
 from pyodoo.v12 import Model
 
+import utility
+
 
 class TestCaseContacts(unittest.TestCase):
     @classmethod
@@ -36,24 +38,7 @@ class TestCaseContacts(unittest.TestCase):
         """
         Model object preparation
         """
-        # Get the free public server credentials
-        try:
-            info = xmlrpc.client.ServerProxy(
-                uri='https://demo.odoo.com/start').start()
-        except xmlrpc.client.Fault:
-            # Sometimes the free public server start page is not available
-            # Use a specif instance (this may be very mutable)
-            info = {'host': 'https://demo4.odoo.com',
-                    'database': 'demo_160_1676157153',
-                    'user': 'admin',
-                    'password': 'admin'}
-        cls.model = Model(model_name='res.partner',
-                          endpoint=info['host'],
-                          database=info['database'],
-                          username=info['user'],
-                          password=info['password'],
-                          language='en_US',
-                          authenticate=False)
+        cls.model = utility.get_model_from_demo(model_name='res.partner')
 
     def test_01_authenticate(self) -> None:
         """
