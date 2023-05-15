@@ -211,3 +211,21 @@ class TestCaseCompareTypes(unittest.TestCase):
         self.assertEqual(len(results), 3)
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(75, results)
+
+    def test_11_filter_not_contains(self) -> None:
+        """
+        Search some rows using filters using compare NOT_CONTAINS
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.CONTAINS,
+                          value='Sandwich'),
+                   Filter(field='name',
+                          compare_type=CompareType.NOT_CONTAINS,
+                          value='mozzarella')]
+        results = self.model.search(filters=filters)
+        # Check if the results are not None
+        self.assertIsNotNone(results)
+        # Check if the results list has exactly three items
+        self.assertEqual(len(results), 3)
+        # Check if the results list doesn't contain the Mozzarella Sandwich
+        self.assertNotIn(75, results)
