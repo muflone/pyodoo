@@ -41,3 +41,4 @@ class CompareType(object):
     RAW_ILIKE = '=ilike'
     UNSET_OR_EQUAL = '=?'
     CHILD_OF = 'child_of'
+    PARENT_OF = 'parent_of'
