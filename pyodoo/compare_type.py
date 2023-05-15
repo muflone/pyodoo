@@ -36,3 +36,4 @@ class CompareType(object):
     LIKE = 'like'
     NOT_LIKE = 'not like'
     ILIKE = 'ilike'
+    NOT_ILIKE = 'not ilike'
