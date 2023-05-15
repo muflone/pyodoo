@@ -39,3 +39,4 @@ class CompareType(object):
     NOT_ILIKE = 'not ilike'
     RAW_LIKE = '=like'
     RAW_ILIKE = '=ilike'
+    UNSET_OR_EQUAL = '=?'

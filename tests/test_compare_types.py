@@ -337,3 +337,21 @@ class TestCaseCompareTypes(unittest.TestCase):
         self.assertEqual(len(results), 1)
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(75, results)
+
+    def test_18_filter_unset_or_equal(self) -> None:
+        """
+        Search some rows using filters using compare UNSET_OR_EQUAL
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.CONTAINS,
+                          value='Sandwich'),
+                   Filter(field='uom_id',
+                          compare_type=CompareType.UNSET_OR_EQUAL,
+                          value=1)]
+        results = self.model.search(filters=filters)
+        # Check if the results are not None
+        self.assertIsNotNone(results)
+        # Check if the results list has exactly four items
+        self.assertEqual(len(results), 4)
+        # Check if the results list contains the Mozzarella Sandwich
+        self.assertIn(75, results)
