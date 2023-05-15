@@ -33,3 +33,4 @@ class CompareType(object):
     CONTAINS = 'ilike'
     CONTAINS_NOT = 'not ilike'
     NOT_CONTAINS = 'not ilike'
+    LIKE = 'like'
