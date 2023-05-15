@@ -40,3 +40,4 @@ class CompareType(object):
     RAW_LIKE = '=like'
     RAW_ILIKE = '=ilike'
     UNSET_OR_EQUAL = '=?'
+    CHILD_OF = 'child_of'

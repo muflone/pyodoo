@@ -355,3 +355,21 @@ class TestCaseCompareTypes(unittest.TestCase):
         self.assertEqual(len(results), 4)
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(75, results)
+
+    def test_19_filter_child_of(self) -> None:
+        """
+        Search some rows using filters using compare CHILD_OF
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.CONTAINS,
+                          value='Sandwich'),
+                   Filter(field='categ_id',
+                          compare_type=CompareType.CHILD_OF,
+                          value='PoS')]
+        results = self.model.search(filters=filters)
+        # Check if the results are not None
+        self.assertIsNotNone(results)
+        # Check if the results list has exactly four items
+        self.assertEqual(len(results), 4)
+        # Check if the results list contains the Mozzarella Sandwich
+        self.assertIn(75, results)
