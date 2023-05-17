@@ -139,36 +139,24 @@ class Model(object):
     def get(self,
             entity_id: int,
             fields: tuple[str, ...] = None,
-            options: dict[str, Any] = None,
-            limit: Optional[int] = None,
-            offset: Optional[int] = None,
-            order: Optional[str] = None) -> Optional[dict[str, Any]]:
+            options: dict[str, Any] = None) -> Optional[dict[str, Any]]:
         """
         Get a row from a model using its ID
 
         :param entity_id: Object ID to query
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
-        :param limit: Maximum number of results count
-        :param offset: Starting record number to fetch the data
-        :param order: Ordering clause
         :return: Dictionary with the requested fields
         """
         results = self.get_many(entity_ids=[entity_id],
                                 fields=fields,
-                                options=options,
-                                limit=limit,
-                                offset=offset,
-                                order=order)
+                                options=options)
         return results[0] if results else None
 
     def get_many(self,
                  entity_ids: list[int],
                  fields: tuple[str, ...] = None,
-                 options: dict[str, Any] = None,
-                 limit: Optional[int] = None,
-                 offset: Optional[int] = None,
-                 order: Optional[str] = None
+                 options: dict[str, Any] = None
                  ) -> Optional[list[dict[str, Any]]]:
         """
         Get a row from a model using its ID
@@ -176,9 +164,6 @@ class Model(object):
         :param entity_ids: Object IDs to query
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
-        :param limit: Maximum number of results count
-        :param offset: Starting record number to fetch the data
-        :param order: Ordering clause
         :return: List of dictionaries with the requested fields
         """
         # Set options
@@ -189,13 +174,6 @@ class Model(object):
             options['fields'] = fields
         # Set language for translated fields
         self._set_options_language(options=options)
-        # Set pagination
-        self._set_pagination(options=options,
-                             limit=limit,
-                             offset=offset)
-        # Set order
-        self._set_order_by(options=options,
-                           order=order)
         # Request data and get results
         results = self.api.do_read_many(entity_ids=entity_ids,
                                         options=options)
