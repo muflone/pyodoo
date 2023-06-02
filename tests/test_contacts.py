@@ -784,13 +784,31 @@ class TestCaseContacts(unittest.TestCase):
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_41_get_model(self) -> None:
+    def test_41_get_model_authenticate(self) -> None:
         """
         Get a new Model object
         """
         model_name = 'res.users'
         model = self.model.get_model(model_name=model_name,
-                                     authenticate=True)
+                                     authenticate=True,
+                                     use_existing_uid=False)
+        results = model.count(filters=[])
+        # Check if we have results
+        self.assertIsNotNone(model)
+        self.assertIsInstance(model, Model)
+        self.assertEqual(model.model_name, model_name)
+        self.assertIsNotNone(results)
+        self.assertGreater(results, 0)
+
+    def test_42_get_model_no_authenticate(self) -> None:
+        """
+        Get a new Model object using the existing UID
+        """
+        self.model.authenticate()
+        model_name = 'res.users'
+        model = self.model.get_model(model_name=model_name,
+                                     authenticate=False,
+                                     use_existing_uid=True)
         results = model.count(filters=[])
         # Check if we have results
         self.assertIsNotNone(model)

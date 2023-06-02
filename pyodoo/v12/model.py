@@ -92,20 +92,26 @@ class Model(object):
 
     def get_model(self,
                   model_name: str,
-                  authenticate: bool = False) -> 'Model':
+                  authenticate: bool = False,
+                  use_existing_uid: bool = False) -> 'Model':
         """
         Get a Model object for another model name
         :param model_name: Model name
         :param authenticate: Automatically authenticate user
+        :param use_existing_uid: Use the existing UID if not authenticated
         :return: Model object
         """
-        return Model(model_name=model_name,
-                     endpoint=self.api.endpoint,
-                     database=self.api.database,
-                     username=self.api.username,
-                     password=self.api.password,
-                     language=self.api.language,
-                     authenticate=authenticate)
+        model = Model(model_name=model_name,
+                      endpoint=self.api.endpoint,
+                      database=self.api.database,
+                      username=self.api.username,
+                      password=self.api.password,
+                      language=self.api.language,
+                      authenticate=authenticate)
+        if not authenticate and use_existing_uid:
+            # Use the existing UID
+            model.api.uid = self.api.uid
+        return model
 
     def get_model_data_reference(self,
                                  module_name: str,
