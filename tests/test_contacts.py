@@ -789,9 +789,12 @@ class TestCaseContacts(unittest.TestCase):
         Get a new Model object
         """
         model_name = 'res.users'
-        results = self.model.get_model(model_name=model_name,
-                                       authenticate=False)
+        model = self.model.get_model(model_name=model_name,
+                                     authenticate=True)
+        results = model.count(filters=[])
         # Check if we have results
+        self.assertIsNotNone(model)
+        self.assertIsInstance(model, Model)
+        self.assertEqual(model.model_name, model_name)
         self.assertIsNotNone(results)
-        self.assertIsInstance(results, Model)
-        self.assertEqual(results.model_name, model_name)
+        self.assertGreater(results, 0)
