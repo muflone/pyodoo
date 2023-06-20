@@ -154,3 +154,12 @@ class Query(object):
         """
         return self.model.update(entity_id=self._query_id,
                                  values={'active': active})
+
+    def execute(self) -> None:
+        """
+        Execute the query to create the Excel file in the `file` field
+        """
+        self.model.execute(method_name='print_xls_report',
+                           args=[self._query_id],
+                           kwargs={},
+                           ignore_none_errors=True)
