@@ -117,3 +117,12 @@ class Query(object):
         """
         return self.model.update(entity_id=self._query_id,
                                  values={'sql_query': text})
+
+    def validate(self) -> None:
+        """
+        Validate the query object
+        """
+        self.model.execute(method_name='action_validate',
+                           args=[self._query_id],
+                           kwargs={},
+                           ignore_none_errors=False)
