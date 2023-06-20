@@ -163,3 +163,10 @@ class Query(object):
                            args=[self._query_id],
                            kwargs={},
                            ignore_none_errors=True)
+
+    def clear(self) -> None:
+        """
+        Clear the produced file
+        """
+        self.model.update(entity_id=self._query_id,
+                          values={'file': False})
