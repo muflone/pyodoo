@@ -107,3 +107,13 @@ class Query(object):
         :return: query object ID
         """
         return self._query_id
+
+    def set_query(self, text: str) -> bool:
+        """
+        Set the query text
+
+        :param text: SQL text for query
+        :return: True if the query was updated
+        """
+        return self.model.update(entity_id=self._query_id,
+                                 values={'sql_query': text})
