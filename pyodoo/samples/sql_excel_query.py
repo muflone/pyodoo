@@ -20,23 +20,23 @@
 
 import os
 
-from pyodoo.v12 import Query
+from pyodoo.v12 import SqlExcelQuery
 
 
-# Check Query availability
-print(Query.is_available(endpoint=os.environ['ODOO_ENDPOINT'],
-                         database=os.environ['ODOO_DATABASE'],
-                         username=os.environ['ODOO_USERNAME'],
-                         password=os.environ['ODOO_PASSWORD'],
-                         language=None))
-# Instance query object
-query = Query(name='test query 1',
-              category='PyOdoo queries',
-              endpoint=os.environ['ODOO_ENDPOINT'],
-              database=os.environ['ODOO_DATABASE'],
-              username=os.environ['ODOO_USERNAME'],
-              password=os.environ['ODOO_PASSWORD'],
-              language=None)
+# Check SQL Excel Query availability
+print(SqlExcelQuery.is_available(endpoint=os.environ['ODOO_ENDPOINT'],
+                                 database=os.environ['ODOO_DATABASE'],
+                                 username=os.environ['ODOO_USERNAME'],
+                                 password=os.environ['ODOO_PASSWORD'],
+                                 language=None))
+# Instance SQL Excel Query object
+query = SqlExcelQuery(name='test query 1',
+                      category='PyOdoo queries',
+                      endpoint=os.environ['ODOO_ENDPOINT'],
+                      database=os.environ['ODOO_DATABASE'],
+                      username=os.environ['ODOO_USERNAME'],
+                      password=os.environ['ODOO_PASSWORD'],
+                      language=None)
 # Change default language
 query.language = 'en_GB'
 
@@ -66,8 +66,8 @@ data = query.get_file()
 data = query.get_data()
 print(data)
 
-# Remove Excel file from Query
+# Remove Excel file from SQL Excel Query
 query.clear()
 
-# Delete Query object
+# Delete SQL Excel Query object
 print(query.delete())

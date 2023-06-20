@@ -28,9 +28,9 @@ from pyodoo.v12.model import Model
 import xlrd
 
 
-class Query(object):
+class SqlExcelQuery(object):
     """
-    SQL query to extract data from tables
+    SQL Excel query to extract data from tables
     """
     def __init__(self,
                  name: str,
