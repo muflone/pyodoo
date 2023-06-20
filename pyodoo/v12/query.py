@@ -135,3 +135,12 @@ class Query(object):
                            args=[self._query_id],
                            kwargs={},
                            ignore_none_errors=False)
+
+    def get_state(self) -> str:
+        """
+        Get the query object state
+        :return: the query object state
+        """
+        results = self.model.get(entity_id=self._query_id,
+                                 fields=('state', ))
+        return results['state'] if results else None
