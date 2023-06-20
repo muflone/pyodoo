@@ -18,6 +18,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+import os
 import xmlrpc.client
 
 from pyodoo.v12 import Model
@@ -30,17 +31,24 @@ def get_authentication_from_demo() -> dict[str, str]:
     :return: dictionary with authentication information
     """
     try:
-        # Get the free public server credentials
-        info = xmlrpc.client.ServerProxy(
-            uri='https://demo.odoo.com/start').start()
-    except (xmlrpc.client.Fault,
-            xmlrpc.client.ProtocolError):
-        # Sometimes the free public server start page is not available
-        # Use a specif instance (this may be very mutable)
-        info = {'host': 'https://demo4.odoo.com',
-                'database': 'demo_saas-163_9dd266192e26_1687297769',
-                'user': 'admin',
-                'password': 'admin'}
+        # Use the environment variables
+        info = {'host': os.environ['ODOO_ENDPOINT'],
+                'database': os.environ['ODOO_DATABASE'],
+                'user': os.environ['ODOO_USERNAME'],
+                'password': os.environ['ODOO_PASSWORD']}
+    except KeyError:
+        try:
+            # Get the free public server credentials
+            info = xmlrpc.client.ServerProxy(
+                uri='https://demo.odoo.com/start').start()
+        except (xmlrpc.client.Fault,
+                xmlrpc.client.ProtocolError):
+            # Sometimes the free public server start page is not available
+            # Use a specif instance (this may be very mutable)
+            info = {'host': 'https://demo6.odoo.com',
+                    'database': 'demo_saas-163_ffb2db7c8faa_1687302108',
+                    'user': 'admin',
+                    'password': 'admin'}
     return info
 
 def get_model_from_demo(model_name: str):
