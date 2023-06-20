@@ -144,3 +144,13 @@ class Query(object):
         results = self.model.get(entity_id=self._query_id,
                                  fields=('state', ))
         return results['state'] if results else None
+
+    def set_active(self, active: bool) -> bool:
+        """
+        Set the query object as active/inactive
+
+        :param active: active status
+        :return: True if the query was updated
+        """
+        return self.model.update(entity_id=self._query_id,
+                                 values={'active': active})
