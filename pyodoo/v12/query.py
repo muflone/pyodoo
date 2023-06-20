@@ -118,6 +118,15 @@ class Query(object):
         return self.model.update(entity_id=self._query_id,
                                  values={'sql_query': text})
 
+    def set_draft(self) -> None:
+        """
+        Set the query object as draft
+        """
+        self.model.execute(method_name='action_reset_draft',
+                           args=[self._query_id],
+                           kwargs={},
+                           ignore_none_errors=True)
+
     def validate(self) -> None:
         """
         Validate the query object
