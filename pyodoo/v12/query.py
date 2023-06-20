@@ -19,9 +19,13 @@
 ##
 
 import base64
+import io
+from typing import Any, Optional
 
 import pyodoo
 from pyodoo.v12.model import Model
+
+import xlrd
 
 
 class Query(object):
@@ -173,6 +177,14 @@ class Query(object):
         self.model.update(entity_id=self._query_id,
                           values={'file': False})
 
+    def delete(self) -> bool:
+        """
+        Delete the query object
+
+        :return: True if the query was removed
+        """
+        return self.model.delete(entity_id=self._query_id)
+
     def get_file(self) -> str:
         """
         Get the latest produced Excel file
@@ -186,4 +198,29 @@ class Query(object):
             results = base64.b64decode(s=results['file'])
         else:
             results = None
+        return results
+
+    def get_data(self) -> Optional[list[dict[str, Any]]]:
+        """
+        Get the latest produced Excel file and extract its tabular data
+
+        :return: list of dictionaries with data
+        """
+        with io.BytesIO() as file:
+            file.write(self.get_file())
+            with xlrd.open_workbook(file_contents=file.getvalue()) as workbook:
+                worksheet = workbook.sheet_by_index(0)
+                rows = worksheet.get_rows()
+                # Skip the first three rows
+                next(rows)
+                next(rows)
+                next(rows)
+                # Get the column headers
+                headers = [item.value
+                           for item in next(rows)]
+                # Get the data
+                results = []
+                for row in rows:
+                    results.append(dict(zip(headers,
+                                            [item.value for item in row])))
         return results
