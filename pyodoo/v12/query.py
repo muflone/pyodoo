@@ -18,6 +18,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+import base64
+
 import pyodoo
 from pyodoo.v12.model import Model
 
@@ -170,3 +172,18 @@ class Query(object):
         """
         self.model.update(entity_id=self._query_id,
                           values={'file': False})
+
+    def get_file(self) -> str:
+        """
+        Get the latest produced Excel file
+
+        :return: Excel binary file content
+        """
+        results = self.model.get(entity_id=self._query_id,
+                                 fields=('file', ))
+        if results:
+            # Decode the base64 content
+            results = base64.b64decode(s=results['file'])
+        else:
+            results = None
+        return results
