@@ -78,6 +78,37 @@ class Query(object):
                         'category_id': category_id,
                         'sql_query': ''})
 
+    @staticmethod
+    def is_available(endpoint: str,
+                     database: str,
+                     username: str,
+                     password: str,
+                     language: str) -> bool:
+        """
+        Check if the sql.excel.pdf model exists
+
+        :param endpoint: Odoo instance endpoint
+        :param database: Odoo database
+        :param username: Odoo username
+        :param password: User password
+        :param language: Language for localizations
+
+        :return: True if the model sql.excel.pdf exists
+        """
+        model = Model(model_name='ir.model',
+                      endpoint=endpoint,
+                      database=database,
+                      username=username,
+                      password=password,
+                      language=language,
+                      authenticate=True)
+        results = model.search(
+            filters=[pyodoo.Filter(field='model',
+                                   compare_type=pyodoo.CompareType.EQUAL,
+                                   value='sql.excel.pdf')],
+            limit=1)
+        return bool(results)
+
     @property
     def name(self) -> str:
         """
