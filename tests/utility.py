@@ -34,11 +34,12 @@ def get_model_from_demo(model_name: str):
         # Get the free public server credentials
         info = xmlrpc.client.ServerProxy(
             uri='https://demo.odoo.com/start').start()
-    except xmlrpc.client.Fault:
+    except (xmlrpc.client.Fault,
+            xmlrpc.client.ProtocolError):
         # Sometimes the free public server start page is not available
         # Use a specif instance (this may be very mutable)
         info = {'host': 'https://demo4.odoo.com',
-                'database': 'demo_160_1676157153',
+                'database': 'demo_saas-163_9dd266192e26_1687297769',
                 'user': 'admin',
                 'password': 'admin'}
     return Model(model_name=model_name,
