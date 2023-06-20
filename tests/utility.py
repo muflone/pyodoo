@@ -23,12 +23,11 @@ import xmlrpc.client
 from pyodoo.v12 import Model
 
 
-def get_model_from_demo(model_name: str):
+def get_authentication_from_demo() -> dict[str, str]:
     """
-    Get a Model object from the public demo server
+    Get the authentication information from the public demo server
 
-    :param model_name: name of the model to instance
-    :return: pyodoo Model object
+    :return: dictionary with authentication information
     """
     try:
         # Get the free public server credentials
@@ -42,6 +41,16 @@ def get_model_from_demo(model_name: str):
                 'database': 'demo_saas-163_9dd266192e26_1687297769',
                 'user': 'admin',
                 'password': 'admin'}
+    return info
+
+def get_model_from_demo(model_name: str):
+    """
+    Get a Model object from the public demo server
+
+    :param model_name: name of the model to instance
+    :return: pyodoo Model object
+    """
+    info = get_authentication_from_demo()
     return Model(model_name=model_name,
                  endpoint=info['host'],
                  database=info['database'],
