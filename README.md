@@ -24,6 +24,7 @@ its XML RPC API.
 # System Requirements
 
 * Python 3.x
+* xlrd 2.0.x (https://pypi.org/project/xlrd/)
 
 # Usage
 
