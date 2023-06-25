@@ -159,3 +159,55 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the query active state is True
         results = self.query.get_active()
         self.assertTrue(results)
+
+    def test_09_execute(self) -> None:
+        """
+        Execute the query
+        """
+        results = self.query.execute()
+        # Check if the query was executed
+        self.assertIsNone(results)
+
+    def test_10_get_file(self) -> None:
+        """
+        Get the query execution results as file
+        """
+        results = self.query.get_file()
+        # Check if the file is not None
+        self.assertIsNotNone(results)
+        # Check if the file is not empty
+        self.assertGreater(len(results), 0)
+
+    def test_11_clear(self) -> None:
+        """
+        Clear the query execution results file
+        """
+        self.query.clear()
+        results = self.query.get_file()
+        # Check if the language is None
+        self.assertIsNone(results)
+
+    def test_12_get_data(self) -> None:
+        """
+        Get the query execution results as data
+        """
+        self.query.execute()
+        results = self.query.get_data()
+        # Check if the results data are not None
+        self.assertIsNotNone(results)
+        # Check if the results have one or more results
+        self.assertGreaterEqual(len(results), 1)
+        # Check if the results data have the expected fields
+        self.assertIn('S.No', results[0])
+        self.assertIn('customer', results[0])
+        self.assertIn('supplier', results[0])
+        self.assertIn('count', results[0])
+        self.assertEqual(len(results[0]), 4)
+
+    def test_13_delete(self) -> None:
+        """
+        Delete the query
+        """
+        results = self.query.delete()
+        # Check if the deletion was successful
+        self.assertTrue(results)
