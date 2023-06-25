@@ -88,3 +88,25 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         self.assertIsNotNone(results)
         # Check if the ID is > 0
         self.assertGreater(results, 0)
+
+    def test_04_get_set_sql(self) -> None:
+        """
+        Get the query SQL text
+        """
+        results = self.query.get_sql()
+        # Check if the query SQL text is not None
+        self.assertIsNotNone(results)
+        # Check if the query SQL text length is = 0
+        self.assertEqual(len(results), 0)
+        # Set new query SQL text
+        sql_text = ('SELECT customer, supplier, COUNT(*) AS count '
+                    'FROM res_partner '
+                    'GROUP BY customer, supplier')
+        results = self.query.set_sql(text=sql_text)
+        # Check if the response is True
+        self.assertEqual(results, True)
+        # Check if the query SQL text is not None
+        results = self.query.get_sql()
+        self.assertIsNotNone(results)
+        # Check if the query SQL text is the expected
+        self.assertEqual(results, sql_text)

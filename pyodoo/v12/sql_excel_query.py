@@ -145,9 +145,20 @@ class SqlExcelQuery(object):
         """
         return self._query_id
 
-    def set_query(self, text: str) -> bool:
+    def get_sql(self) -> str:
         """
-        Set the query text
+        Get the query SQL text
+
+        :return: SQL text for the query
+        """
+        results = self.model.get(entity_id=self._query_id,
+                                 fields=('id',
+                                         'sql_query'))
+        return results['sql_query'] if results else None
+
+    def set_sql(self, text: str) -> bool:
+        """
+        Set the query SQL text
 
         :param text: SQL text for query
         :return: True if the query was updated

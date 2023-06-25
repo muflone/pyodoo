@@ -44,7 +44,7 @@ query.language = 'en_GB'
 print(query.id)
 
 # Set Query SQL text
-print(query.set_query(text='SELECT\n  *\nFROM res_partner\nLIMIT 100'))
+print(query.set_sql(text='SELECT\n  *\nFROM res_partner\nLIMIT 100'))
 
 # Set and get Query state
 query.set_draft()
