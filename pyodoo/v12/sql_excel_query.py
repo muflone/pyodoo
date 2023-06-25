@@ -249,7 +249,7 @@ class SqlExcelQuery(object):
         """
         results = self.model.get(entity_id=self._query_id,
                                  fields=('file', ))
-        if results:
+        if results and results['file']:
             # Decode the base64 content
             results = base64.b64decode(s=results['file'])
         else:
