@@ -20,6 +20,7 @@
 
 import os
 
+from pyodoo.constants import APP_NAME, APP_VERSION
 from pyodoo.v12 import SqlExcelQuery
 
 
@@ -31,7 +32,7 @@ print(SqlExcelQuery.is_available(endpoint=os.environ['ODOO_ENDPOINT'],
                                  language=None))
 # Instance SQL Excel Query object
 query = SqlExcelQuery(name='test query 1',
-                      category='PyOdoo queries',
+                      category=f'{APP_NAME} {APP_VERSION}',
                       endpoint=os.environ['ODOO_ENDPOINT'],
                       database=os.environ['ODOO_DATABASE'],
                       username=os.environ['ODOO_USERNAME'],

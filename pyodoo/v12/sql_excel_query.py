@@ -145,7 +145,7 @@ class SqlExcelQuery(object):
         """
         return self._query_id
 
-    def get_sql(self) -> str:
+    def get_sql(self) -> Optional[str]:
         """
         Get the query SQL text
 
@@ -184,7 +184,7 @@ class SqlExcelQuery(object):
                            kwargs={},
                            ignore_none_errors=False)
 
-    def get_state(self) -> str:
+    def get_state(self) -> Optional[str]:
         """
         Get the query object state
 
@@ -194,7 +194,7 @@ class SqlExcelQuery(object):
                                  fields=('state', ))
         return results['state'] if results else None
 
-    def get_active(self) -> str:
+    def get_active(self) -> Optional[str]:
         """
         Get the query object active state
 
@@ -241,7 +241,7 @@ class SqlExcelQuery(object):
         """
         return self.model.delete(entity_id=self._query_id)
 
-    def get_file(self) -> str:
+    def get_file(self) -> Optional[str]:
         """
         Get the latest produced Excel file
 
