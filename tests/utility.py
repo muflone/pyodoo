@@ -19,7 +19,10 @@
 ##
 
 import os
+import urllib.parse
 import xmlrpc.client
+
+import requests
 
 from pyodoo.v12 import Model
 
@@ -44,11 +47,28 @@ def get_authentication_from_demo() -> dict[str, str]:
         except (xmlrpc.client.Fault,
                 xmlrpc.client.ProtocolError):
             # Sometimes the free public server start page is not available
-            # Use a specif instance (this may be very mutable)
-            info = {'host': 'https://demo6.odoo.com',
-                    'database': 'demo_saas-163_d08cf84b6242_1687720660',
-                    'user': 'admin',
-                    'password': 'admin'}
+            info = {}
+            # Follow the redirects from https://demo.odoo.com/
+            request = requests.get('https://demo.odoo.com/')
+            if request.status_code == 200:
+                # Process all the previous redirects to get the credentials
+                for request in request.history:
+                    parse_result = urllib.parse.urlparse(url=request.url)
+                    if parse_result.query:
+                        qs = urllib.parse.parse_qs(qs=parse_result.query)
+                        if 'dbname' in qs:
+                            info = {'host': f'{parse_result.scheme}://'
+                                            f'{parse_result.netloc}',
+                                    'database': qs['dbname'][0],
+                                    'user': qs['user'][0],
+                                    'password': qs['key'][0]}
+                            break
+            if not info:
+                # Use a specific instance (this may be very mutable)
+                info = {'host': 'https://demo6.odoo.com',
+                        'database': 'demo_saas-163_845e0736dbcc_1687729511',
+                        'user': 'admin',
+                        'password': 'admin'}
     return info
 
 
