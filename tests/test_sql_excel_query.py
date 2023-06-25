@@ -204,7 +204,27 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         self.assertIn('count', results[0])
         self.assertEqual(len(results[0]), 4)
 
-    def test_13_delete(self) -> None:
+    def test_13_add_tags(self) -> None:
+        """
+        Add and get tags from the Query
+        """
+        model = self.query.model.get_model(model_name='sql.tags',
+                                           authenticate=False,
+                                           use_existing_uid=True)
+        tag_ids = model.search(filters=[])
+        for tag_id in tag_ids:
+            results = self.query.add_tag(tag_id=tag_id)
+            # Check if the addition was successful
+            self.assertTrue(results)
+        # Check the resulting tags
+        results = self.query.get_tags()
+        # Check the tags list
+        self.assertIsNotNone(results)
+        results = [item['id'] for item in results]
+        for tag_id in tag_ids:
+            self.assertIn(tag_id, results)
+
+    def test_14_delete(self) -> None:
         """
         Delete the query
         """

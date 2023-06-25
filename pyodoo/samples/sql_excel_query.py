@@ -70,5 +70,12 @@ print(data)
 # Remove Excel file from SQL Excel Query
 query.clear()
 
+# Add query tags
+query.add_tag(tag_id=4)
+
+# Get the query tags
+data = query.get_tags()
+print(data)
+
 # Delete SQL Excel Query object
 print(query.delete())

@@ -280,3 +280,31 @@ class SqlExcelQuery(object):
                     results.append(dict(zip(headers,
                                             [item.value for item in row])))
         return results
+
+    def add_tag(self, tag_id: int) -> bool:
+        """
+        Add an existing tag to the query
+
+        :param tag_id: Tag ID to add
+        :return: True if the tag was added
+        """
+        return self.model.many_to_many_add(entity_id=self._query_id,
+                                           field='tag_ids',
+                                           related_id=tag_id)
+
+    def get_tags(self) -> Optional[list[dict[str, Any]]]:
+        """
+        Get the query tags
+
+        :return: list with the tags
+        """
+        if results := self.model.get(entity_id=self._query_id,
+                                     fields=('id',
+                                             'tag_ids')):
+            model = self.model.get_model(model_name='sql.tags',
+                                         authenticate=False,
+                                         use_existing_uid=True)
+            results = model.get_many(entity_ids=results['tag_ids'],
+                                     fields=('id',
+                                             'name'))
+        return results or None
