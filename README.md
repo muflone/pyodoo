@@ -25,6 +25,7 @@ its XML RPC API.
 
 * Python 3.x
 * xlrd 2.0.x (https://pypi.org/project/xlrd/)
+* requests 2.31.x (https://pypi.org/project/requests/)
 
 # Usage
 
