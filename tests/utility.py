@@ -46,7 +46,7 @@ def get_authentication_from_demo() -> dict[str, str]:
             # Sometimes the free public server start page is not available
             # Use a specif instance (this may be very mutable)
             info = {'host': 'https://demo6.odoo.com',
-                    'database': 'demo_saas-163_ffb2db7c8faa_1687302108',
+                    'database': 'demo_saas-163_d08cf84b6242_1687720660',
                     'user': 'admin',
                     'password': 'admin'}
     return info
