@@ -110,3 +110,52 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         self.assertIsNotNone(results)
         # Check if the query SQL text is the expected
         self.assertEqual(results, sql_text)
+
+    def test_05_get_state(self) -> None:
+        """
+        Get the query state
+        """
+        results = self.query.get_state()
+        # Check if the query state is not None
+        self.assertIsNotNone(results)
+        # Check if the query state is draft
+        self.assertEqual(results, 'draft')
+
+    def test_06_validate(self) -> None:
+        """
+        Set the query state to validate
+        """
+        self.query.validate()
+        # Check if the query state is not None
+        results = self.query.get_state()
+        self.assertIsNotNone(results)
+        # Check if the query state is validate
+        self.assertEqual(results, 'validate')
+
+    def test_07_set_draft(self) -> None:
+        """
+        Set the query state to draft
+        """
+        self.query.set_draft()
+        # Check if the query state is not None
+        results = self.query.get_state()
+        self.assertIsNotNone(results)
+        # Check if the query state is draft
+        self.assertEqual(results, 'draft')
+
+    def test_08_get_set_active(self) -> None:
+        """
+        Get and set the query active state
+        """
+        # Set the query as not active
+        results = self.query.set_active(active=False)
+        self.assertTrue(results)
+        # Check if the query active state is False
+        results = self.query.get_active()
+        self.assertFalse(results)
+        # Set the query as active
+        results = self.query.set_active(active=True)
+        self.assertTrue(results)
+        # Check if the query active state is True
+        results = self.query.get_active()
+        self.assertTrue(results)

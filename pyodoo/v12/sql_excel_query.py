@@ -187,11 +187,22 @@ class SqlExcelQuery(object):
     def get_state(self) -> str:
         """
         Get the query object state
+
         :return: the query object state
         """
         results = self.model.get(entity_id=self._query_id,
                                  fields=('state', ))
         return results['state'] if results else None
+
+    def get_active(self) -> str:
+        """
+        Get the query object active state
+
+        :return: the query object active state
+        """
+        results = self.model.get(entity_id=self._query_id,
+                                 fields=('active', ))
+        return results['active'] if results else None
 
     def set_active(self, active: bool) -> bool:
         """
