@@ -217,11 +217,14 @@ class SqlExcelQuery(object):
     def execute(self) -> None:
         """
         Execute the query to create the Excel file in the `file` field
+
+        :return: None
         """
         self.model.execute(method_name='print_xls_report',
                            args=[self._query_id],
                            kwargs={},
                            ignore_none_errors=True)
+        return None
 
     def clear(self) -> None:
         """
