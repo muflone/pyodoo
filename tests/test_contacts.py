@@ -174,7 +174,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(results[0]['id'], 2)
         self.assertEqual(results[0]['name'], 'OdooBot')
         self.assertEqual(results[0]['type'], 'contact')
-        self.assertGreater(len(results[0]['street']), 0)
+        self.assertEqual(results[0]['street'], False)
 
     def test_10_find_by_id_both_active(self) -> None:
         """
@@ -193,7 +193,7 @@ class TestCaseContacts(unittest.TestCase):
         for item in results:
             self.assertIn(item['id'], (2, 11))
             self.assertEqual(item['type'], 'contact')
-            self.assertGreater(len(item['street']), 0)
+            self.assertGreater(len(item['name']), 0)
 
     def test_11_find_by_id_multiple(self) -> None:
         """

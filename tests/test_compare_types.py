@@ -47,7 +47,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_02_filter_not_equal(self) -> None:
         """
@@ -65,7 +65,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_03_filter_greater(self) -> None:
         """
@@ -83,7 +83,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_04_filter_greater_equal(self) -> None:
         """
@@ -101,7 +101,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly two items
         self.assertEqual(len(results), 2)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_05_filter_lower(self) -> None:
         """
@@ -119,7 +119,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly two items
         self.assertEqual(len(results), 2)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_06_filter_lower_equal(self) -> None:
         """
@@ -137,7 +137,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_07_filter_in(self) -> None:
         """
@@ -155,9 +155,9 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly two items
         self.assertEqual(len(results), 2)
         # Check if the results list contains the Club Sandwich
-        self.assertIn(76, results)
+        self.assertIn(85, results)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_08_filter_not_in(self) -> None:
         """
@@ -175,9 +175,9 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly two items
         self.assertEqual(len(results), 2)
         # Check if the results list doesn't contain the Club Sandwich
-        self.assertNotIn(76, results)
+        self.assertNotIn(85, results)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_09_filter_contains(self) -> None:
         """
@@ -192,7 +192,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_10_filter_contains_not(self) -> None:
         """
@@ -210,7 +210,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_11_filter_not_contains(self) -> None:
         """
@@ -228,7 +228,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_12_filter_like(self) -> None:
         """
@@ -246,7 +246,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_13_filter_not_like(self) -> None:
         """
@@ -264,7 +264,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_14_filter_ilike(self) -> None:
         """
@@ -282,7 +282,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_15_filter_not_ilike(self) -> None:
         """
@@ -300,7 +300,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
         # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(75, results)
+        self.assertNotIn(84, results)
 
     def test_16_filter_raw_like(self) -> None:
         """
@@ -318,7 +318,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_17_filter_raw_ilike(self) -> None:
         """
@@ -336,7 +336,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_18_filter_unset_or_equal(self) -> None:
         """
@@ -354,7 +354,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_19_filter_child_of(self) -> None:
         """
@@ -372,7 +372,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
 
     def test_20_filter_parent_of(self) -> None:
         """
@@ -390,4 +390,4 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
         # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(75, results)
+        self.assertIn(84, results)
