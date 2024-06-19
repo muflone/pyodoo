@@ -7,7 +7,7 @@
 
 **Description:** API for Odoo
 
-**Copyright:** 2021-2023 Fabio Castelli (Muflone) <muflone@muflone.com>
+**Copyright:** 2021-2024 Fabio Castelli (Muflone) <muflone@muflone.com>
 
 **License:** GPL-3+
 
@@ -25,7 +25,7 @@ its XML RPC API.
 
 * Python 3.x
 * xlrd 2.0.x (https://pypi.org/project/xlrd/)
-* requests 2.31.x (https://pypi.org/project/requests/)
+* requests 2.32.x (https://pypi.org/project/requests/)
 
 # Usage
 
