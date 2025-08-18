@@ -29,7 +29,8 @@ import utility
 
 class TestCaseSqlExcelQuery(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls
+                   ) -> None:
         """
         Query object preparation
         """
@@ -52,14 +53,16 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
             # The model sql.excel.pdf is not available
             cls.query = None
 
-    def setUp(self):
+    def setUp(self
+              ) -> None:
         """
         Check if the test could be run
         """
         if not self.query:
             self.skipTest('Model sql.excel.pdf is not available')
 
-    def test_01_get_name(self) -> None:
+    def test_01_get_name(self
+                         ) -> None:
         """
         Check the query name
         """
@@ -69,7 +72,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the name is the same
         self.assertEqual(results, self.query_name)
 
-    def test_02_get_language(self) -> None:
+    def test_02_get_language(self
+                             ) -> None:
         """
         Check the query language
         """
@@ -79,7 +83,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the language is the same
         self.assertEqual(results, 'en_US')
 
-    def test_03_get_id(self) -> None:
+    def test_03_get_id(self
+                       ) -> None:
         """
         Check the query ID
         """
@@ -89,7 +94,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the ID is > 0
         self.assertGreater(results, 0)
 
-    def test_04_get_set_sql(self) -> None:
+    def test_04_get_set_sql(self
+                            ) -> None:
         """
         Get the query SQL text
         """
@@ -111,7 +117,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the query SQL text is the expected
         self.assertEqual(results, sql_text)
 
-    def test_05_get_state(self) -> None:
+    def test_05_get_state(self
+                          ) -> None:
         """
         Get the query state
         """
@@ -121,7 +128,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the query state is draft
         self.assertEqual(results, 'draft')
 
-    def test_06_validate(self) -> None:
+    def test_06_validate(self
+                         ) -> None:
         """
         Set the query state to validate
         """
@@ -132,7 +140,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the query state is validate
         self.assertEqual(results, 'validate')
 
-    def test_07_set_draft(self) -> None:
+    def test_07_set_draft(self
+                          ) -> None:
         """
         Set the query state to draft
         """
@@ -143,7 +152,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the query state is draft
         self.assertEqual(results, 'draft')
 
-    def test_08_get_set_active(self) -> None:
+    def test_08_get_set_active(self
+                               ) -> None:
         """
         Get and set the query active state
         """
@@ -160,7 +170,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         results = self.query.get_active()
         self.assertTrue(results)
 
-    def test_09_execute(self) -> None:
+    def test_09_execute(self
+                        ) -> None:
         """
         Execute the query
         """
@@ -168,7 +179,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the query was executed
         self.assertIsNone(results)
 
-    def test_10_get_file(self) -> None:
+    def test_10_get_file(self
+                         ) -> None:
         """
         Get the query execution results as file
         """
@@ -178,7 +190,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the file is not empty
         self.assertGreater(len(results), 0)
 
-    def test_11_clear(self) -> None:
+    def test_11_clear(self
+                      ) -> None:
         """
         Clear the query execution results file
         """
@@ -187,7 +200,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the language is None
         self.assertIsNone(results)
 
-    def test_12_get_data(self) -> None:
+    def test_12_get_data(self
+                         ) -> None:
         """
         Get the query execution results as data
         """
@@ -204,7 +218,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         self.assertIn('count', results[0])
         self.assertEqual(len(results[0]), 4)
 
-    def test_13_add_tags(self) -> None:
+    def test_13_add_tags(self
+                         ) -> None:
         """
         Add and get tags from the Query
         """
@@ -224,7 +239,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         for tag_id in tag_ids:
             self.assertIn(tag_id, results)
 
-    def test_14_delete(self) -> None:
+    def test_14_delete(self
+                       ) -> None:
         """
         Delete the query
         """

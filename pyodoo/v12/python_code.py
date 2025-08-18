@@ -34,7 +34,8 @@ class PythonCode(object):
                  database: str,
                  username: str,
                  password: str,
-                 language: str):
+                 language: str
+                 ) -> None:
         # Model object
         self._code_name = name
         self.model = Model(model_name='execute.python.code',
@@ -62,7 +63,8 @@ class PythonCode(object):
                      database: str,
                      username: str,
                      password: str,
-                     language: str) -> bool:
+                     language: str
+                     ) -> bool:
         """
         Check if the execute.python.code model exists
 
@@ -89,7 +91,8 @@ class PythonCode(object):
         return bool(results)
 
     @property
-    def name(self) -> str:
+    def name(self
+             ) -> str:
         """
         Get the current Python Code name
 
@@ -98,14 +101,16 @@ class PythonCode(object):
         return self._code_name
 
     @property
-    def id(self) -> int:
+    def id(self
+           ) -> int:
         """
         Get the Python Code object ID
         :return: Python Code object ID
         """
         return self._code_id
 
-    def get_code(self) -> Optional[str]:
+    def get_code(self
+                 ) -> Optional[str]:
         """
         Get the Python Code text
 
@@ -116,7 +121,9 @@ class PythonCode(object):
                                          'code'))
         return results['code'] if results else None
 
-    def set_code(self, text: str) -> bool:
+    def set_code(self,
+                 text: str
+                 ) -> bool:
         """
         Set the Python Code text
 
@@ -126,7 +133,8 @@ class PythonCode(object):
         return self.model.update(entity_id=self._code_id,
                                  values={'code': text})
 
-    def execute(self) -> None:
+    def execute(self
+                ) -> None:
         """
         Execute the Python Code
 
@@ -138,7 +146,8 @@ class PythonCode(object):
                            ignore_none_errors=False)
         return None
 
-    def get_result(self) -> Optional[str]:
+    def get_result(self
+                   ) -> Optional[str]:
         """
         Get the latest produced result
 
@@ -148,7 +157,8 @@ class PythonCode(object):
                                  fields=('result', ))
         return results['result'] if results else None
 
-    def delete(self) -> bool:
+    def delete(self
+               ) -> bool:
         """
         Delete the Python Code object
 

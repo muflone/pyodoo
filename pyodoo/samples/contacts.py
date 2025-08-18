@@ -106,10 +106,7 @@ if model.authenticate():
     for subtype in (MessageSubType.ACTIVITY,
                     MessageSubType.COMMENT,
                     MessageSubType.NOTE):
-        subtype_item = model.get_model_data_reference(module_name='mail',
-                                                      value=subtype)
         print(subtype,
-              subtype_item['res_id'],
               model.get_message_subtype_id(subtype=subtype))
 
     # Post an activity message

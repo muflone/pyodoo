@@ -28,7 +28,8 @@ import utility
 
 class TestCasePythonCode(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls
+                   ) -> None:
         """
         Python Code object preparation
         """
@@ -50,14 +51,16 @@ class TestCasePythonCode(unittest.TestCase):
             # The model execute.python.code is not available
             cls.script = None
 
-    def setUp(self):
+    def setUp(self
+              ) -> None:
         """
         Check if the test could be run
         """
         if not self.script:
             self.skipTest('Model execute.python.code is not available')
 
-    def test_01_get_name(self) -> None:
+    def test_01_get_name(self
+                         ) -> None:
         """
         Check the Python Code name
         """
@@ -67,7 +70,8 @@ class TestCasePythonCode(unittest.TestCase):
         # Check if the name is the same
         self.assertEqual(results, self.script_name)
 
-    def test_02_get_id(self) -> None:
+    def test_02_get_id(self
+                       ) -> None:
         """
         Check the Python Code ID
         """
@@ -77,7 +81,8 @@ class TestCasePythonCode(unittest.TestCase):
         # Check if the ID is > 0
         self.assertGreater(results, 0)
 
-    def test_03_get_set_code(self) -> None:
+    def test_03_get_set_code(self
+                             ) -> None:
         """
         Get the Python Code text
         """
@@ -98,7 +103,8 @@ class TestCasePythonCode(unittest.TestCase):
         # Check if the Python Code text is the expected
         self.assertEqual(results, python_code)
 
-    def test_04_execute(self) -> None:
+    def test_04_execute(self
+                        ) -> None:
         """
         Execute the Python Code
         """
@@ -106,7 +112,8 @@ class TestCasePythonCode(unittest.TestCase):
         # Check if the Python Code was executed
         self.assertIsNone(results)
 
-    def test_05_get_result(self) -> None:
+    def test_05_get_result(self
+                           ) -> None:
         """
         Get the Python Code execution results
         """
@@ -116,7 +123,8 @@ class TestCasePythonCode(unittest.TestCase):
         # Check if the result is not empty
         self.assertGreater(len(results), 0)
 
-    def test_06_delete(self) -> None:
+    def test_06_delete(self
+                       ) -> None:
         """
         Delete the Python Code
         """

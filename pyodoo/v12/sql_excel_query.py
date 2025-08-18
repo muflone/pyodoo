@@ -39,7 +39,8 @@ class SqlExcelQuery(object):
                  database: str,
                  username: str,
                  password: str,
-                 language: str):
+                 language: str
+                 ) -> None:
         # Model object
         self._query_name = name
         self.model = Model(model_name='sql.excel.pdf',
@@ -83,7 +84,8 @@ class SqlExcelQuery(object):
                      database: str,
                      username: str,
                      password: str,
-                     language: str) -> bool:
+                     language: str
+                     ) -> bool:
         """
         Check if the sql.excel.pdf model exists
 
@@ -110,7 +112,8 @@ class SqlExcelQuery(object):
         return bool(results)
 
     @property
-    def name(self) -> str:
+    def name(self
+             ) -> str:
         """
         Get the current query name
 
@@ -119,7 +122,8 @@ class SqlExcelQuery(object):
         return self._query_name
 
     @property
-    def language(self) -> str:
+    def language(self
+                 ) -> str:
         """
         Get the current default language
 
@@ -129,7 +133,8 @@ class SqlExcelQuery(object):
 
     @language.setter
     def language(self,
-                 language: str):
+                 language: str
+                 ) -> None:
         """
         Set the current default language
 
@@ -138,14 +143,16 @@ class SqlExcelQuery(object):
         self.model.language = language
 
     @property
-    def id(self) -> int:
+    def id(self
+           ) -> int:
         """
         Get the query object ID
         :return: query object ID
         """
         return self._query_id
 
-    def get_sql(self) -> Optional[str]:
+    def get_sql(self
+                ) -> Optional[str]:
         """
         Get the query SQL text
 
@@ -156,7 +163,9 @@ class SqlExcelQuery(object):
                                          'sql_query'))
         return results['sql_query'] if results else None
 
-    def set_sql(self, text: str) -> bool:
+    def set_sql(self,
+                text: str
+                ) -> bool:
         """
         Set the query SQL text
 
@@ -166,7 +175,8 @@ class SqlExcelQuery(object):
         return self.model.update(entity_id=self._query_id,
                                  values={'sql_query': text})
 
-    def set_draft(self) -> None:
+    def set_draft(self
+                  ) -> None:
         """
         Set the query object as draft
         """
@@ -175,7 +185,8 @@ class SqlExcelQuery(object):
                            kwargs={},
                            ignore_none_errors=True)
 
-    def validate(self) -> None:
+    def validate(self
+                 ) -> None:
         """
         Validate the query object
         """
@@ -184,7 +195,8 @@ class SqlExcelQuery(object):
                            kwargs={},
                            ignore_none_errors=False)
 
-    def get_state(self) -> Optional[str]:
+    def get_state(self
+                  ) -> Optional[str]:
         """
         Get the query object state
 
@@ -194,7 +206,8 @@ class SqlExcelQuery(object):
                                  fields=('state', ))
         return results['state'] if results else None
 
-    def get_active(self) -> Optional[str]:
+    def get_active(self
+                   ) -> Optional[str]:
         """
         Get the query object active state
 
@@ -204,7 +217,9 @@ class SqlExcelQuery(object):
                                  fields=('active', ))
         return results['active'] if results else None
 
-    def set_active(self, active: bool) -> bool:
+    def set_active(self,
+                   active: bool
+                   ) -> bool:
         """
         Set the query object as active/inactive
 
@@ -214,7 +229,8 @@ class SqlExcelQuery(object):
         return self.model.update(entity_id=self._query_id,
                                  values={'active': active})
 
-    def execute(self) -> None:
+    def execute(self
+                ) -> None:
         """
         Execute the query to create the Excel file in the `file` field
 
@@ -226,14 +242,16 @@ class SqlExcelQuery(object):
                            ignore_none_errors=True)
         return None
 
-    def clear(self) -> None:
+    def clear(self
+              ) -> None:
         """
         Clear the produced file
         """
         self.model.update(entity_id=self._query_id,
                           values={'file': False})
 
-    def delete(self) -> bool:
+    def delete(self
+               ) -> bool:
         """
         Delete the query object
 
@@ -241,7 +259,8 @@ class SqlExcelQuery(object):
         """
         return self.model.delete(entity_id=self._query_id)
 
-    def get_file(self) -> Optional[str]:
+    def get_file(self
+                 ) -> Optional[str]:
         """
         Get the latest produced Excel file
 
@@ -256,7 +275,8 @@ class SqlExcelQuery(object):
             results = None
         return results
 
-    def get_data(self) -> Optional[list[dict[str, Any]]]:
+    def get_data(self
+                 ) -> Optional[list[dict[str, Any]]]:
         """
         Get the latest produced Excel file and extract its tabular data
 
@@ -281,7 +301,9 @@ class SqlExcelQuery(object):
                                             [item.value for item in row])))
         return results
 
-    def add_tag(self, tag_id: int) -> bool:
+    def add_tag(self,
+                tag_id: int
+                ) -> bool:
         """
         Add an existing tag to the query
 
@@ -292,7 +314,8 @@ class SqlExcelQuery(object):
                                            field='tag_ids',
                                            related_id=tag_id)
 
-    def get_tags(self) -> Optional[list[dict[str, Any]]]:
+    def get_tags(self
+                 ) -> Optional[list[dict[str, Any]]]:
         """
         Get the query tags
 

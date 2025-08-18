@@ -30,12 +30,14 @@ class Filter(object):
     def __init__(self,
                  field: str,
                  compare_type: CompareType,
-                 value: object):
+                 value: object
+                 ) -> None:
         self.field = field
         self.compare_type = compare_type
         self.value = value
 
-    def explode(self) -> list[Union[str, object]]:
+    def explode(self
+                ) -> list[Union[str, object]]:
         """
         Extract the list from the filter, in the format used in Odoo filters
 

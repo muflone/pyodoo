@@ -72,7 +72,8 @@ def get_authentication_from_demo() -> dict[str, str]:
     return info
 
 
-def get_model_from_demo(model_name: str):
+def get_model_from_demo(model_name: str
+                        ) -> Model:
     """
     Get a Model object from the public demo server
 

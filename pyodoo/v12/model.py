@@ -41,7 +41,8 @@ class Model(object):
                  username: str,
                  password: str,
                  language: str = None,
-                 authenticate: bool = False):
+                 authenticate: bool = False
+                 ) -> None:
         # API object
         self.api = Api(model_name=model_name,
                        endpoint=endpoint,
@@ -82,8 +83,78 @@ class Model(object):
             return result
         return wrapper
 
+    def _set_active(self,
+                    filters: list[Union[BooleanOperator, Filter]],
+                    is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
+                    ) -> None:
+        """
+        Add a new filter for active records
+
+        :param filters: List of filters used for searching the data
+        :return: None
+        """
+        if filters is not None:
+            if is_active == ActiveStatusChoice.BOTH:
+                filters.append(['active', CompareType.IN, is_active])
+            elif is_active != ActiveStatusChoice.NOT_SET:
+                filters.append(['active', CompareType.EQUAL, is_active])
+
+    def _set_options_language(self,
+                              options: dict
+                              ) -> Optional[str]:
+        """
+        Apply the default language context to the options
+
+        :param options: Dictionary with any existing options
+        :return: The current default language code
+        """
+        # Set language for translated fields
+        if self.api.language:
+            if 'context' in options:
+                options['context']['lang'] = self.api.language
+            else:
+                options['context'] = {'lang': self.api.language}
+        return self.language
+
+    def _set_order_by(self,
+                      options: dict,
+                      order: Optional[str]
+                      ) -> dict:
+        """
+        Apply order for ordering results to the options
+
+        :param options: Dictionary with any existing options
+        :param order: Order string
+        :return: The options dictionary
+        """
+        # Set order
+        if order is not None and 'order' not in options:
+            options['order'] = order
+        return options
+
+    def _set_pagination(self,
+                        options: dict,
+                        limit: Optional[int],
+                        offset: Optional[int]
+                        ) -> dict:
+        """
+        Apply limit and offset for pagination to the options
+
+        :param options: Dictionary with any existing options
+        :param limit: Maximum number of results count
+        :param offset: Starting record number to fetch the data
+        :return: The options dictionary
+        """
+        # Set limit and offset
+        if limit is not None and 'limit' not in options:
+            options['limit'] = limit
+        if offset is not None and 'offset' not in options:
+            options['offset'] = offset
+        return options
+
     @property
-    def model_name(self):
+    def model_name(self
+                   ) -> str:
         """
         Get the current model name
 
@@ -92,7 +163,8 @@ class Model(object):
         return self.api.model_name
 
     @property
-    def language(self):
+    def language(self
+                 ) -> str:
         """
         Get the current default language
 
@@ -102,7 +174,8 @@ class Model(object):
 
     @language.setter
     def language(self,
-                 language: str):
+                 language: str
+                 ) -> None:
         """
         Set the current default language
 
@@ -122,7 +195,8 @@ class Model(object):
     def get_model(self,
                   model_name: str,
                   authenticate: bool = False,
-                  use_existing_uid: bool = False) -> 'Model':
+                  use_existing_uid: bool = False
+                  ) -> 'Model':
         """
         Get a Model object for another model name
         :param model_name: Model name
@@ -526,72 +600,6 @@ class Model(object):
                                      options=options)
         return results
 
-    def _set_active(self,
-                    filters: list[Union[BooleanOperator, Filter]],
-                    is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
-                    ) -> None:
-        """
-        Add a new filter for active records
-
-        :param filters: List of filters used for searching the data
-        :return: None
-        """
-        if filters is not None:
-            if is_active == ActiveStatusChoice.BOTH:
-                filters.append(['active', CompareType.IN, is_active])
-            elif is_active != ActiveStatusChoice.NOT_SET:
-                filters.append(['active', CompareType.EQUAL, is_active])
-
-    def _set_options_language(self,
-                              options: dict) -> Optional[str]:
-        """
-        Apply the default language context to the options
-
-        :param options: Dictionary with any existing options
-        :return: The current default language code
-        """
-        # Set language for translated fields
-        if self.api.language:
-            if 'context' in options:
-                options['context']['lang'] = self.api.language
-            else:
-                options['context'] = {'lang': self.api.language}
-        return self.language
-
-    def _set_order_by(self,
-                      options: dict,
-                      order: Optional[str]) -> dict:
-        """
-        Apply order for ordering results to the options
-
-        :param options: Dictionary with any existing options
-        :param order: Order string
-        :return: The options dictionary
-        """
-        # Set order
-        if order is not None and 'order' not in options:
-            options['order'] = order
-        return options
-
-    def _set_pagination(self,
-                        options: dict,
-                        limit: Optional[int],
-                        offset: Optional[int]) -> dict:
-        """
-        Apply limit and offset for pagination to the options
-
-        :param options: Dictionary with any existing options
-        :param limit: Maximum number of results count
-        :param offset: Starting record number to fetch the data
-        :return: The options dictionary
-        """
-        # Set limit and offset
-        if limit is not None and 'limit' not in options:
-            options['limit'] = limit
-        if offset is not None and 'offset' not in options:
-            options['offset'] = offset
-        return options
-
     @_ignore_none_errors
     def get_fields(self,
                    fields: tuple[str, ...] = None,
@@ -825,7 +833,7 @@ class Model(object):
                      author_id: int,
                      subject: Union[str, bool],
                      body: str,
-                     options: Optional[dict[str, Any]],
+                     options: Optional[dict[str, Any]] = None,
                      ignore_none_errors: bool = False
                      ) -> int:
         """

@@ -34,7 +34,8 @@ class Api(object):
                  database: str,
                  username: str,
                  password: str,
-                 language: str = None):
+                 language: str = None
+                 ) -> None:
         # Associate model
         if not model_name:
             raise NotImplementedError('model name was not set properly')
@@ -49,7 +50,8 @@ class Api(object):
         if self.endpoint.endswith('/'):
             self.endpoint = self.endpoint[:-1]
 
-    def authenticate(self) -> int:
+    def authenticate(self
+                     ) -> int:
         """
         Authenticate the session using database, username and password
 
@@ -63,7 +65,8 @@ class Api(object):
         return self.uid
 
     def build_endpoint(self,
-                       method: str) -> str:
+                       method: str
+                       ) -> str:
         """
         Build the remote endpoint URL
 
@@ -74,7 +77,8 @@ class Api(object):
                                             METHOD=method)
 
     def get_proxy(self,
-                  method: str) -> ServerProxy:
+                  method: str
+                  ) -> ServerProxy:
         """
         Get the proxy for the remote endpoint URL
 
@@ -83,7 +87,8 @@ class Api(object):
         """
         return ServerProxy(self.build_endpoint(method=method))
 
-    def get_proxy_object(self) -> ServerProxy:
+    def get_proxy_object(self
+                         ) -> ServerProxy:
         """
         Get the proxy for the standard object method
 
@@ -107,7 +112,8 @@ class Api(object):
     def do_execute(self,
                    method_name: str,
                    args: list[Any],
-                   kwargs: dict[str, Any]) -> Any:
+                   kwargs: dict[str, Any]
+                   ) -> Any:
         """
         Execute a method on a model
 
@@ -128,7 +134,8 @@ class Api(object):
 
     def do_read(self,
                 entity_id: int,
-                options: dict[str, Any]) -> Optional[dict[str, Any]]:
+                options: dict[str, Any]
+                ) -> Optional[dict[str, Any]]:
         """
         Get a record in the requested model applying a filter and some
         options (like fields or context)
@@ -160,7 +167,8 @@ class Api(object):
 
     def do_fields_get(self,
                       fields: list[str],
-                      options: dict[str, Any]) -> dict[str, dict]:
+                      options: dict[str, Any]
+                      ) -> dict[str, dict]:
         """
         Get the model fields
 
@@ -175,7 +183,8 @@ class Api(object):
 
     def do_search(self,
                   filters: list[Union[BooleanOperator, Filter, str]],
-                  options: dict[str, Any]) -> list[int]:
+                  options: dict[str, Any]
+                  ) -> list[int]:
         """
         Search some records in the requested model applying a filter and some
         options (like fields or context)
@@ -191,7 +200,8 @@ class Api(object):
 
     def do_search_count(self,
                         filters: list[Union[BooleanOperator, Filter, str]],
-                        options: dict[str, Any]) -> int:
+                        options: dict[str, Any]
+                        ) -> int:
         """
         Get the records count in the requested model applying a filter
 
@@ -206,7 +216,8 @@ class Api(object):
 
     def do_search_read(self,
                        filters: list[Union[BooleanOperator, Filter]],
-                       options: dict[str, Any]) -> list[dict[str, Any]]:
+                       options: dict[str, Any]
+                       ) -> list[dict[str, Any]]:
         """
         Search some records in the requested model applying a filter and some
         options (like fields or context) and returns the found data
@@ -223,7 +234,8 @@ class Api(object):
 
     def do_create(self,
                   values: dict[str, Any],
-                  options: dict[str, Any]) -> int:
+                  options: dict[str, Any]
+                  ) -> int:
         """
         Create a new record in the requested model and returns its ID
 
@@ -239,7 +251,8 @@ class Api(object):
     def do_update(self,
                   entity_id: Union[int, list[int]],
                   values: dict[str, Any],
-                  options: dict[str, Any]) -> bool:
+                  options: dict[str, Any]
+                  ) -> bool:
         """
         Update one or more records in the requested model
 
@@ -255,7 +268,8 @@ class Api(object):
 
     def do_delete(self,
                   entity_id: Union[int, list[int]],
-                  options: dict[str, Any]) -> bool:
+                  options: dict[str, Any]
+                  ) -> bool:
         """
         Delete one or multiple records in the requested model
 
@@ -274,7 +288,8 @@ class Api(object):
                         author_id: int,
                         subject: str,
                         body: str,
-                        options: dict[str, Any]) -> int:
+                        options: dict[str, Any]
+                        ) -> int:
         """
         Add a message to a model row
 

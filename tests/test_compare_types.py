@@ -27,14 +27,16 @@ import utility
 
 class TestCaseCompareTypes(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls
+                   ) -> None:
         """
         Model object preparation
         """
         cls.model = utility.get_model_from_demo(model_name='product.template')
         cls.model.authenticate()
 
-    def test_01_filter_equal(self) -> None:
+    def test_01_filter_equal(self
+                             ) -> None:
         """
         Search some rows using filters using compare EQUAL
         """
@@ -49,7 +51,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_02_filter_not_equal(self) -> None:
+    def test_02_filter_not_equal(self
+                                 ) -> None:
         """
         Search some rows using filters using compare NOT_EQUAL
         """
@@ -67,7 +70,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_03_filter_greater(self) -> None:
+    def test_03_filter_greater(self
+                               ) -> None:
         """
         Search some rows using filters using compare GREATER
         """
@@ -85,7 +89,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_04_filter_greater_equal(self) -> None:
+    def test_04_filter_greater_equal(self
+                                     ) -> None:
         """
         Search some rows using filters using compare GREATER_EQ
         """
@@ -103,7 +108,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_05_filter_lower(self) -> None:
+    def test_05_filter_lower(self
+                             ) -> None:
         """
         Search some rows using filters using compare LOWER
         """
@@ -121,7 +127,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_06_filter_lower_equal(self) -> None:
+    def test_06_filter_lower_equal(self
+                                   ) -> None:
         """
         Search some rows using filters using compare LOWER_EQ
         """
@@ -139,7 +146,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_07_filter_in(self) -> None:
+    def test_07_filter_in(self
+                          ) -> None:
         """
         Search some rows using filters using compare IN
         """
@@ -159,7 +167,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_08_filter_not_in(self) -> None:
+    def test_08_filter_not_in(self
+                              ) -> None:
         """
         Search some rows using filters using compare NOT_IN
         """
@@ -179,7 +188,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_09_filter_contains(self) -> None:
+    def test_09_filter_contains(self
+                                ) -> None:
         """
         Search some rows using filters using compare CONTAINS
         """
@@ -194,7 +204,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_10_filter_contains_not(self) -> None:
+    def test_10_filter_contains_not(self
+                                    ) -> None:
         """
         Search some rows using filters using compare CONTAINS_NOT
         """
@@ -212,7 +223,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_11_filter_not_contains(self) -> None:
+    def test_11_filter_not_contains(self
+                                    ) -> None:
         """
         Search some rows using filters using compare NOT_CONTAINS
         """
@@ -230,7 +242,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_12_filter_like(self) -> None:
+    def test_12_filter_like(self
+                            ) -> None:
         """
         Search some rows using filters using compare LIKE
         """
@@ -248,7 +261,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_13_filter_not_like(self) -> None:
+    def test_13_filter_not_like(self
+                                ) -> None:
         """
         Search some rows using filters using compare NOT_LIKE
         """
@@ -266,7 +280,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_14_filter_ilike(self) -> None:
+    def test_14_filter_ilike(self
+                             ) -> None:
         """
         Search some rows using filters using compare ILIKE
         """
@@ -284,7 +299,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_15_filter_not_ilike(self) -> None:
+    def test_15_filter_not_ilike(self
+                                 ) -> None:
         """
         Search some rows using filters using compare NOT_ILIKE
         """
@@ -302,7 +318,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list doesn't contain the Mozzarella Sandwich
         self.assertNotIn(84, results)
 
-    def test_16_filter_raw_like(self) -> None:
+    def test_16_filter_raw_like(self
+                                ) -> None:
         """
         Search some rows using filters using compare RAW_LIKE
         """
@@ -320,7 +337,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_17_filter_raw_ilike(self) -> None:
+    def test_17_filter_raw_ilike(self
+                                 ) -> None:
         """
         Search some rows using filters using compare RAW_ILIKE
         """
@@ -338,7 +356,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_18_filter_unset_or_equal(self) -> None:
+    def test_18_filter_unset_or_equal(self
+                                      ) -> None:
         """
         Search some rows using filters using compare UNSET_OR_EQUAL
         """
@@ -356,7 +375,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_19_filter_child_of(self) -> None:
+    def test_19_filter_child_of(self
+                                ) -> None:
         """
         Search some rows using filters using compare CHILD_OF
         """
@@ -374,7 +394,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         # Check if the results list contains the Mozzarella Sandwich
         self.assertIn(84, results)
 
-    def test_20_filter_parent_of(self) -> None:
+    def test_20_filter_parent_of(self
+                                 ) -> None:
         """
         Search some rows using filters using compare PARENT_OF
         """
