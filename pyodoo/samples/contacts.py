@@ -90,12 +90,14 @@ if model.authenticate():
 
     # Create a new record
     entity_id = model.create(values={'firstname': 'TEST TEST TEST',
-                                     'lastname': '123 456'})
+                                     'lastname': '123 456'},
+                             ignore_none_errors=True)
     print('create', entity_id)
 
     # Update a record by ID
     model.update(entity_id=entity_id,
-                 values={'street': 'TEST TEST TEST'})
+                 values={'street': 'TEST TEST TEST'},
+                 ignore_none_errors=True)
     results = model.get(entity_id=entity_id,
                         fields=('id', 'street'))
     print('update', results)
@@ -145,7 +147,8 @@ if model.authenticate():
     # Update those customers to French language
     for entity_id in results:
         model.update(entity_id=entity_id,
-                     values={'lang': 'fr_FR'})
+                     values={'lang': 'fr_FR'},
+                     ignore_none_errors=True)
         print('updating ID', entity_id)
     results = model.search(filters=filters)
     print('search', len(results), results)

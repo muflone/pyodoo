@@ -18,6 +18,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+import functools
 from typing import Any, Optional, Union
 import xmlrpc
 
@@ -82,6 +83,34 @@ class Model(object):
         """
         self.api.language = language
 
+    def ignore_none_errors(func):
+        """
+        Decorator to ignore XML-RPC None errors
+
+        Passing the `ignore_none_errors` argument to the decorated function
+        then the None errors, unacceptable for XMLRPC, will be ignored and,
+        in the case the decorated function will return None, a default None
+        value will be instead returned (use with cautions).
+        """
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            ignore_none_errors: bool = kwargs.pop('ignore_none_errors', False)
+            try:
+                result = func(*args, **kwargs)
+            except xmlrpc.client.Fault as error:
+                none_message = ('cannot marshal None unless '
+                                'allow_none is enabled')
+                if (ignore_none_errors and
+                        error.faultCode == 1 and
+                        none_message in error.faultString):
+                    # Ignore errors about None
+                    result = None
+                else:
+                    raise
+            return result
+        return wrapper
+
+    @ignore_none_errors
     def authenticate(self) -> int:
         """
         Authenticate the session using database, username and password.
@@ -113,6 +142,7 @@ class Model(object):
             model.api.uid = self.api.uid
         return model
 
+    @ignore_none_errors
     def get_model_data_reference(self,
                                  module_name: str,
                                  value: str):
@@ -142,6 +172,7 @@ class Model(object):
                                offset=0)
         return results[0] if results else None
 
+    @ignore_none_errors
     def get(self,
             entity_id: int,
             fields: tuple[str, ...] = None,
@@ -159,6 +190,7 @@ class Model(object):
                                 options=options)
         return results[0] if results else None
 
+    @ignore_none_errors
     def get_many(self,
                  entity_ids: list[int],
                  fields: tuple[str, ...] = None,
@@ -185,6 +217,7 @@ class Model(object):
                                         options=options)
         return results
 
+    @ignore_none_errors
     def all(self,
             is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
             fields: tuple[str, ...] = None,
@@ -211,6 +244,7 @@ class Model(object):
                            offset=offset,
                            order=order)
 
+    @ignore_none_errors
     def find(self,
              entity_ids: list[int],
              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -256,6 +290,7 @@ class Model(object):
                                           options=options)
         return results
 
+    @ignore_none_errors
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],
                is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -299,6 +334,7 @@ class Model(object):
                                           options=options)
         return results
 
+    @ignore_none_errors
     def first(self,
               filters: list[Union[BooleanOperator, Filter]],
               is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -328,6 +364,7 @@ class Model(object):
                               order=order)
         return results[0] if results else None
 
+    @ignore_none_errors
     def count(self,
               filters: list[Union[BooleanOperator, Filter]],
               is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -351,6 +388,7 @@ class Model(object):
                                            options=options)
         return results
 
+    @ignore_none_errors
     def search(self,
                filters: list[Union[BooleanOperator, Filter]],
                is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -389,6 +427,7 @@ class Model(object):
                                      options=options)
         return results
 
+    @ignore_none_errors
     def create(self,
                values: dict[str, Any],
                options: dict[str, Any] = None) -> int:
@@ -409,6 +448,7 @@ class Model(object):
                                      options=options)
         return results
 
+    @ignore_none_errors
     def update(self,
                entity_id: Union[int, list[int]],
                values: dict[str, Any],
@@ -432,6 +472,7 @@ class Model(object):
                                      options=options)
         return results
 
+    @ignore_none_errors
     def delete(self,
                entity_id: Union[int, list[int]],
                options: dict[str, Any] = None) -> bool:
@@ -516,6 +557,7 @@ class Model(object):
             options['offset'] = offset
         return options
 
+    @ignore_none_errors
     def get_fields(self,
                    fields: tuple[str, ...] = None,
                    attributes: list[str, ...] = None,
@@ -544,6 +586,7 @@ class Model(object):
                                          options=options)
         return results
 
+    @ignore_none_errors
     def many_to_many_create(self,
                             entity_id: int,
                             field: str,
@@ -562,6 +605,7 @@ class Model(object):
                            values={field: [(0, 0, values)]},
                            options=options)
 
+    @ignore_none_errors
     def many_to_many_add(self,
                          entity_id: int,
                          field: str,
@@ -580,6 +624,7 @@ class Model(object):
                            values={field: [(4, related_id)]},
                            options=options)
 
+    @ignore_none_errors
     def many_to_many_update(self,
                             entity_id: int,
                             field: str,
@@ -600,6 +645,7 @@ class Model(object):
                            values={field: [(1, related_id, values)]},
                            options=options)
 
+    @ignore_none_errors
     def many_to_many_delete(self,
                             entity_id: int,
                             field: str,
@@ -619,6 +665,7 @@ class Model(object):
                            values={field: [(2, related_id)]},
                            options=options)
 
+    @ignore_none_errors
     def many_to_many_remove(self,
                             entity_id: int,
                             field: str,
@@ -637,6 +684,7 @@ class Model(object):
                            values={field: [(3, related_id)]},
                            options=options)
 
+    @ignore_none_errors
     def many_to_many_clear(self,
                            entity_id: int,
                            field: str,
@@ -653,6 +701,7 @@ class Model(object):
                            values={field: [(5, )]},
                            options=options)
 
+    @ignore_none_errors
     def many_to_many_replace(self,
                              entity_id: int,
                              field: str,
@@ -671,35 +720,24 @@ class Model(object):
                            values={field: [(6, 0, related_ids)]},
                            options=options)
 
+    @ignore_none_errors
     def execute(self,
                 method_name: str,
                 args: list[Any],
-                kwargs: dict[str, Any],
-                ignore_none_errors: bool = False) -> Any:
+                kwargs: dict[str, Any]) -> Any:
         """
         Execute a method on a model
 
         :param method_name: The method name to call
         :param args: Arguments list passed by position
         :param kwargs: Arguments dict passed by keyword
-        :param ignore_none_errors: Ignore error about None values
         :return: Method calling result data
         """
-        try:
-            results = self.api.do_execute(method_name=method_name,
-                                          args=args,
-                                          kwargs=kwargs)
-        except xmlrpc.client.Fault as error:
-            none_message = 'cannot marshal None unless allow_none is enabled'
-            if (ignore_none_errors and
-                    error.faultCode == 1 and
-                    none_message in error.faultString):
-                # Ignore errors about None
-                results = None
-            else:
-                raise
-        return results
+        return self.api.do_execute(method_name=method_name,
+                                   args=args,
+                                   kwargs=kwargs)
 
+    @ignore_none_errors
     def get_message_subtype_id(self, subtype: str):
         """
         Get Message subtype ID from its name
@@ -714,6 +752,7 @@ class Model(object):
                 self._message_subtypes[subtype] = item['res_id']
         return self._message_subtypes.get(subtype)
 
+    @ignore_none_errors
     def post_message(self,
                      subtype: Union[str, int],
                      entity_id: int,
@@ -742,6 +781,7 @@ class Model(object):
                                         body=body,
                                         options=options)
 
+    @ignore_none_errors
     def post_message_as_activity(self,
                                  entity_id: int,
                                  body: str,
@@ -761,6 +801,7 @@ class Model(object):
                                  body=body,
                                  options=None)
 
+    @ignore_none_errors
     def post_message_as_comment(self,
                                 entity_id: int,
                                 body: str,
@@ -780,6 +821,7 @@ class Model(object):
                                  body=body,
                                  options=None)
 
+    @ignore_none_errors
     def post_message_as_note(self,
                              entity_id: int,
                              body: str,
