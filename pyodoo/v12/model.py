@@ -55,6 +55,33 @@ class Model(object):
         if authenticate:
             self.authenticate()
 
+    def _ignore_none_errors(func):
+        """
+        Decorator to ignore XML-RPC None errors
+
+        Passing the `ignore_none_errors` argument to the decorated function
+        then the None errors, unacceptable for XMLRPC, will be ignored and,
+        in the case the decorated function will return None, a default None
+        value will be instead returned (use with cautions).
+        """
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            ignore_none_errors: bool = kwargs.pop('ignore_none_errors', False)
+            try:
+                result = func(*args, **kwargs)
+            except xmlrpc.client.Fault as error:
+                none_message = ('cannot marshal None unless '
+                                'allow_none is enabled')
+                if (ignore_none_errors and
+                        error.faultCode == 1 and
+                        none_message in error.faultString):
+                    # Ignore errors about None
+                    result = None
+                else:
+                    raise
+            return result
+        return wrapper
+
     @property
     def model_name(self):
         """
@@ -83,35 +110,8 @@ class Model(object):
         """
         self.api.language = language
 
-    def ignore_none_errors(func):
-        """
-        Decorator to ignore XML-RPC None errors
-
-        Passing the `ignore_none_errors` argument to the decorated function
-        then the None errors, unacceptable for XMLRPC, will be ignored and,
-        in the case the decorated function will return None, a default None
-        value will be instead returned (use with cautions).
-        """
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            ignore_none_errors: bool = kwargs.pop('ignore_none_errors', False)
-            try:
-                result = func(*args, **kwargs)
-            except xmlrpc.client.Fault as error:
-                none_message = ('cannot marshal None unless '
-                                'allow_none is enabled')
-                if (ignore_none_errors and
-                        error.faultCode == 1 and
-                        none_message in error.faultString):
-                    # Ignore errors about None
-                    result = None
-                else:
-                    raise
-            return result
-        return wrapper
-
-    @ignore_none_errors
-    def authenticate(self) -> int:
+    def authenticate(self
+                     ) -> int:
         """
         Authenticate the session using database, username and password.
 
@@ -142,15 +142,18 @@ class Model(object):
             model.api.uid = self.api.uid
         return model
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def get_model_data_reference(self,
                                  module_name: str,
-                                 value: str):
+                                 value: str,
+                                 ignore_none_errors: bool = False
+                                 ) -> Any:
         """
         Get a reference row from ir.module.data
 
         :param module_name: Module name to lookup
         :param value: Value to lookup
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Dictionary with the data for the referenced object
         """
         model = self.get_model(model_name='ir.model.data',
@@ -172,17 +175,20 @@ class Model(object):
                                offset=0)
         return results[0] if results else None
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def get(self,
             entity_id: int,
             fields: tuple[str, ...] = None,
-            options: dict[str, Any] = None) -> Optional[dict[str, Any]]:
+            options: dict[str, Any] = None,
+            ignore_none_errors: bool = False
+            ) -> Optional[dict[str, Any]]:
         """
         Get a row from a model using its ID
 
         :param entity_id: Object ID to query
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Dictionary with the requested fields
         """
         results = self.get_many(entity_ids=[entity_id],
@@ -190,11 +196,12 @@ class Model(object):
                                 options=options)
         return results[0] if results else None
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def get_many(self,
                  entity_ids: list[int],
                  fields: tuple[str, ...] = None,
-                 options: dict[str, Any] = None
+                 options: dict[str, Any] = None,
+                 ignore_none_errors: bool = False
                  ) -> Optional[list[dict[str, Any]]]:
         """
         Get a row from a model using its ID
@@ -202,6 +209,7 @@ class Model(object):
         :param entity_ids: Object IDs to query
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         # Set options
@@ -217,14 +225,16 @@ class Model(object):
                                         options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def all(self,
             is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
             fields: tuple[str, ...] = None,
             options: dict[str, Any] = None,
             limit: Optional[int] = None,
             offset: Optional[int] = None,
-            order: Optional[str] = None) -> list[dict[str, Any]]:
+            order: Optional[str] = None,
+            ignore_none_errors: bool = False
+            ) -> list[dict[str, Any]]:
         """
         Get all the objects
 
@@ -234,6 +244,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         return self.filter(filters=[],
@@ -244,7 +255,7 @@ class Model(object):
                            offset=offset,
                            order=order)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def find(self,
              entity_ids: list[int],
              is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -252,7 +263,9 @@ class Model(object):
              options: dict[str, Any] = None,
              limit: Optional[int] = None,
              offset: Optional[int] = None,
-             order: Optional[str] = None) -> list[dict[str, Any]]:
+             order: Optional[str] = None,
+             ignore_none_errors: bool = False
+             ) -> list[dict[str, Any]]:
         """
         Find some rows from a model using their ID
 
@@ -263,6 +276,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         # Add filtered IDs
@@ -290,7 +304,7 @@ class Model(object):
                                           options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def filter(self,
                filters: list[Union[BooleanOperator, Filter]],
                is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -298,7 +312,9 @@ class Model(object):
                options: dict[str, Any] = None,
                limit: Optional[int] = None,
                offset: Optional[int] = None,
-               order: Optional[str] = None) -> list[dict[str, Any]]:
+               order: Optional[str] = None,
+               ignore_none_errors: bool = False
+               ) -> list[dict[str, Any]]:
         """
         Find some rows from a model using some filters
 
@@ -309,6 +325,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         # Filter for active status
@@ -334,7 +351,7 @@ class Model(object):
                                           options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def first(self,
               filters: list[Union[BooleanOperator, Filter]],
               is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
@@ -342,7 +359,9 @@ class Model(object):
               options: dict[str, Any] = None,
               limit: Optional[int] = None,
               offset: Optional[int] = None,
-              order: Optional[str] = None) -> Optional[dict[str, Any]]:
+              order: Optional[str] = None,
+              ignore_none_errors: bool = False
+              ) -> Optional[dict[str, Any]]:
         """
         Find the first row from a model using some filters
 
@@ -353,6 +372,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         results = self.filter(filters=filters,
@@ -364,17 +384,20 @@ class Model(object):
                               order=order)
         return results[0] if results else None
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def count(self,
               filters: list[Union[BooleanOperator, Filter]],
               is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
-              options: dict[str, Any] = None) -> int:
+              options: dict[str, Any] = None,
+              ignore_none_errors: bool = False
+              ) -> int:
         """
         Get the rows count from a model using some filters
 
         :param filters: List of filters used for searching the data
         :param is_active: Additional filter for active field
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Rows count
         """
         # Filter for active status
@@ -388,14 +411,16 @@ class Model(object):
                                            options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def search(self,
                filters: list[Union[BooleanOperator, Filter]],
                is_active: ActiveStatusChoice = ActiveStatusChoice.NOT_SET,
                options: dict[str, Any] = None,
                limit: Optional[int] = None,
                offset: Optional[int] = None,
-               order: Optional[str] = None) -> list[int]:
+               order: Optional[str] = None,
+               ignore_none_errors: bool = False
+               ) -> list[int]:
         """
         Find rows list from a list of filters
 
@@ -405,6 +430,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: List of ID for the objects found
         """
         # Filter for active status
@@ -427,15 +453,18 @@ class Model(object):
                                      options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def create(self,
                values: dict[str, Any],
-               options: dict[str, Any] = None) -> int:
+               options: dict[str, Any] = None,
+               ignore_none_errors: bool = False
+               ) -> int:
         """
         Create a new record in the requested model and returns its ID
 
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: The ID of the newly created object
         """
         # Set options
@@ -448,17 +477,20 @@ class Model(object):
                                      options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def update(self,
                entity_id: Union[int, list[int]],
                values: dict[str, Any],
-               options: dict[str, Any] = None) -> bool:
+               options: dict[str, Any] = None,
+               ignore_none_errors: bool = False
+               ) -> bool:
         """
         Update one or multiple rows from a model using the object IDs
 
         :param entity_id: The object IDs to update
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the records were updated
         """
         # Set options
@@ -472,15 +504,18 @@ class Model(object):
                                      options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def delete(self,
                entity_id: Union[int, list[int]],
-               options: dict[str, Any] = None) -> bool:
+               options: dict[str, Any] = None,
+               ignore_none_errors: bool = False
+               ) -> bool:
         """
         Delete one or multiple rows from a model using the object IDs
 
         :param entity_id: The object IDs to delete
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the records were deleted
         """
         # Set options
@@ -557,17 +592,20 @@ class Model(object):
             options['offset'] = offset
         return options
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def get_fields(self,
                    fields: tuple[str, ...] = None,
                    attributes: list[str, ...] = None,
-                   options: dict[str, Any] = None) -> Optional[dict[str, Any]]:
+                   options: dict[str, Any] = None,
+                   ignore_none_errors: bool = False
+                   ) -> Optional[dict[str, Any]]:
         """
         Get the model fields
 
         :param fields: List with the fields to include in the response
         :param attributes: List with the attributes to include in the response
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Dictionary with the requested fields
         """
         # Set options
@@ -586,12 +624,14 @@ class Model(object):
                                          options=options)
         return results
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def many_to_many_create(self,
                             entity_id: int,
                             field: str,
                             values: dict[str, Any],
-                            options: dict[str, Any] = None) -> bool:
+                            options: dict[str, Any] = None,
+                            ignore_none_errors: bool = False
+                            ) -> bool:
         """
         Create a new object and add it to a Many-to-Many relationship
 
@@ -599,18 +639,21 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param values: Dictionary with values for the new record to create
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
                            values={field: [(0, 0, values)]},
                            options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def many_to_many_add(self,
                          entity_id: int,
                          field: str,
                          related_id: int,
-                         options: dict[str, Any] = None) -> bool:
+                         options: dict[str, Any] = None,
+                         ignore_none_errors: bool = False
+                         ) -> bool:
         """
         Add an existing related object to a Many-to-Many relationship
 
@@ -618,19 +661,22 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_id: The object ID to add
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
                            values={field: [(4, related_id)]},
                            options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def many_to_many_update(self,
                             entity_id: int,
                             field: str,
                             related_id: int,
                             values: dict[str, Any],
-                            options: dict[str, Any] = None) -> bool:
+                            options: dict[str, Any] = None,
+                            ignore_none_errors: bool = False
+                            ) -> bool:
         """
         Update an existing related object from a Many-to-Many relationship
 
@@ -639,18 +685,21 @@ class Model(object):
         :param related_id: The object ID to add
         :param values: Dictionary with values for the record to update
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
                            values={field: [(1, related_id, values)]},
                            options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def many_to_many_delete(self,
                             entity_id: int,
                             field: str,
                             related_id: int,
-                            options: dict[str, Any] = None) -> bool:
+                            options: dict[str, Any] = None,
+                            ignore_none_errors: bool = False
+                            ) -> bool:
         """
         Delete an existing related object from a Many-to-Many relationship
         and delete the whole object completely
@@ -659,18 +708,21 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_id: The object ID to delete
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the record was deleted
         """
         return self.update(entity_id=entity_id,
                            values={field: [(2, related_id)]},
                            options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def many_to_many_remove(self,
                             entity_id: int,
                             field: str,
                             related_id: int,
-                            options: dict[str, Any] = None) -> bool:
+                            options: dict[str, Any] = None,
+                            ignore_none_errors: bool = False
+                            ) -> bool:
         """
         Remove an existing related object from a Many-to-Many relationship
 
@@ -678,35 +730,41 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_id: The object ID to remove
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the record was removed
         """
         return self.update(entity_id=entity_id,
                            values={field: [(3, related_id)]},
                            options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def many_to_many_clear(self,
                            entity_id: int,
                            field: str,
-                           options: dict[str, Any] = None) -> bool:
+                           options: dict[str, Any] = None,
+                           ignore_none_errors: bool = False
+                           ) -> bool:
         """
         Clear any existing related objects from a Many-to-Many relationship
 
         :param entity_id: The object ID from which remove the related object
         :param field: The field name for the relationship to update
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
                            values={field: [(5, )]},
                            options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def many_to_many_replace(self,
                              entity_id: int,
                              field: str,
                              related_ids: list[int],
-                             options: dict[str, Any] = None) -> bool:
+                             options: dict[str, Any] = None,
+                             ignore_none_errors: bool = False
+                             ) -> bool:
         """
         Replace any existing related objects from a Many-to-Many relationship
 
@@ -714,35 +772,43 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_ids: List with the IDs of the records to replace
         :param options: Dictionary with options to use
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
                            values={field: [(6, 0, related_ids)]},
                            options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def execute(self,
                 method_name: str,
                 args: list[Any],
-                kwargs: dict[str, Any]) -> Any:
+                kwargs: dict[str, Any],
+                ignore_none_errors: bool = False
+                ) -> Any:
         """
         Execute a method on a model
 
         :param method_name: The method name to call
         :param args: Arguments list passed by position
         :param kwargs: Arguments dict passed by keyword
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Method calling result data
         """
         return self.api.do_execute(method_name=method_name,
                                    args=args,
                                    kwargs=kwargs)
 
-    @ignore_none_errors
-    def get_message_subtype_id(self, subtype: str):
+    @_ignore_none_errors
+    def get_message_subtype_id(self,
+                               subtype: str,
+                               ignore_none_errors: bool = False
+                               ) -> int:
         """
         Get Message subtype ID from its name
 
         :param subtype: Message subtype name
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Resulting ID
         """
         if subtype not in self._message_subtypes:
@@ -752,14 +818,16 @@ class Model(object):
                 self._message_subtypes[subtype] = item['res_id']
         return self._message_subtypes.get(subtype)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def post_message(self,
                      subtype: Union[str, int],
                      entity_id: int,
                      author_id: int,
                      subject: Union[str, bool],
                      body: str,
-                     options: Optional[dict[str, Any]]) -> int:
+                     options: Optional[dict[str, Any]],
+                     ignore_none_errors: bool = False
+                     ) -> int:
         """
         Add a message to a model row
 
@@ -769,6 +837,7 @@ class Model(object):
         :param subject: The message subject to add
         :param body: The message body to add
         :param options: Dictionary with any existing options
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: New message ID
         """
         subtype_id = (self.get_message_subtype_id(subtype)
@@ -781,17 +850,20 @@ class Model(object):
                                         body=body,
                                         options=options)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def post_message_as_activity(self,
                                  entity_id: int,
                                  body: str,
-                                 author_id: int) -> int:
+                                 author_id: int,
+                                 ignore_none_errors: bool = False
+                                 ) -> int:
         """
         Add an activity message to a model row
 
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Returned message ID
         """
         return self.post_message(subtype=MessageSubType.ACTIVITY,
@@ -801,17 +873,20 @@ class Model(object):
                                  body=body,
                                  options=None)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def post_message_as_comment(self,
                                 entity_id: int,
                                 body: str,
-                                author_id: int) -> int:
+                                author_id: int,
+                                ignore_none_errors: bool = False
+                                ) -> int:
         """
         Add a comment message to a model row
 
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Returned message ID
         """
         return self.post_message(subtype=MessageSubType.COMMENT,
@@ -821,17 +896,20 @@ class Model(object):
                                  body=body,
                                  options=None)
 
-    @ignore_none_errors
+    @_ignore_none_errors
     def post_message_as_note(self,
                              entity_id: int,
                              body: str,
-                             author_id: int) -> int:
+                             author_id: int,
+                             ignore_none_errors: bool = False
+                             ) -> int:
         """
         Add a note message to a model row
 
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
+        :param ignore_none_errors: Ignore XML-RPC errors returning None
         :return: Returned message ID
         """
         return self.post_message(subtype=MessageSubType.NOTE,
