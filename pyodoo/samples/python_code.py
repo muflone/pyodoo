@@ -2,7 +2,7 @@
 #     Project: PyOdoo
 # Description: API for Odoo
 #      Author: Fabio Castelli (Muflone) <muflone@muflone.com>
-#   Copyright: 2021-2024 Fabio Castelli
+#   Copyright: 2021-2025 Fabio Castelli
 #     License: GPL-3+
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
