@@ -62,6 +62,7 @@ query.execute()
 
 # Get Excel file
 data = query.get_file()
+print(len(data))
 
 # Process the Excel file and extract its data
 data = query.get_data()
