@@ -44,6 +44,7 @@ class Model(object):
                  authenticate: bool = False
                  ) -> None:
         self.__partner_id: int = None
+        self.__partner_name: str = None
         # API object
         self.api = Api(model_name=model_name,
                        endpoint=endpoint,
@@ -67,7 +68,7 @@ class Model(object):
                                      use_existing_uid=True)
         partner_data = model_users.get(entity_id=self.api.uid,
                                        fields=('id', 'partner_id'))
-        self.__partner_id, = partner_data['partner_id'][0]
+        self.__partner_id, self.__partner_name = partner_data['partner_id']
 
     def _ignore_none_errors(func):
         """
@@ -207,6 +208,18 @@ class Model(object):
         if not self.__partner_id:
             self._get_partner_data()
         return self.__partner_id
+
+    @property
+    def partner_name(self
+                     ) -> str:
+        """
+        Get the current partner name
+
+        :return: current user partner name
+        """
+        if not self.__partner_name:
+            self._get_partner_data()
+        return self.__partner_name
 
     @property
     def uid(self

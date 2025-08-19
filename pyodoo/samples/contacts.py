@@ -40,6 +40,7 @@ if model.authenticate():
     print('Authentication successful')
     print('UID: ', model.uid)
     print('Partner ID: ', model.partner_id)
+    print('Partner name: ', model.partner_name)
     # Change default language
     model.language = 'en_GB'
     # Filters by name and excluding an explicit ID
