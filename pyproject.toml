@@ -1,3 +1,42 @@
 [build-system]
 requires = ['setuptools', 'wheel']
 build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'PyOdoo'
+description = 'API for Odoo'
+readme = 'README.md'
+authors = [
+    { name = "Fabio Castelli", email = "muflone@muflone.com" },
+]
+license = 'GPL-3.0-or-later'
+license-files = ['LICENSE']
+dynamic = ['version']
+dependencies = [
+    'xlrd~=2.0',
+    'requests~=2.32',
+]
+classifiers = [
+    'Development Status :: 1 - Planning',
+    'Intended Audience :: Developers',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+]
+
+[project.urls]
+Homepage = 'http://www.muflone.com/pyodoo/'
+Source = 'https://github.com/muflone/pyodoo/'
+Issues = 'https://github.com/muflone/pyodoo/issues'
+Releases = 'https://github.com/muflone/pyodoo/releases'
+
+[tool.setuptools]
+packages = ['pyodoo',
+            'pyodoo.samples',
+            'pyodoo.v12']
+
+[tool.setuptools.dynamic]
+version = {attr = 'pyodoo.constants.APP_VERSION'}
