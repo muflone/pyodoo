@@ -37,7 +37,7 @@ model = Model(model_name='res.partner',
               authenticate=False)
 # Authenticate user
 if model.authenticate():
-    print('Authentication successul')
+    print('Authentication successful')
     # Change default language
     model.language = 'en_GB'
     # Filters by name and excluding an explicit ID
