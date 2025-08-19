@@ -183,6 +183,16 @@ class Model(object):
         """
         self.api.language = language
 
+    @property
+    def uid(self
+            ) -> int:
+        """
+        Get the current user ID
+
+        :return: current user ID
+        """
+        return self.api.uid
+
     def authenticate(self
                      ) -> int:
         """
