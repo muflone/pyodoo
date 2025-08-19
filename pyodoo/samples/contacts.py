@@ -39,6 +39,7 @@ model = Model(model_name='res.partner',
 if model.authenticate():
     print('Authentication successful')
     print('UID: ', model.uid)
+    print('Partner ID: ', model.partner_id)
     # Change default language
     model.language = 'en_GB'
     # Filters by name and excluding an explicit ID
@@ -113,19 +114,19 @@ if model.authenticate():
     # Post an activity message
     results = model.post_message_as_activity(entity_id=entity_id,
                                              body='Activity message',
-                                             author_id=entity_id)
+                                             author_id=model.partner_id)
     print('activity message', results)
 
     # Post a comment message
     results = model.post_message_as_comment(entity_id=entity_id,
                                             body='Comment message',
-                                            author_id=entity_id)
+                                            author_id=model.partner_id)
     print('comment message', results)
 
     # Post a note message
     results = model.post_message_as_note(entity_id=entity_id,
                                          body='This is a note',
-                                         author_id=entity_id)
+                                         author_id=model.partner_id)
     print('note message', results)
 
     # Delete a record

@@ -43,6 +43,7 @@ class Model(object):
                  language: str = None,
                  authenticate: bool = False
                  ) -> None:
+        self.__partner_id: int = None
         # API object
         self.api = Api(model_name=model_name,
                        endpoint=endpoint,
@@ -55,6 +56,18 @@ class Model(object):
         # Automatically authenticate if required
         if authenticate:
             self.authenticate()
+
+    def _get_partner_data(self
+                          ) -> None:
+        """
+        Get partner data from current user
+        """
+        model_users = self.get_model(model_name='res.users',
+                                     authenticate=False,
+                                     use_existing_uid=True)
+        partner_data = model_users.get(entity_id=self.api.uid,
+                                       fields=('id', 'partner_id'))
+        self.__partner_id, = partner_data['partner_id'][0]
 
     def _ignore_none_errors(func):
         """
@@ -182,6 +195,18 @@ class Model(object):
         :param language: Language code to set
         """
         self.api.language = language
+
+    @property
+    def partner_id(self
+                   ) -> int:
+        """
+        Get the current partner ID
+
+        :return: current user partner ID
+        """
+        if not self.__partner_id:
+            self._get_partner_data()
+        return self.__partner_id
 
     @property
     def uid(self
