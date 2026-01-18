@@ -19,7 +19,7 @@
 ##
 
 APP_NAME = 'PyOdoo'
-APP_VERSION = '0.7.2'
+APP_VERSION = '0.8.0'
 APP_DESCRIPTION = 'API for Odoo'
 APP_DOMAIN = 'pyodoo'
 APP_ID = f'{APP_DOMAIN}.muflone.com'
