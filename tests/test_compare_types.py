@@ -32,7 +32,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         Model object preparation
         """
-        cls.model = utility.get_model_from_demo(model_name='product.template')
+        cls.model = utility.get_xmlrpc_model_from_demo(
+            model_name='product.template')
         cls.model.authenticate()
 
     def test_01_filter_equal(self

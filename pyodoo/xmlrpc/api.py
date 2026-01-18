@@ -26,7 +26,7 @@ from pyodoo import BooleanOperator, Filter
 
 class Api(object):
     """
-    Odoo v12 XML-RPC API
+    Odoo XML-RPC API
     """
     def __init__(self,
                  model_name: str,

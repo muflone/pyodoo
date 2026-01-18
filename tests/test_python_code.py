@@ -21,7 +21,7 @@
 import unittest
 import uuid
 
-from pyodoo.v12 import PythonCode
+from pyodoo.xmlrpc import PythonCode
 
 import utility
 

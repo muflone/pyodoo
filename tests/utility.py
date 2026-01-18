@@ -24,7 +24,7 @@ import xmlrpc.client
 
 import requests
 
-from pyodoo.v12 import Model
+from pyodoo.xmlrpc import Model
 
 
 def get_authentication_from_demo() -> dict[str, str]:
@@ -72,10 +72,10 @@ def get_authentication_from_demo() -> dict[str, str]:
     return info
 
 
-def get_model_from_demo(model_name: str
-                        ) -> Model:
+def get_xmlrpc_model_from_demo(model_name: str
+                               ) -> Model:
     """
-    Get a Model object from the public demo server
+    Get an XML-RPC Model object from the public demo server
 
     :param model_name: name of the model to instance
     :return: pyodoo Model object

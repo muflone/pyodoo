@@ -23,7 +23,7 @@ import io
 from typing import Any, Optional
 
 import pyodoo
-from pyodoo.v12.model import Model
+from pyodoo.xmlrpc.model import Model
 
 import xlrd
 

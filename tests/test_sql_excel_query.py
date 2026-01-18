@@ -22,7 +22,7 @@ import unittest
 import uuid
 
 from pyodoo.constants import APP_NAME, APP_VERSION
-from pyodoo.v12 import SqlExcelQuery
+from pyodoo.xmlrpc import SqlExcelQuery
 
 import utility
 

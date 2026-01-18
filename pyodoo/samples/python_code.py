@@ -20,7 +20,7 @@
 
 import os
 
-from pyodoo.v12 import PythonCode
+from pyodoo.xmlrpc import PythonCode
 
 
 # Check Python Code availability

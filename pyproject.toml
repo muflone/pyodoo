@@ -36,7 +36,7 @@ Releases = 'https://github.com/muflone/pyodoo/releases'
 [tool.setuptools]
 packages = ['pyodoo',
             'pyodoo.samples',
-            'pyodoo.v12']
+            'pyodoo.xmlrpc']
 
 [tool.setuptools.dynamic]
 version = {attr = 'pyodoo.constants.APP_VERSION'}

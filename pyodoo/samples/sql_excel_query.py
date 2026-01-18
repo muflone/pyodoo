@@ -21,7 +21,7 @@
 import os
 
 from pyodoo.constants import APP_NAME, APP_VERSION
-from pyodoo.v12 import SqlExcelQuery
+from pyodoo.xmlrpc import SqlExcelQuery
 
 
 # Check SQL Excel Query availability

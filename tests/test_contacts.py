@@ -27,7 +27,7 @@ from pyodoo import (ActiveStatusChoice,
                     Filter,
                     MessageSubType)
 from pyodoo.constants import APP_AUTHOR_EMAIL, APP_NAME, APP_VERSION
-from pyodoo.v12 import Model
+from pyodoo.xmlrpc import Model
 
 import utility
 
@@ -39,7 +39,8 @@ class TestCaseContacts(unittest.TestCase):
         """
         Model object preparation
         """
-        cls.model = utility.get_model_from_demo(model_name='res.partner')
+        cls.model = utility.get_xmlrpc_model_from_demo(
+            model_name='res.partner')
 
     def test_01_authenticate(self
                              ) -> None:

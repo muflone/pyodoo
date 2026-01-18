@@ -18,11 +18,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-import warnings
-
-from pyodoo.xmlrpc import *                                  # noqa: F401, F403
-
-
-warnings.warn(message='pyodoo.v12 is deprecated, use pyodoo.xmlrpc',
-              category=DeprecationWarning,
-              stacklevel=2)
+from .api import Api                                               # noqa: F401
+from .model import Model                                           # noqa: F401
+from .python_code import PythonCode                                # noqa: F401
+from .sql_excel_query import SqlExcelQuery                         # noqa: F401

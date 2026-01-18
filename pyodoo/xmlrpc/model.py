@@ -27,7 +27,7 @@ from pyodoo import (ActiveStatusChoice,
                     CompareType,
                     Filter,
                     MessageSubType)
-from pyodoo.v12.api import Api
+from pyodoo.xmlrpc.api import Api
 
 
 class Model(object):
