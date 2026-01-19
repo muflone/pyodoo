@@ -106,17 +106,17 @@ model.authenticate()
 model.language = 'en_GB'
 
 start_time = time.time()
-find_many(list(range(24540, 24550)))
+find_many(list(range(20, 30)))
 measure_time(name='find_many', start=start_time)
 
 start_time = time.time()
-asyncio.run(find_many_async(list(range(24540, 24550))))
+asyncio.run(find_many_async(list(range(20, 30))))
 measure_time(name='find_many_async', start=start_time)
 
 start_time = time.time()
-update_many(minimum=24540, maximum=24550)
+update_many(minimum=20, maximum=30)
 measure_time(name='update_many', start=start_time)
 
 start_time = time.time()
-asyncio.run(update_many_async(minimum=24540, maximum=24550))
+asyncio.run(update_many_async(minimum=20, maximum=30))
 measure_time(name='update_many_async', start=start_time)
