@@ -43,14 +43,14 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.EQUAL,
-                          value='Mozzarella Sandwich')]
+                          value='Office Chair Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_02_filter_not_equal(self
                                  ) -> None:
@@ -59,17 +59,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.NOT_EQUAL,
-                          value='Mozzarella Sandwich')]
+                          value='Office Chair Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_03_filter_greater(self
                                ) -> None:
@@ -78,17 +78,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.GREATER,
-                          value='Mozzarella Sandwich')]
+                          value='Office Chair Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
-        # Check if the results list has exactly one item
-        self.assertEqual(len(results), 1)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list has exactly two items
+        self.assertEqual(len(results), 2)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_04_filter_greater_equal(self
                                      ) -> None:
@@ -97,17 +97,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.GREATER_EQ,
-                          value='Mozzarella Sandwich')]
+                          value='Office Chair Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
-        # Check if the results list has exactly two items
-        self.assertEqual(len(results), 2)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list has exactly three items
+        self.assertEqual(len(results), 3)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_05_filter_lower(self
                              ) -> None:
@@ -116,17 +116,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.LOWER,
-                          value='Mozzarella Sandwich')]
+                          value='Office Chair Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
-        # Check if the results list has exactly two items
-        self.assertEqual(len(results), 2)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list has exactly one item
+        self.assertEqual(len(results), 1)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_06_filter_lower_equal(self
                                    ) -> None:
@@ -135,17 +135,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.LOWER_EQ,
-                          value='Mozzarella Sandwich')]
+                          value='Office Chair Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
-        # Check if the results list has exactly three items
-        self.assertEqual(len(results), 3)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list has exactly two items
+        self.assertEqual(len(results), 2)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_07_filter_in(self
                           ) -> None:
@@ -154,19 +154,20 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.IN,
-                          value=('Club Sandwich', 'Mozzarella Sandwich'))]
+                          value=('Office Design Software',
+                                 'Office Chair Black'))]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly two items
         self.assertEqual(len(results), 2)
-        # Check if the results list contains the Club Sandwich
-        self.assertIn(85, results)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Design Software
+        self.assertIn(7, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_08_filter_not_in(self
                               ) -> None:
@@ -175,19 +176,20 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.NOT_IN,
-                          value=('Club Sandwich', 'Mozzarella Sandwich'))]
+                          value=('Office Design Software',
+                                 'Office Chair Black'))]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly two items
         self.assertEqual(len(results), 2)
-        # Check if the results list doesn't contain the Club Sandwich
-        self.assertNotIn(85, results)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list doesn't contain the Office Design Software
+        self.assertNotIn(7, results)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_09_filter_contains(self
                                 ) -> None:
@@ -196,14 +198,14 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich')]
+                          value='Office')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_10_filter_contains_not(self
                                     ) -> None:
@@ -212,17 +214,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.CONTAINS_NOT,
-                          value='mozzarella')]
+                          value='Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_11_filter_not_contains(self
                                     ) -> None:
@@ -231,17 +233,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.NOT_CONTAINS,
-                          value='mozzarella')]
+                          value='Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_12_filter_like(self
                             ) -> None:
@@ -250,17 +252,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.LIKE,
-                          value='Mozzarella')]
+                          value='Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_13_filter_not_like(self
                                 ) -> None:
@@ -269,17 +271,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.NOT_LIKE,
-                          value='Mozzarella')]
+                          value='Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_14_filter_ilike(self
                              ) -> None:
@@ -288,17 +290,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.ILIKE,
-                          value='mozzarella')]
+                          value='Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_15_filter_not_ilike(self
                                  ) -> None:
@@ -307,17 +309,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.NOT_ILIKE,
-                          value='mozzarella')]
+                          value='Black')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly three items
         self.assertEqual(len(results), 3)
-        # Check if the results list doesn't contain the Mozzarella Sandwich
-        self.assertNotIn(84, results)
+        # Check if the results list doesn't contain the Office Chair Black
+        self.assertNotIn(17, results)
 
     def test_16_filter_raw_like(self
                                 ) -> None:
@@ -326,17 +328,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.RAW_LIKE,
-                          value='Mozzarella %')]
+                          value='Office Chair %')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_17_filter_raw_ilike(self
                                  ) -> None:
@@ -345,17 +347,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='name',
                           compare_type=CompareType.RAW_ILIKE,
-                          value='mozzarella %')]
+                          value='Office Chair %')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly one item
         self.assertEqual(len(results), 1)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_18_filter_unset_or_equal(self
                                       ) -> None:
@@ -364,7 +366,7 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='uom_id',
                           compare_type=CompareType.UNSET_OR_EQUAL,
                           value=1)]
@@ -373,8 +375,8 @@ class TestCaseCompareTypes(unittest.TestCase):
         self.assertIsNotNone(results)
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_19_filter_child_of(self
                                 ) -> None:
@@ -383,17 +385,17 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='categ_id',
                           compare_type=CompareType.CHILD_OF,
-                          value='PoS')]
+                          value='Saleable')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)
 
     def test_20_filter_parent_of(self
                                  ) -> None:
@@ -402,14 +404,14 @@ class TestCaseCompareTypes(unittest.TestCase):
         """
         filters = [Filter(field='name',
                           compare_type=CompareType.CONTAINS,
-                          value='Sandwich'),
+                          value='Office'),
                    Filter(field='categ_id',
                           compare_type=CompareType.PARENT_OF,
-                          value='Food')]
+                          value='Saleable')]
         results = self.model.search(filters=filters)
         # Check if the results are not None
         self.assertIsNotNone(results)
         # Check if the results list has exactly four items
         self.assertEqual(len(results), 4)
-        # Check if the results list contains the Mozzarella Sandwich
-        self.assertIn(84, results)
+        # Check if the results list contains the Office Chair Black
+        self.assertIn(17, results)

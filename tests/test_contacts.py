@@ -143,7 +143,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(len(results), 1)
         # Check some data
         self.assertEqual(results[0]['id'], 3)
-        self.assertEqual(results[0]['name'], 'Mitchell Admin')
+        self.assertEqual(results[0]['name'], 'Admin')
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 
@@ -330,7 +330,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(len(results), 4)
         # Check some data
         self.assertEqual(results['id'], 3)
-        self.assertEqual(results['name'], 'Mitchell Admin')
+        self.assertEqual(results['name'], 'Admin')
         self.assertEqual(results['type'], 'contact')
         self.assertGreater(len(results['street']), 0)
 
@@ -349,7 +349,7 @@ class TestCaseContacts(unittest.TestCase):
         self.assertGreater(len(results), 0)
         # Check some data
         self.assertEqual(results[0]['id'], 3)
-        self.assertEqual(results[0]['name'], 'Mitchell Admin')
+        self.assertEqual(results[0]['name'], 'Admin')
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 

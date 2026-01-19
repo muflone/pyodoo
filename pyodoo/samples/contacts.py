@@ -67,7 +67,7 @@ if model.authenticate():
     print('find many', results)
 
     # Find a record by ID
-    results = model.find(entity_ids=[131492],
+    results = model.find(entity_ids=[55],
                          fields=('id', 'name'))
     print('find', results)
 
@@ -87,13 +87,12 @@ if model.authenticate():
     print('all', len(results))
 
     # Get a record by ID
-    results = model.get(entity_id=131492,
+    results = model.get(entity_id=55,
                         fields=('id', 'name'))
     print('get', results)
 
     # Create a new record
-    entity_id = model.create(values={'firstname': 'TEST TEST TEST',
-                                     'lastname': '123 456'},
+    entity_id = model.create(values={'name': 'TEST TEST TEST'},
                              ignore_none_errors=True)
     print('create', entity_id)
 
