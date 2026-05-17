@@ -20,22 +20,12 @@
 
 import unittest
 
-from pyodoo import CompareType, Filter
+from pyodoo import CompareType, Filter, Implementation
 
 import utility
 
 
-class TestCaseCompareTypes(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls
-                   ) -> None:
-        """
-        Model object preparation
-        """
-        cls.model = utility.get_xmlrpc_model_from_demo(
-            model_name='product.template')
-        cls.model.authenticate()
-
+class BaseTests():
     def test_01_filter_equal(self
                              ) -> None:
         """
@@ -415,3 +405,29 @@ class TestCaseCompareTypes(unittest.TestCase):
         self.assertEqual(len(results), 4)
         # Check if the results list contains the Office Chair Black
         self.assertIn(17, results)
+
+
+class TestCasesXmlRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Model object preparation
+        """
+        cls.model = utility.get_model_from_demo(
+            model_name='product.template',
+            implementation=Implementation.XMLRPC)
+        cls.model.authenticate()
+
+
+class TestCasesJsonRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Model object preparation
+        """
+        cls.model = utility.get_model_from_demo(
+            model_name='product.template',
+            implementation=Implementation.JSONRPC)
+        cls.model.authenticate()

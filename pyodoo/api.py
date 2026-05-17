@@ -21,8 +21,12 @@
 from typing import Any, Optional, Union
 from xmlrpc.client import ServerProxy
 
+import requests
+import requests.auth
+
 from .boolean_operator import BooleanOperator
 from .filter import Filter
+from .implementation import Implementation
 
 
 class Api(object):
@@ -35,7 +39,8 @@ class Api(object):
                  database: str,
                  username: str,
                  password: str,
-                 language: str = None
+                 language: str = None,
+                 implementation: Implementation = Implementation.XMLRPC
                  ) -> None:
         # Associate model
         if not model_name:
@@ -47,9 +52,13 @@ class Api(object):
         self.password = password
         self.language = language
         self.uid = None
+        self.implementation = implementation
         # Remove trailing / from endpoint
         if self.endpoint.endswith('/'):
             self.endpoint = self.endpoint[:-1]
+        # Specific implementations
+        if implementation == Implementation.JSONRPC:
+            self.session = requests.Session()
 
     def authenticate(self
                      ) -> int:
@@ -58,11 +67,33 @@ class Api(object):
 
         :return: The user ID for the authenticated user
         """
-        proxy = self.get_proxy(method='xmlrpc/2/common')
-        self.uid = proxy.authenticate(self.database,
-                                      self.username,
-                                      self.password,
-                                      {})
+        if self.implementation == Implementation.XMLRPC:
+            # Authentication for XML-RPC
+            proxy = self.get_proxy(method='xmlrpc/2/common')
+            self.uid = proxy.authenticate(self.database,
+                                          self.username,
+                                          self.password,
+                                          {})
+        elif self.implementation == Implementation.JSONRPC:
+            # Authentication for JSON-RPC
+            self.session.auth = requests.auth.HTTPBasicAuth(
+                username=self.username,
+                password=self.password)
+            response = self.session.post(
+                url=self.build_endpoint('web/session/authenticate'),
+                json={
+                    'jsonrpc': '2.0',
+                    'params': {
+                        'db': self.database,
+                        'login': self.username,
+                        'password': self.password
+                    }
+                })
+            result = response.json() if response else None
+            self.uid = result['result']['uid'] if result else None
+        else:
+            # Invalid implementation
+            raise ValueError(f'Invalid implementation {self.implementation}')
         return self.uid
 
     def build_endpoint(self,
@@ -123,14 +154,41 @@ class Api(object):
         :param kwargs: arguments dict passed by keyword
         :return:
         """
-        proxy = self.get_proxy_object()
-        results = proxy.execute_kw(self.database,
-                                   self.uid,
-                                   self.password,
-                                   self.model_name,
-                                   method_name,
-                                   args,
-                                   kwargs)
+        if self.implementation == Implementation.XMLRPC:
+            # Execute for XML-RPC
+            proxy = self.get_proxy_object()
+            results = proxy.execute_kw(self.database,
+                                       self.uid,
+                                       self.password,
+                                       self.model_name,
+                                       method_name,
+                                       args,
+                                       kwargs)
+        elif self.implementation == Implementation.JSONRPC:
+            # Execute for JSON-RPC
+            results = self.session.post(
+                url=self.build_endpoint(method='jsonrpc'),
+                json={
+                    'jsonrpc': '2.0',
+                    'method': 'call',
+                    'params': {
+                        'service': 'object',
+                        'method': 'execute_kw',
+                        'args': [
+                            self.database,
+                            self.uid,
+                            self.password,
+                            self.model_name,
+                            method_name,
+                            args,
+                            kwargs
+                        ],
+                    }
+                }
+            ).json().get('result')
+        else:
+            # Invalid implementation
+            raise ValueError(f'Invalid implementation {self.implementation}')
         return results
 
     def do_read(self,

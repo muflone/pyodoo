@@ -21,38 +21,13 @@
 import unittest
 import uuid
 
-from pyodoo import SqlExcelQuery
+from pyodoo import Implementation, SqlExcelQuery
 from pyodoo.constants import APP_NAME, APP_VERSION
 
 import utility
 
 
-class TestCaseSqlExcelQuery(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls
-                   ) -> None:
-        """
-        Query object preparation
-        """
-        info = utility.get_authentication_from_demo()
-        if SqlExcelQuery.is_available(endpoint=info['host'],
-                                      database=info['database'],
-                                      username=info['user'],
-                                      password=info['password'],
-                                      language='en_US'):
-            # The model sql.excel.pdf is available
-            cls.query_name = uuid.uuid4().hex
-            cls.query = SqlExcelQuery(name=cls.query_name,
-                                      category=f'{APP_NAME} {APP_VERSION}',
-                                      endpoint=info['host'],
-                                      database=info['database'],
-                                      username=info['user'],
-                                      password=info['password'],
-                                      language='en_US')
-        else:
-            # The model sql.excel.pdf is not available
-            cls.query = None
-
+class BaseTests():
     def setUp(self
               ) -> None:
         """
@@ -191,8 +166,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the file is not empty
         self.assertGreater(len(results), 0)
 
-    def test_11_execute_xls(self
-                            ) -> None:
+    def test_11_execute_xlsx(self
+                             ) -> None:
         """
         Execute the query in XLSX format
         """
@@ -200,8 +175,8 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the query was executed
         self.assertIsNone(results)
 
-    def test_12_get_file_xls(self
-                             ) -> None:
+    def test_12_get_file_xlsx(self
+                              ) -> None:
         """
         Get the query execution results as file as XLSX format
         """
@@ -268,3 +243,61 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         results = self.query.delete()
         # Check if the deletion was successful
         self.assertTrue(results)
+
+
+class TestCasesXmlRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Query object preparation
+        """
+        info = utility.get_authentication_from_demo()
+        if SqlExcelQuery.is_available(endpoint=info['host'],
+                                      database=info['database'],
+                                      username=info['user'],
+                                      password=info['password'],
+                                      language='en_US',
+                                      implementation=Implementation.XMLRPC):
+            # The model sql.excel.pdf is available
+            cls.query_name = uuid.uuid4().hex
+            cls.query = SqlExcelQuery(name=cls.query_name,
+                                      category=f'{APP_NAME} {APP_VERSION}',
+                                      endpoint=info['host'],
+                                      database=info['database'],
+                                      username=info['user'],
+                                      password=info['password'],
+                                      language='en_US',
+                                      implementation=Implementation.XMLRPC)
+        else:
+            # The model sql.excel.pdf is not available
+            cls.query = None
+
+
+class TestCasesJsonRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Query object preparation
+        """
+        info = utility.get_authentication_from_demo()
+        if SqlExcelQuery.is_available(endpoint=info['host'],
+                                      database=info['database'],
+                                      username=info['user'],
+                                      password=info['password'],
+                                      language='en_US',
+                                      implementation=Implementation.JSONRPC):
+            # The model sql.excel.pdf is available
+            cls.query_name = uuid.uuid4().hex
+            cls.query = SqlExcelQuery(name=cls.query_name,
+                                      category=f'{APP_NAME} {APP_VERSION}',
+                                      endpoint=info['host'],
+                                      database=info['database'],
+                                      username=info['user'],
+                                      password=info['password'],
+                                      language='en_US',
+                                      implementation=Implementation.JSONRPC)
+        else:
+            # The model sql.excel.pdf is not available
+            cls.query = None

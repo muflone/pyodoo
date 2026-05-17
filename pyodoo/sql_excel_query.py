@@ -27,6 +27,7 @@ import xlrd
 from .active_status_choice import ActiveStatusChoice
 from .compare_type import CompareType
 from .filter import Filter
+from .implementation import Implementation
 from .model import Model
 
 
@@ -41,7 +42,8 @@ class SqlExcelQuery(object):
                  database: str,
                  username: str,
                  password: str,
-                 language: str
+                 language: str,
+                 implementation: Implementation = Implementation.XMLRPC
                  ) -> None:
         # Model object
         self._query_name = name
@@ -51,7 +53,8 @@ class SqlExcelQuery(object):
                            username=username,
                            password=password,
                            language=language,
-                           authenticate=True)
+                           authenticate=True,
+                           implementation=implementation)
         # Get or create the category ID
         model_category = self.model.get_model(model_name='sql.category',
                                               authenticate=False,
@@ -86,7 +89,8 @@ class SqlExcelQuery(object):
                      database: str,
                      username: str,
                      password: str,
-                     language: str
+                     language: str,
+                     implementation: Implementation = Implementation.XMLRPC
                      ) -> bool:
         """
         Check if the sql.excel.pdf model exists
@@ -96,6 +100,7 @@ class SqlExcelQuery(object):
         :param username: Odoo username
         :param password: User password
         :param language: Language for localizations
+        :param implementation: specific Implementation object
 
         :return: True if the model sql.excel.pdf exists
         """
@@ -105,7 +110,9 @@ class SqlExcelQuery(object):
                       username=username,
                       password=password,
                       language=language,
-                      authenticate=True)
+                      authenticate=True,
+                      implementation=implementation
+                      )
         results = model.search(
             filters=[Filter(field='model',
                             compare_type=CompareType.EQUAL,

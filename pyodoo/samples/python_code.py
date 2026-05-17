@@ -24,18 +24,21 @@ from pyodoo import PythonCode
 
 
 # Check Python Code availability
-print(PythonCode.is_available(endpoint=os.environ['ODOO_ENDPOINT'],
-                              database=os.environ['ODOO_DATABASE'],
-                              username=os.environ['ODOO_USERNAME'],
-                              password=os.environ['ODOO_PASSWORD'],
-                              language=None))
+print(PythonCode.is_available(
+    endpoint=os.environ['ODOO_ENDPOINT'],
+    database=os.environ['ODOO_DATABASE'],
+    username=os.environ['ODOO_USERNAME'],
+    password=os.environ['ODOO_PASSWORD'],
+    language=None,
+    implementation=os.environ['ODOO_RPC_IMPLEMENTATION']))
 # Instance Python Code object
 script = PythonCode(name='test script 1',
                     endpoint=os.environ['ODOO_ENDPOINT'],
                     database=os.environ['ODOO_DATABASE'],
                     username=os.environ['ODOO_USERNAME'],
                     password=os.environ['ODOO_PASSWORD'],
-                    language=None)
+                    language=None,
+                    implementation=os.environ['ODOO_RPC_IMPLEMENTATION'])
 
 # Get Python Code ID
 print(script.id)

@@ -24,6 +24,7 @@ from .boolean_operator import BooleanOperator                      # noqa: F401
 from .compare_type import CompareType                              # noqa: F401
 from .constants import APP_VERSION as __version__                  # noqa: F401
 from .filter import Filter                                         # noqa: F401
+from .implementation import Implementation                         # noqa: F401
 from .message_subtype import MessageSubType                        # noqa: F401
 from .model import Model                                           # noqa: F401
 from .python_code import PythonCode                                # noqa: F401

@@ -25,11 +25,13 @@ from pyodoo.constants import APP_NAME, APP_VERSION
 
 
 # Check SQL Excel Query availability
-print(SqlExcelQuery.is_available(endpoint=os.environ['ODOO_ENDPOINT'],
-                                 database=os.environ['ODOO_DATABASE'],
-                                 username=os.environ['ODOO_USERNAME'],
-                                 password=os.environ['ODOO_PASSWORD'],
-                                 language=None))
+print(SqlExcelQuery.is_available(
+    endpoint=os.environ['ODOO_ENDPOINT'],
+    database=os.environ['ODOO_DATABASE'],
+    username=os.environ['ODOO_USERNAME'],
+    password=os.environ['ODOO_PASSWORD'],
+    language=None,
+    implementation=os.environ['ODOO_RPC_IMPLEMENTATION']))
 # Instance SQL Excel Query object
 query = SqlExcelQuery(name='test query 1',
                       category=f'{APP_NAME} {APP_VERSION}',
@@ -37,7 +39,8 @@ query = SqlExcelQuery(name='test query 1',
                       database=os.environ['ODOO_DATABASE'],
                       username=os.environ['ODOO_USERNAME'],
                       password=os.environ['ODOO_PASSWORD'],
-                      language=None)
+                      language=None,
+                      implementation=os.environ['ODOO_RPC_IMPLEMENTATION'])
 # Change default language
 query.language = 'en_GB'
 

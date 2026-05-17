@@ -22,6 +22,7 @@ from typing import Optional
 
 from .compare_type import CompareType
 from .filter import Filter
+from .implementation import Implementation
 from .model import Model
 
 
@@ -35,7 +36,8 @@ class PythonCode(object):
                  database: str,
                  username: str,
                  password: str,
-                 language: str
+                 language: str,
+                 implementation: Implementation = Implementation.XMLRPC
                  ) -> None:
         # Model object
         self._code_name = name
@@ -45,7 +47,8 @@ class PythonCode(object):
                            username=username,
                            password=password,
                            language=language,
-                           authenticate=True)
+                           authenticate=True,
+                           implementation=implementation)
         # Get or create the Python Code object
         results = self.model.search(
             filters=[Filter(field='name',
@@ -64,7 +67,8 @@ class PythonCode(object):
                      database: str,
                      username: str,
                      password: str,
-                     language: str
+                     language: str,
+                     implementation: Implementation = Implementation.XMLRPC
                      ) -> bool:
         """
         Check if the execute.python.code model exists
@@ -74,6 +78,7 @@ class PythonCode(object):
         :param username: Odoo username
         :param password: User password
         :param language: Language for localizations
+        :param implementation: specific Implementation object
 
         :return: True if the model execute.python.code exists
         """
@@ -83,7 +88,8 @@ class PythonCode(object):
                       username=username,
                       password=password,
                       language=language,
-                      authenticate=True)
+                      authenticate=True,
+                      implementation=implementation)
         results = model.search(
             filters=[Filter(field='model',
                             compare_type=CompareType.EQUAL,

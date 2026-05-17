@@ -25,7 +25,11 @@
 
 PyOdoo is an attempt to build a common API to interact with any
 [**Odoo**](https://www.odoo.com/) server in order to operate using
-its XML RPC API.
+its APIs.
+
+Currently the following implementations are provided:
+- XML-RPC
+- JSON-RPC
 
 # System Requirements
 

@@ -21,36 +21,12 @@
 import unittest
 import uuid
 
-from pyodoo import PythonCode
+from pyodoo import Implementation, PythonCode
 
 import utility
 
 
-class TestCasePythonCode(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls
-                   ) -> None:
-        """
-        Python Code object preparation
-        """
-        info = utility.get_authentication_from_demo()
-        if PythonCode.is_available(endpoint=info['host'],
-                                   database=info['database'],
-                                   username=info['user'],
-                                   password=info['password'],
-                                   language='en_US'):
-            # The model sql.excel.pdf is available
-            cls.script_name = uuid.uuid4().hex
-            cls.script = PythonCode(name=cls.script_name,
-                                    endpoint=info['host'],
-                                    database=info['database'],
-                                    username=info['user'],
-                                    password=info['password'],
-                                    language='en_US')
-        else:
-            # The model execute.python.code is not available
-            cls.script = None
-
+class BaseTests():
     def setUp(self
               ) -> None:
         """
@@ -131,3 +107,59 @@ class TestCasePythonCode(unittest.TestCase):
         results = self.script.delete()
         # Check if the deletion was successful
         self.assertTrue(results)
+
+
+class TestCasesXmlRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Python Code object preparation
+        """
+        info = utility.get_authentication_from_demo()
+        if PythonCode.is_available(endpoint=info['host'],
+                                   database=info['database'],
+                                   username=info['user'],
+                                   password=info['password'],
+                                   language='en_US',
+                                   implementation=Implementation.XMLRPC):
+            # The model sql.excel.pdf is available
+            cls.script_name = uuid.uuid4().hex
+            cls.script = PythonCode(name=cls.script_name,
+                                    endpoint=info['host'],
+                                    database=info['database'],
+                                    username=info['user'],
+                                    password=info['password'],
+                                    language='en_US',
+                                    implementation=Implementation.XMLRPC)
+        else:
+            # The model execute.python.code is not available
+            cls.script = None
+
+
+class TestCasesJsonRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Python Code object preparation
+        """
+        info = utility.get_authentication_from_demo()
+        if PythonCode.is_available(endpoint=info['host'],
+                                   database=info['database'],
+                                   username=info['user'],
+                                   password=info['password'],
+                                   language='en_US',
+                                   implementation=Implementation.XMLRPC):
+            # The model sql.excel.pdf is available
+            cls.script_name = uuid.uuid4().hex
+            cls.script = PythonCode(name=cls.script_name,
+                                    endpoint=info['host'],
+                                    database=info['database'],
+                                    username=info['user'],
+                                    password=info['password'],
+                                    language='en_US',
+                                    implementation=Implementation.JSONRPC)
+        else:
+            # The model execute.python.code is not available
+            cls.script = None

@@ -25,6 +25,7 @@ from pyodoo import (ActiveStatusChoice,
                     BooleanOperator,
                     CompareType,
                     Filter,
+                    Implementation,
                     MessageSubType,
                     Model)
 from pyodoo.constants import APP_AUTHOR_EMAIL, APP_NAME, APP_VERSION
@@ -32,16 +33,7 @@ from pyodoo.constants import APP_AUTHOR_EMAIL, APP_NAME, APP_VERSION
 import utility
 
 
-class TestCaseContacts(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls
-                   ) -> None:
-        """
-        Model object preparation
-        """
-        cls.model = utility.get_xmlrpc_model_from_demo(
-            model_name='res.partner')
-
+class BaseTests():
     def test_01_authenticate(self
                              ) -> None:
         """
@@ -860,3 +852,29 @@ class TestCaseContacts(unittest.TestCase):
         self.assertEqual(model.model_name, model_name)
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
+
+
+class TestCasesXmlRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Model object preparation
+        """
+        cls.model = utility.get_model_from_demo(
+            model_name='res.partner',
+            implementation=Implementation.XMLRPC)
+        cls.model.authenticate()
+
+
+class TestCasesJsonRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Model object preparation
+        """
+        cls.model = utility.get_model_from_demo(
+            model_name='res.partner',
+            implementation=Implementation.JSONRPC)
+        cls.model.authenticate()

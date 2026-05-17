@@ -27,6 +27,7 @@ from .api import Api
 from .boolean_operator import BooleanOperator
 from .compare_type import CompareType
 from .filter import Filter
+from .implementation import Implementation
 from .message_subtype import MessageSubType
 
 
@@ -41,7 +42,8 @@ class Model(object):
                  username: str,
                  password: str,
                  language: str = None,
-                 authenticate: bool = False
+                 authenticate: bool = False,
+                 implementation: Implementation = Implementation.XMLRPC
                  ) -> None:
         self.__partner_id: int = None
         self.__partner_name: str = None
@@ -51,7 +53,8 @@ class Model(object):
                        database=database,
                        username=username,
                        password=password,
-                       language=language)
+                       language=language,
+                       implementation=implementation)
         # Message Subtype IDs
         self._message_subtypes = {}
         # Automatically authenticate if required
@@ -258,7 +261,8 @@ class Model(object):
                       username=self.api.username,
                       password=self.api.password,
                       language=self.api.language,
-                      authenticate=authenticate)
+                      authenticate=authenticate,
+                      implementation=self.api.implementation)
         if not authenticate and use_existing_uid:
             # Use the existing UID
             model.api.uid = self.api.uid
@@ -275,7 +279,7 @@ class Model(object):
 
         :param module_name: Module name to lookup
         :param value: Value to lookup
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Dictionary with the data for the referenced object
         """
         model = self.get_model(model_name='ir.model.data',
@@ -310,7 +314,7 @@ class Model(object):
         :param entity_id: Object ID to query
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Dictionary with the requested fields
         """
         results = self.get_many(entity_ids=[entity_id],
@@ -331,7 +335,7 @@ class Model(object):
         :param entity_ids: Object IDs to query
         :param fields: Tuple with the fields to include in the response
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         # Set options
@@ -366,7 +370,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         return self.filter(filters=[],
@@ -398,7 +402,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         # Add filtered IDs
@@ -447,7 +451,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         # Filter for active status
@@ -494,7 +498,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: List of dictionaries with the requested fields
         """
         results = self.filter(filters=filters,
@@ -519,7 +523,7 @@ class Model(object):
         :param filters: List of filters used for searching the data
         :param is_active: Additional filter for active field
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Rows count
         """
         # Filter for active status
@@ -552,7 +556,7 @@ class Model(object):
         :param limit: Maximum number of results count
         :param offset: Starting record number to fetch the data
         :param order: Ordering clause
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: List of ID for the objects found
         """
         # Filter for active status
@@ -586,7 +590,7 @@ class Model(object):
 
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: The ID of the newly created object
         """
         # Set options
@@ -612,7 +616,7 @@ class Model(object):
         :param entity_id: The object IDs to update
         :param values: Dictionary with the fields to update and their values
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the records were updated
         """
         # Set options
@@ -637,7 +641,7 @@ class Model(object):
 
         :param entity_id: The object IDs to delete
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the records were deleted
         """
         # Set options
@@ -661,7 +665,7 @@ class Model(object):
         :param fields: List with the fields to include in the response
         :param attributes: List with the attributes to include in the response
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Dictionary with the requested fields
         """
         # Set options
@@ -695,7 +699,7 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param values: Dictionary with values for the new record to create
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
@@ -717,7 +721,7 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_id: The object ID to add
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
@@ -741,7 +745,7 @@ class Model(object):
         :param related_id: The object ID to add
         :param values: Dictionary with values for the record to update
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
@@ -764,7 +768,7 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_id: The object ID to delete
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the record was deleted
         """
         return self.update(entity_id=entity_id,
@@ -786,7 +790,7 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_id: The object ID to remove
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the record was removed
         """
         return self.update(entity_id=entity_id,
@@ -806,7 +810,7 @@ class Model(object):
         :param entity_id: The object ID from which remove the related object
         :param field: The field name for the relationship to update
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
@@ -828,7 +832,7 @@ class Model(object):
         :param field: The field name for the relationship to update
         :param related_ids: List with the IDs of the records to replace
         :param options: Dictionary with options to use
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: True if the record was updated
         """
         return self.update(entity_id=entity_id,
@@ -848,7 +852,7 @@ class Model(object):
         :param method_name: The method name to call
         :param args: Arguments list passed by position
         :param kwargs: Arguments dict passed by keyword
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Method calling result data
         """
         return self.api.do_execute(method_name=method_name,
@@ -864,7 +868,7 @@ class Model(object):
         Get Message subtype ID from its name
 
         :param subtype: Message subtype name
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Resulting ID
         """
         if subtype not in self._message_subtypes:
@@ -893,7 +897,7 @@ class Model(object):
         :param subject: The message subject to add
         :param body: The message body to add
         :param options: Dictionary with any existing options
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: New message ID
         """
         subtype_id = (self.get_message_subtype_id(subtype)
@@ -919,7 +923,7 @@ class Model(object):
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Returned message ID
         """
         return self.post_message(subtype=MessageSubType.ACTIVITY,
@@ -942,7 +946,7 @@ class Model(object):
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Returned message ID
         """
         return self.post_message(subtype=MessageSubType.COMMENT,
@@ -965,7 +969,7 @@ class Model(object):
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
-        :param ignore_none_errors: Ignore XML-RPC errors returning None
+        :param ignore_none_errors: Ignore RPC errors returning None
         :return: Returned message ID
         """
         return self.post_message(subtype=MessageSubType.NOTE,

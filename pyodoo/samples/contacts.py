@@ -34,7 +34,8 @@ model = Model(model_name='res.partner',
               username=os.environ['ODOO_USERNAME'],
               password=os.environ['ODOO_PASSWORD'],
               language=None,
-              authenticate=False)
+              authenticate=False,
+              implementation=os.environ['ODOO_RPC_IMPLEMENTATION'])
 # Authenticate user
 if model.authenticate():
     print('Authentication successful')
