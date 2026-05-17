@@ -158,6 +158,7 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         Get and set the query active state
         """
         # Set the query as not active
+        self.query.validate()
         results = self.query.set_active(active=False)
         self.assertTrue(results)
         # Check if the query active state is False
