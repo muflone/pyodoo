@@ -242,6 +242,19 @@ class SqlExcelQuery(object):
                            ignore_none_errors=True)
         return None
 
+    def execute_xlsx(self,
+                     ) -> None:
+        """
+        Execute the query to create the Excel 2007 file in the `file` field
+
+        :return: None
+        """
+        self.model.execute(method_name='print_xlsx_report',
+                           args=[self._query_id],
+                           kwargs={},
+                           ignore_none_errors=True)
+        return None
+
     def clear(self
               ) -> None:
         """

@@ -171,19 +171,19 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         results = self.query.get_active()
         self.assertTrue(results)
 
-    def test_09_execute(self
-                        ) -> None:
+    def test_09_execute_xls(self
+                            ) -> None:
         """
-        Execute the query
+        Execute the query in XLS format
         """
         results = self.query.execute()
         # Check if the query was executed
         self.assertIsNone(results)
 
-    def test_10_get_file(self
-                         ) -> None:
+    def test_10_get_file_xls(self
+                             ) -> None:
         """
-        Get the query execution results as file
+        Get the query execution results as file as XLS format
         """
         results = self.query.get_file()
         # Check if the file is not None
@@ -191,7 +191,27 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the file is not empty
         self.assertGreater(len(results), 0)
 
-    def test_11_clear(self
+    def test_11_execute_xls(self
+                            ) -> None:
+        """
+        Execute the query in XLSX format
+        """
+        results = self.query.execute_xlsx()
+        # Check if the query was executed
+        self.assertIsNone(results)
+
+    def test_12_get_file_xls(self
+                             ) -> None:
+        """
+        Get the query execution results as file as XLSX format
+        """
+        results = self.query.get_file()
+        # Check if the file is not None
+        self.assertIsNotNone(results)
+        # Check if the file is not empty
+        self.assertGreater(len(results), 0)
+
+    def test_13_clear(self
                       ) -> None:
         """
         Clear the query execution results file
@@ -201,7 +221,7 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         # Check if the language is None
         self.assertIsNone(results)
 
-    def test_12_get_data(self
+    def test_14_get_data(self
                          ) -> None:
         """
         Get the query execution results as data
@@ -219,7 +239,7 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         self.assertIn('count', results[0])
         self.assertEqual(len(results[0]), 4)
 
-    def test_13_add_tags(self
+    def test_15_add_tags(self
                          ) -> None:
         """
         Add and get tags from the Query
@@ -240,7 +260,7 @@ class TestCaseSqlExcelQuery(unittest.TestCase):
         for tag_id in tag_ids:
             self.assertIn(tag_id, results)
 
-    def test_14_delete(self
+    def test_16_delete(self
                        ) -> None:
         """
         Delete the query
