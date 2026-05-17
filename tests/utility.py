@@ -24,7 +24,7 @@ import xmlrpc.client
 
 import requests
 
-from pyodoo.xmlrpc import Model
+from pyodoo import Model
 
 
 def get_authentication_from_demo() -> dict[str, str]:

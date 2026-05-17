@@ -21,12 +21,13 @@
 from typing import Any, Optional, Union
 from xmlrpc.client import ServerProxy
 
-from pyodoo import BooleanOperator, Filter
+from .boolean_operator import BooleanOperator
+from .filter import Filter
 
 
 class Api(object):
     """
-    Odoo XML-RPC API
+    Odoo base API
     """
     def __init__(self,
                  model_name: str,

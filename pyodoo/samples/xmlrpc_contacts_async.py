@@ -23,7 +23,7 @@ import datetime
 import os
 import time
 
-from pyodoo.xmlrpc import Model
+from pyodoo import Model
 
 from awaitable import awaitable
 

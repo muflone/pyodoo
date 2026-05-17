@@ -25,9 +25,9 @@ from pyodoo import (ActiveStatusChoice,
                     BooleanOperator,
                     CompareType,
                     Filter,
-                    MessageSubType)
+                    MessageSubType,
+                    Model)
 from pyodoo.constants import APP_AUTHOR_EMAIL, APP_NAME, APP_VERSION
-from pyodoo.xmlrpc import Model
 
 import utility
 

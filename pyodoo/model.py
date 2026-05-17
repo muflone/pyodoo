@@ -22,12 +22,12 @@ import functools
 from typing import Any, Optional, Union
 import xmlrpc
 
-from pyodoo import (ActiveStatusChoice,
-                    BooleanOperator,
-                    CompareType,
-                    Filter,
-                    MessageSubType)
-from pyodoo.xmlrpc.api import Api
+from .active_status_choice import ActiveStatusChoice
+from .api import Api
+from .boolean_operator import BooleanOperator
+from .compare_type import CompareType
+from .filter import Filter
+from .message_subtype import MessageSubType
 
 
 class Model(object):

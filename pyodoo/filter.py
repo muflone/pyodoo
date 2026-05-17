@@ -20,7 +20,7 @@
 
 from typing import Union
 
-from pyodoo import CompareType
+from .compare_type import CompareType
 
 
 class Filter(object):

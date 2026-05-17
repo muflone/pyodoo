@@ -20,9 +20,9 @@
 
 import warnings
 
-from pyodoo.xmlrpc import *                                  # noqa: F401, F403
+from pyodoo import *                                         # noqa: F401, F403
 
 
-warnings.warn(message='pyodoo.v12 is deprecated, use pyodoo.xmlrpc',
+warnings.warn(message='pyodoo.v12 is deprecated, use pyodoo',
               category=DeprecationWarning,
               stacklevel=2)

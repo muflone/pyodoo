@@ -22,10 +22,12 @@ import base64
 import io
 from typing import Any, Optional
 
-import pyodoo
-from pyodoo.xmlrpc.model import Model
-
 import xlrd
+
+from .active_status_choice import ActiveStatusChoice
+from .compare_type import CompareType
+from .filter import Filter
+from .model import Model
 
 
 class SqlExcelQuery(object):
@@ -55,9 +57,9 @@ class SqlExcelQuery(object):
                                               authenticate=False,
                                               use_existing_uid=True)
         results = model_category.search(
-            filters=[pyodoo.Filter(field='name',
-                                   compare_type=pyodoo.CompareType.EQUAL,
-                                   value=category)],
+            filters=[Filter(field='name',
+                            compare_type=CompareType.EQUAL,
+                            value=category)],
             limit=1)
         if results:
             category_id = results[0]
@@ -65,10 +67,10 @@ class SqlExcelQuery(object):
             category_id = model_category.create(values={'name': category})
         # Get or create the query object
         results = self.model.search(
-            filters=[pyodoo.Filter(field='name',
-                                   compare_type=pyodoo.CompareType.EQUAL,
-                                   value=self.name)],
-            is_active=pyodoo.ActiveStatusChoice.BOTH,
+            filters=[Filter(field='name',
+                            compare_type=CompareType.EQUAL,
+                            value=self.name)],
+            is_active=ActiveStatusChoice.BOTH,
             limit=1)
         if results:
             self._query_id = results[0]
@@ -105,9 +107,9 @@ class SqlExcelQuery(object):
                       language=language,
                       authenticate=True)
         results = model.search(
-            filters=[pyodoo.Filter(field='model',
-                                   compare_type=pyodoo.CompareType.EQUAL,
-                                   value='sql.excel.pdf')],
+            filters=[Filter(field='model',
+                            compare_type=CompareType.EQUAL,
+                            value='sql.excel.pdf')],
             limit=1)
         return bool(results)
 

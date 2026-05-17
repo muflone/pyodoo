@@ -24,7 +24,7 @@ from pyodoo import (BooleanOperator,
                     CompareType,
                     Filter,
                     MessageSubType)
-from pyodoo.xmlrpc import Model
+from pyodoo import Model
 
 
 # Instance model object

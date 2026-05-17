@@ -21,8 +21,8 @@
 import unittest
 import uuid
 
+from pyodoo import SqlExcelQuery
 from pyodoo.constants import APP_NAME, APP_VERSION
-from pyodoo.xmlrpc import SqlExcelQuery
 
 import utility
 

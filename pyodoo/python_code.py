@@ -20,8 +20,9 @@
 
 from typing import Optional
 
-import pyodoo
-from pyodoo.xmlrpc.model import Model
+from .compare_type import CompareType
+from .filter import Filter
+from .model import Model
 
 
 class PythonCode(object):
@@ -47,9 +48,9 @@ class PythonCode(object):
                            authenticate=True)
         # Get or create the Python Code object
         results = self.model.search(
-            filters=[pyodoo.Filter(field='name',
-                                   compare_type=pyodoo.CompareType.EQUAL,
-                                   value=self.name)],
+            filters=[Filter(field='name',
+                            compare_type=CompareType.EQUAL,
+                            value=self.name)],
             limit=1)
         if results:
             self._code_id = results[0]
@@ -84,9 +85,9 @@ class PythonCode(object):
                       language=language,
                       authenticate=True)
         results = model.search(
-            filters=[pyodoo.Filter(field='model',
-                                   compare_type=pyodoo.CompareType.EQUAL,
-                                   value='execute.python.code')],
+            filters=[Filter(field='model',
+                            compare_type=CompareType.EQUAL,
+                            value='execute.python.code')],
             limit=1)
         return bool(results)
 
