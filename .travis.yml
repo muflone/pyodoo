@@ -6,6 +6,7 @@ python:
   - "3.11"
   - "3.12"
   - "3.13"
+  - "3.14"
 install:
   - pip install -r requirements_ci.txt
 script:

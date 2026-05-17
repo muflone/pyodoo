@@ -7,6 +7,7 @@
 [![Python 3.11](https://github.com/muflone/pyodoo/actions/workflows/python-3.11.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.11.yml)
 [![Python 3.12](https://github.com/muflone/pyodoo/actions/workflows/python-3.12.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.12.yml)
 [![Python 3.13](https://github.com/muflone/pyodoo/actions/workflows/python-3.13.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.13.yml)
+[![Python 3.14](https://github.com/muflone/pyodoo/actions/workflows/python-3.14.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.14.yml)
 [![PyPI - Version](https://img.shields.io/pypi/v/PyOdoo.svg)](https://pypi.org/project/PyOdoo/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/PyOdoo.svg)](https://pypi.org/project/PyOdoo/)
 

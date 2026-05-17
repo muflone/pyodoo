@@ -1,0 +1,23 @@
+name: Python 3.14
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Install dependencies and build"
+        uses: ./.github/actions/python-build
+        with:
+          python-version: "3.14"
+          python-module: "pyodoo"
