@@ -19,6 +19,7 @@
 ##
 
 from typing import Any, Optional, Union
+import urllib.parse
 from xmlrpc.client import ServerProxy
 
 import requests
@@ -27,6 +28,7 @@ import requests.auth
 from .boolean_operator import BooleanOperator
 from .filter import Filter
 from .implementation import Implementation
+from .transport import TimeoutHttpTransport, TimeoutHttpsTransport
 
 
 class Api(object):
@@ -53,6 +55,7 @@ class Api(object):
         self.language = language
         self.uid = None
         self.implementation = implementation
+        self.timeout = None
         # Remove trailing / from endpoint
         if self.endpoint.endswith('/'):
             self.endpoint = self.endpoint[:-1]
@@ -91,7 +94,8 @@ class Api(object):
                             {}
                         ]
                     }
-                })
+                },
+                timeout=self.timeout)
             result = response.json() if response else None
             self.uid = result['result'] if result else None
         else:
@@ -120,7 +124,22 @@ class Api(object):
         :param method: The name of the method to execute
         :return: A new ServerProxy object
         """
-        return ServerProxy(self.build_endpoint(method=method))
+        url = self.build_endpoint(method=method)
+        scheme = urllib.parse.urlparse(url=url).scheme.lower()
+        if self.timeout is not None and scheme == 'https':
+            # Return a ServerProxy object using TimeoutHttpsTransport
+            result = ServerProxy(
+                uri=url,
+                transport=TimeoutHttpsTransport(timeout=self.timeout))
+        elif self.timeout is not None and scheme == 'http':
+            # Return a ServerProxy object using TimeoutHttpTransport
+            result = ServerProxy(
+                uri=url,
+                transport=TimeoutHttpTransport(timeout=self.timeout))
+        else:
+            # Return the standard ServerProxy object without any transport
+            result = ServerProxy(uri=url)
+        return result
 
     def get_proxy_object(self
                          ) -> ServerProxy:
@@ -187,7 +206,8 @@ class Api(object):
                             kwargs
                         ],
                     }
-                }
+                },
+                timeout=self.timeout
             ).json().get('result')
         else:
             # Invalid implementation
@@ -371,3 +391,13 @@ class Api(object):
         return self.do_execute(method_name='message_post',
                                args=[entity_id],
                                kwargs=kwargs)
+
+    def set_timeout(self,
+                    timeout: Optional[float]) -> None:
+        """
+        Set the connection and transfer timeout
+
+        :param timeout: allowed time for connection and transfer in seconds
+        :return: None
+        """
+        self.timeout = timeout

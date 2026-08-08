@@ -36,6 +36,7 @@ model = Model(model_name='res.partner',
               language=None,
               authenticate=False,
               implementation=os.environ['ODOO_RPC_IMPLEMENTATION'])
+model.api.set_timeout(30)
 # Authenticate user
 if model.authenticate():
     print('Authentication successful')

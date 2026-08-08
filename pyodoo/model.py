@@ -263,6 +263,9 @@ class Model(object):
                       language=self.api.language,
                       authenticate=authenticate,
                       implementation=self.api.implementation)
+        # Use the same timeout
+        if self.api.timeout is not None:
+            model.api.set_timeout(timeout=self.api.timeout)
         if not authenticate and use_existing_uid:
             # Use the existing UID
             model.api.uid = self.api.uid
