@@ -29,6 +29,7 @@ its APIs.
 Currently the following implementations are provided:
 - XML-RPC
 - JSON-RPC
+- WEB-RPC
 
 # System Requirements
 

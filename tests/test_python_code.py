@@ -163,3 +163,31 @@ class TestCasesJsonRpc(BaseTests, unittest.TestCase):
         else:
             # The model execute.python.code is not available
             cls.script = None
+
+
+class TestCasesWebRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Python Code object preparation
+        """
+        info = utility.get_authentication_from_demo()
+        if PythonCode.is_available(endpoint=info['host'],
+                                   database=info['database'],
+                                   username=info['user'],
+                                   password=info['password'],
+                                   language='en_US',
+                                   implementation=Implementation.WEBRPC):
+            # The model sql.excel.pdf is available
+            cls.script_name = uuid.uuid4().hex
+            cls.script = PythonCode(name=cls.script_name,
+                                    endpoint=info['host'],
+                                    database=info['database'],
+                                    username=info['user'],
+                                    password=info['password'],
+                                    language='en_US',
+                                    implementation=Implementation.WEBRPC)
+        else:
+            # The model execute.python.code is not available
+            cls.script = None

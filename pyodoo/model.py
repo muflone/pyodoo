@@ -269,6 +269,10 @@ class Model(object):
         if not authenticate and use_existing_uid:
             # Use the existing UID
             model.api.uid = self.api.uid
+            if model.api.implementation in (Implementation.JSONRPC,
+                                            Implementation.WEBRPC):
+                # Use the same session
+                model.api.session = self.api.session
         return model
 
     @_ignore_none_errors

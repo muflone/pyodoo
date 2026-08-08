@@ -24,3 +24,4 @@ class Implementation(object):
     """
     XMLRPC = 'xmlrpc'
     JSONRPC = 'jsonrpc'
+    WEBRPC = 'webrpc'

@@ -301,3 +301,32 @@ class TestCasesJsonRpc(BaseTests, unittest.TestCase):
         else:
             # The model sql.excel.pdf is not available
             cls.query = None
+
+
+class TestCasesWebRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Query object preparation
+        """
+        info = utility.get_authentication_from_demo()
+        if SqlExcelQuery.is_available(endpoint=info['host'],
+                                      database=info['database'],
+                                      username=info['user'],
+                                      password=info['password'],
+                                      language='en_US',
+                                      implementation=Implementation.WEBRPC):
+            # The model sql.excel.pdf is available
+            cls.query_name = uuid.uuid4().hex
+            cls.query = SqlExcelQuery(name=cls.query_name,
+                                      category=f'{APP_NAME} {APP_VERSION}',
+                                      endpoint=info['host'],
+                                      database=info['database'],
+                                      username=info['user'],
+                                      password=info['password'],
+                                      language='en_US',
+                                      implementation=Implementation.WEBRPC)
+        else:
+            # The model sql.excel.pdf is not available
+            cls.query = None

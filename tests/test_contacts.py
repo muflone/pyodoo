@@ -878,3 +878,16 @@ class TestCasesJsonRpc(BaseTests, unittest.TestCase):
             model_name='res.partner',
             implementation=Implementation.JSONRPC)
         cls.model.authenticate()
+
+
+class TestCasesWebRpc(BaseTests, unittest.TestCase):
+    @classmethod
+    def setUpClass(cls
+                   ) -> None:
+        """
+        Model object preparation
+        """
+        cls.model = utility.get_model_from_demo(
+            model_name='res.partner',
+            implementation=Implementation.WEBRPC)
+        cls.model.authenticate()

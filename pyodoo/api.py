@@ -60,7 +60,8 @@ class Api(object):
         if self.endpoint.endswith('/'):
             self.endpoint = self.endpoint[:-1]
         # Specific implementations
-        if implementation == Implementation.JSONRPC:
+        if implementation in (Implementation.JSONRPC,
+                              Implementation.WEBRPC):
             self.session = requests.Session()
 
     def authenticate(self
@@ -98,6 +99,22 @@ class Api(object):
                 timeout=self.timeout)
             result = response.json() if response else None
             self.uid = result['result'] if result else None
+        elif self.implementation == Implementation.WEBRPC:
+            # Authentication for WEB-RPC
+            response = self.session.post(
+                url=self.build_endpoint(method='web/session/authenticate'),
+                json={
+                    'jsonrpc': '2.0',
+                    'method': 'call',
+                    'params': {
+                        'db': self.database,
+                        'login': self.username,
+                        'password': self.password
+                    }
+                },
+                timeout=self.timeout)
+            result = response.json() if response else None
+            self.uid = result['result']['uid'] if result else None
         else:
             # Invalid implementation
             raise ValueError(f'Invalid implementation {self.implementation}')
@@ -205,6 +222,24 @@ class Api(object):
                             args,
                             kwargs
                         ],
+                    }
+                },
+                timeout=self.timeout
+            ).json().get('result')
+        elif self.implementation == Implementation.WEBRPC:
+            # Execute for WEB-RPC
+            results = self.session.post(
+                url=self.build_endpoint(method='web/dataset/call_kw/'
+                                               f'{self.model_name}/'
+                                               f'{method_name}'),
+                json={
+                    'jsonrpc': '2.0',
+                    'method': 'call',
+                    'params': {
+                        'model': self.model_name,
+                        'method': method_name,
+                        'args': args,
+                        'kwargs': kwargs
                     }
                 },
                 timeout=self.timeout
