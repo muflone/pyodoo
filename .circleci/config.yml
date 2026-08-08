@@ -36,5 +36,6 @@ jobs:
             python -m pip freeze
             ls -laR .
             python -m pip uninstall --yes --verbose pyodoo
-            # Disable tests as demo.odoo.com XML-RPC seems unavailable
-            # python -m pytest --verbose --capture=no tests
+            # Enable only WEB-RPC tests as demo.odoo.com has disabled both
+            # XML-RPC and JSON-RPC
+            python -m pytest --verbose --capture=no -k TestCasesWebRpc tests

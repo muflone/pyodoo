@@ -49,6 +49,12 @@ runs:
         python3 -m build --outdir=dist .
         python3 -m pip install --verbose dist/*.whl
 
+    - name: Execute tests
+      shell: bash
+      run: |
+        source venv/bin/activate
+        python3 -m pytest --verbose --capture=no -k TestCasesWebRpc tests
+
     - name: Show packages
       shell: bash
       run: |
