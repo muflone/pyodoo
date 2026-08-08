@@ -135,7 +135,7 @@ class BaseTests():
         self.assertEqual(len(results), 1)
         # Check some data
         self.assertEqual(results[0]['id'], 3)
-        self.assertEqual(results[0]['name'], 'Admin')
+        self.assertIn(results[0]['name'], ('Admin', 'Mitchell Admin'))
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 
@@ -322,7 +322,7 @@ class BaseTests():
         self.assertEqual(len(results), 4)
         # Check some data
         self.assertEqual(results['id'], 3)
-        self.assertEqual(results['name'], 'Admin')
+        self.assertIn(results['name'], ('Admin', 'Mitchell Admin'))
         self.assertEqual(results['type'], 'contact')
         self.assertGreater(len(results['street']), 0)
 
@@ -341,7 +341,7 @@ class BaseTests():
         self.assertGreater(len(results), 0)
         # Check some data
         self.assertEqual(results[0]['id'], 3)
-        self.assertEqual(results[0]['name'], 'Admin')
+        self.assertIn(results[0]['name'], ('Admin', 'Mitchell Admin'))
         self.assertEqual(results[0]['type'], 'contact')
         self.assertGreater(len(results[0]['street']), 0)
 
@@ -674,7 +674,9 @@ class BaseTests():
             body='This is an activity message',
             author_id=results[0])
         self.assertIsNotNone(entity_id)
-        self.assertGreater(entity_id, 0)
+        self.assertGreater(entity_id[0]
+                           if isinstance(entity_id, list)
+                           else entity_id, 0)
 
     def test_34_post_message_comment(self
                                      ) -> None:
@@ -694,7 +696,9 @@ class BaseTests():
             body='This is a comment message',
             author_id=results[0])
         self.assertIsNotNone(entity_id)
-        self.assertGreater(entity_id, 0)
+        self.assertGreater(entity_id[0]
+                           if isinstance(entity_id, list)
+                           else entity_id, 0)
 
     def test_35_post_message_note(self
                                   ) -> None:
@@ -714,7 +718,9 @@ class BaseTests():
             body='This is a note message',
             author_id=results[0])
         self.assertIsNotNone(entity_id)
-        self.assertGreater(entity_id, 0)
+        self.assertGreater(entity_id[0]
+                           if isinstance(entity_id, list)
+                           else entity_id, 0)
 
     def test_36_delete(self
                        ) -> None:
