@@ -150,7 +150,7 @@ class TestCasesJsonRpc(BaseTests, unittest.TestCase):
                                    username=info['user'],
                                    password=info['password'],
                                    language='en_US',
-                                   implementation=Implementation.XMLRPC):
+                                   implementation=Implementation.JSONRPC):
             # The model sql.excel.pdf is available
             cls.script_name = uuid.uuid4().hex
             cls.script = PythonCode(name=cls.script_name,
