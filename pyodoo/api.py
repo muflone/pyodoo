@@ -76,21 +76,24 @@ class Api(object):
                                           {})
         elif self.implementation == Implementation.JSONRPC:
             # Authentication for JSON-RPC
-            self.session.auth = requests.auth.HTTPBasicAuth(
-                username=self.username,
-                password=self.password)
             response = self.session.post(
-                url=self.build_endpoint('web/session/authenticate'),
+                url=self.build_endpoint(method='jsonrpc'),
                 json={
                     'jsonrpc': '2.0',
+                    'method': 'call',
                     'params': {
-                        'db': self.database,
-                        'login': self.username,
-                        'password': self.password
+                        'service': 'common',
+                        'method': 'authenticate',
+                        'args': [
+                            self.database,
+                            self.username,
+                            self.password,
+                            {}
+                        ]
                     }
                 })
             result = response.json() if response else None
-            self.uid = result['result']['uid'] if result else None
+            self.uid = result['result'] if result else None
         else:
             # Invalid implementation
             raise ValueError(f'Invalid implementation {self.implementation}')
