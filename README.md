@@ -40,4 +40,4 @@ Currently the following implementations are provided:
 
 Please see the **samples** and the **tests** folders for some usage examples.
 
-Examples and documentation is available at <http://www.muflone.com/pyodoo/>
+Examples and documentation are available at <http://www.muflone.com/pyodoo/>
