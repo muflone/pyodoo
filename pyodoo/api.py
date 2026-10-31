@@ -312,7 +312,7 @@ class Api(object):
         :return: Dictionary with the requested fields
         """
         results = self.do_execute(method_name='fields_get',
-                                  args=fields,
+                                  args=[fields],
                                   kwargs=options)
         return results
 

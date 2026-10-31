@@ -810,7 +810,16 @@ class BaseTests():
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_40_get_fields_attributes(self
+    def test_40_get_fields_fields(self
+                                  ) -> None:
+        """
+        Get the model fields
+        """
+        results = self.model.get_fields(fields=('id', 'name'))
+        # Check if we have results
+        self.assertIsNotNone(results)
+
+    def test_41_get_fields_attributes(self
                                       ) -> None:
         """
         Get the model fields
@@ -824,7 +833,7 @@ class BaseTests():
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_41_get_model_authenticate(self
+    def test_42_get_model_authenticate(self
                                        ) -> None:
         """
         Get a new Model object
@@ -841,7 +850,7 @@ class BaseTests():
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_42_get_model_no_authenticate(self
+    def test_43_get_model_no_authenticate(self
                                           ) -> None:
         """
         Get a new Model object using the existing UID
