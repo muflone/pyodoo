@@ -1,7 +1,6 @@
 # PyOdoo
 
 [![CircleCI Build Status](https://img.shields.io/circleci/project/github/muflone/pyodoo/master.svg)](https://circleci.com/gh/muflone/pyodoo)
-[![Python 3.9](https://github.com/muflone/pyodoo/actions/workflows/python-3.9.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.9.yml)
 [![Python 3.10](https://github.com/muflone/pyodoo/actions/workflows/python-3.10.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.10.yml)
 [![Python 3.11](https://github.com/muflone/pyodoo/actions/workflows/python-3.11.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.11.yml)
 [![Python 3.12](https://github.com/muflone/pyodoo/actions/workflows/python-3.12.yml/badge.svg)](https://github.com/muflone/pyodoo/actions/workflows/python-3.12.yml)
@@ -33,7 +32,7 @@ Currently the following implementations are provided:
 
 # System Requirements
 
-* Python 3.x
+* Python >= 3.10
 * xlrd 2.0.x (https://pypi.org/project/xlrd/)
 * requests 2.32.x (https://pypi.org/project/requests/)
 
