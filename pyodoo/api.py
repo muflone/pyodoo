@@ -113,8 +113,13 @@ class Api(object):
                     }
                 },
                 timeout=self.timeout)
-            result = response.json() if response else None
-            self.uid = result['result']['uid'] if result else None
+            response.raise_for_status()
+            result = response.json()
+            if not isinstance(result, dict):
+                raise RuntimeError('Invalid Odoo RPC response: not an object')
+            if 'error' in result:
+                raise RuntimeError(f'Odoo RPC error: {result["error"]}')
+            self.uid = result['result']['uid'] if 'result' in result else None
         else:
             # Invalid implementation
             raise ValueError(f'Invalid implementation {self.implementation}')
