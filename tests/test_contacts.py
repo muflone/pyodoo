@@ -678,7 +678,30 @@ class BaseTests():
                            if isinstance(entity_id, list)
                            else entity_id, 0)
 
-    def test_34_post_message_comment(self
+    def test_34_post_message_activity_html(self
+                                           ) -> None:
+        """
+        Post a new message as activity as HTML
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(len(results), 0)
+        # Add a comment
+        entity_id = self.model.post_message_as_activity(
+            entity_id=results[0],
+            body='This is an <strong>HTML activity message</strong>',
+            author_id=results[0],
+            options={'body_is_html': True})
+        self.assertIsNotNone(entity_id)
+        self.assertGreater(entity_id[0]
+                           if isinstance(entity_id, list)
+                           else entity_id, 0)
+
+    def test_35_post_message_comment(self
                                      ) -> None:
         """
         Post a new message as comment
@@ -700,7 +723,30 @@ class BaseTests():
                            if isinstance(entity_id, list)
                            else entity_id, 0)
 
-    def test_35_post_message_note(self
+    def test_36_post_message_comment_html(self
+                                          ) -> None:
+        """
+        Post a new message as comment as HTML
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(len(results), 0)
+        # Add a comment
+        entity_id = self.model.post_message_as_comment(
+            entity_id=results[0],
+            body='This is a <strong>HTML comment message</strong>',
+            author_id=results[0],
+            options={'body_is_html': True})
+        self.assertIsNotNone(entity_id)
+        self.assertGreater(entity_id[0]
+                           if isinstance(entity_id, list)
+                           else entity_id, 0)
+
+    def test_37_post_message_note(self
                                   ) -> None:
         """
         Post a new message as note
@@ -722,7 +768,31 @@ class BaseTests():
                            if isinstance(entity_id, list)
                            else entity_id, 0)
 
-    def test_36_delete(self
+
+    def test_38_post_message_note_html(self
+                                       ) -> None:
+        """
+        Post a new message as note as HTML
+        """
+        filters = [Filter(field='name',
+                          compare_type=CompareType.EQUAL,
+                          value=f'{APP_NAME} v.{APP_VERSION}')]
+        results = self.model.search(filters=filters)
+        # Check if we have results
+        self.assertIsNotNone(results)
+        self.assertGreater(len(results), 0)
+        # Add a comment
+        entity_id = self.model.post_message_as_note(
+            entity_id=results[0],
+            body='This is a <strong>HTML note message</strong>',
+            author_id=results[0],
+            options={'body_is_html': True})
+        self.assertIsNotNone(entity_id)
+        self.assertGreater(entity_id[0]
+                           if isinstance(entity_id, list)
+                           else entity_id, 0)
+
+    def test_39_delete(self
                        ) -> None:
         """
         Delete the newly created rows.
@@ -756,7 +826,7 @@ class BaseTests():
                     # We catched a different error, re-raise it
                     raise error
 
-    def test_37_delete_many(self
+    def test_40_delete_many(self
                             ) -> None:
         """
         Delete the newly created rows.
@@ -783,7 +853,7 @@ class BaseTests():
                 # We catched a different error, re-raise it
                 raise error
 
-    def test_38_language(self
+    def test_41_language(self
                          ) -> None:
         """
         Get the current default language, change and restore it
@@ -801,7 +871,7 @@ class BaseTests():
         results = self.model.language
         self.assertEqual(results, original_language)
 
-    def test_39_get_fields(self
+    def test_42_get_fields(self
                            ) -> None:
         """
         Get the model fields
@@ -810,7 +880,7 @@ class BaseTests():
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_40_get_fields_fields(self
+    def test_43_get_fields_fields(self
                                   ) -> None:
         """
         Get the model fields
@@ -819,7 +889,7 @@ class BaseTests():
         # Check if we have results
         self.assertIsNotNone(results)
 
-    def test_41_get_fields_attributes(self
+    def test_44_get_fields_attributes(self
                                       ) -> None:
         """
         Get the model fields
@@ -833,7 +903,7 @@ class BaseTests():
         self.assertIn('string', field_name)
         self.assertIn('type', field_name)
 
-    def test_42_get_model_authenticate(self
+    def test_45_get_model_authenticate(self
                                        ) -> None:
         """
         Get a new Model object
@@ -850,7 +920,7 @@ class BaseTests():
         self.assertIsNotNone(results)
         self.assertGreater(results, 0)
 
-    def test_43_get_model_no_authenticate(self
+    def test_46_get_model_no_authenticate(self
                                           ) -> None:
         """
         Get a new Model object using the existing UID
