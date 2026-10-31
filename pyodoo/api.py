@@ -225,7 +225,16 @@ class Api(object):
                     }
                 },
                 timeout=self.timeout
-            ).json().get('result')
+            )
+            results.raise_for_status()
+            results = results.json()
+            if not isinstance(results, dict):
+                raise RuntimeError('Invalid Odoo RPC response: not an object')
+            if 'error' in results:
+                raise RuntimeError(f'Odoo RPC error: {results["error"]}')
+            if 'result' not in results:
+                raise RuntimeError('Invalid Odoo RPC response: missing result')
+            results = results['result']
         elif self.implementation == Implementation.WEBRPC:
             # Execute for WEB-RPC
             results = self.session.post(
@@ -243,7 +252,16 @@ class Api(object):
                     }
                 },
                 timeout=self.timeout
-            ).json().get('result')
+            )
+            results.raise_for_status()
+            results = results.json()
+            if not isinstance(results, dict):
+                raise RuntimeError('Invalid Odoo RPC response: not an object')
+            if 'error' in results:
+                raise RuntimeError(f'Odoo RPC error: {results["error"]}')
+            if 'result' not in results:
+                raise RuntimeError('Invalid Odoo RPC response: missing result')
+            results = results['result']
         else:
             # Invalid implementation
             raise ValueError(f'Invalid implementation {self.implementation}')
