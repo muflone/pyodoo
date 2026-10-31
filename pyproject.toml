@@ -15,7 +15,7 @@ dynamic = ['version']
 requires-python = '>=3.10'
 dependencies = [
     'xlrd~=2.0',
-    'requests~=2.32',
+    'requests~=2.34',
 ]
 classifiers = [
     'Development Status :: 1 - Planning',

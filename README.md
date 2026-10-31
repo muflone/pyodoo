@@ -34,7 +34,7 @@ Currently the following implementations are provided:
 
 * Python >= 3.10
 * xlrd 2.0.x (https://pypi.org/project/xlrd/)
-* requests 2.32.x (https://pypi.org/project/requests/)
+* requests 2.34.x (https://pypi.org/project/requests/)
 
 # Usage
 

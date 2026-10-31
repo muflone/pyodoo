@@ -1,8 +1,8 @@
 -r requirements.txt
 
-flake8~=7.1
-pycodestyle~=2.12
-build~=1.2
-pytest~=8.2
-twine~=6.1
-coverage~=7.5
+flake8~=7.4
+pycodestyle~=2.15
+build~=1.6
+pytest~=8.4
+twine~=6.2
+coverage~=7.16

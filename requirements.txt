@@ -1,2 +1,2 @@
 xlrd~=2.0
-requests~=2.32
+requests~=2.34
