@@ -922,6 +922,7 @@ class Model(object):
                                  entity_id: int,
                                  body: str,
                                  author_id: int,
+                                 options: Optional[dict[str, Any]] = None,
                                  ignore_none_errors: bool = False
                                  ) -> int:
         """
@@ -930,6 +931,7 @@ class Model(object):
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
+        :param options: Dictionary with any existing options
         :param ignore_none_errors: Ignore RPC errors returning None
         :return: Returned message ID
         """
@@ -938,13 +940,14 @@ class Model(object):
                                  author_id=author_id,
                                  subject=False,
                                  body=body,
-                                 options=None)
+                                 options=options)
 
     @_ignore_none_errors
     def post_message_as_comment(self,
                                 entity_id: int,
                                 body: str,
                                 author_id: int,
+                                options: Optional[dict[str, Any]] = None,
                                 ignore_none_errors: bool = False
                                 ) -> int:
         """
@@ -953,6 +956,7 @@ class Model(object):
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
+        :param options: Dictionary with any existing options
         :param ignore_none_errors: Ignore RPC errors returning None
         :return: Returned message ID
         """
@@ -961,13 +965,14 @@ class Model(object):
                                  author_id=author_id,
                                  subject=False,
                                  body=body,
-                                 options=None)
+                                 options=options)
 
     @_ignore_none_errors
     def post_message_as_note(self,
                              entity_id: int,
                              body: str,
                              author_id: int,
+                             options: Optional[dict[str, Any]] = None,
                              ignore_none_errors: bool = False
                              ) -> int:
         """
@@ -976,6 +981,7 @@ class Model(object):
         :param entity_id: The object ID to which to add the message
         :param body: The message body to add
         :param author_id: The partner ID which authored the message
+        :param options: Dictionary with any existing options
         :param ignore_none_errors: Ignore RPC errors returning None
         :return: Returned message ID
         """
@@ -984,4 +990,4 @@ class Model(object):
                                  author_id=author_id,
                                  subject=False,
                                  body=body,
-                                 options=None)
+                                 options=options)
